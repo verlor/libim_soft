@@ -3,7 +3,28 @@ import { useForm } from 'react-hook-form'
 import '../styles/global.css'
 
 export default function ParameterFormular() {
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      cathode_material_id: 'NMC',
+      anode_material_id: 'LTO',
+      electrolyte_id: 'LPF6 + EC',
+      c_slow_id: '0.1C',
+      c_fast_id: '5C',
+      area: 50,
+      coated: 2,
+      num_electrodes: 20,
+      cat_load: 10,
+      additive_pos: 10,
+      additive_neg: 10,
+      sep_thickness: 10,
+      cc_cu_thickness: 10,
+      cc_al_thickness: 10,
+      min_crate: 10,
+      max_crate: 10,
+      serie: 3,
+      parallel: 3,
+    },
+  })
   const [result, setResult] = useState('')
   return (
     <form
@@ -53,6 +74,40 @@ export default function ParameterFormular() {
           <div className="border-t border-gray-200" />
         </div>
       </div>
+
+      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4 pt-4">
+        Charge Conditions
+      </h2>
+      <div className="grid grid-cols-3 gap-4 px-3">
+        <div className="col-span-1">
+          <label className="block text-sm font-medium text-gray-700">
+            Slow
+          </label>
+          <select
+            {...register('c_slow_id')}
+            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="0.1C">0.1C</option>
+          </select>
+        </div>
+        <div className="col-span-1">
+          <label className="block text-sm font-medium text-gray-700">
+            Fast
+          </label>
+          <select
+            {...register('c_fast_id')}
+            className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          >
+            <option value="5C">5C</option>
+          </select>
+        </div>
+      </div>
+      <div className="hidden sm:block" aria-hidden="true">
+        <div className="py-5">
+          <div className="border-t border-gray-200" />
+        </div>
+      </div>
+
       <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
         Geommetry data
       </h2>
@@ -108,7 +163,7 @@ export default function ParameterFormular() {
       <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
         Additive Data
       </h2>
-      <div className="grid grid-cols-1 gap-4 px-3 mt-1">
+      <div className="grid grid-cols-2 gap-4 px-3 mt-1">
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             % additive +
@@ -203,10 +258,10 @@ export default function ParameterFormular() {
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
-            Paralel
+            Parallel
           </label>
           <input
-            {...register('paralel')}
+            {...register('parallel')}
             type="text"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
