@@ -4,10 +4,12 @@ import '../../styles/global.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { setNumElectrodes, handleFormSubmit } from '../ParameterFormular/slice'
 import { derivar } from './utils'
+import { calculo1 } from '../Calcs/test'
 
 export default function ParameterFormular() {
   const formulario = useSelector((state) => state.parameter)
   const num_elec = useSelector((state) => state.parameter.num_elec)
+  const res1 = useSelector((state) => state.parameter.charge_tickness)
   const dispatch = useDispatch()
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -35,13 +37,14 @@ export default function ParameterFormular() {
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        dispatch(handleFormSubmit())
+        // dispatch(handleFormSubmit())
+        calculo1(data.cat_load, dispatch)
         setResult(JSON.stringify(data))
       })}
       className="shadow sm:rounded-md bg-gray-100"
     >
       <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4 pt-4">
-        Chemistry {num_elec}
+        Chemistry {res1}
       </h2>
       <div className="grid grid-cols-3 gap-4 px-3">
         <div className="col-span-1">

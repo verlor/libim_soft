@@ -22,6 +22,8 @@ export const parameterFormularSlice = createSlice({
     max_crate: 10,
     serie: 3,
     parallel: 3,
+    //// tmp var
+    charge_tickness: 0,
   },
   reducers: {
     setNumElectrodes: (state, action) => {
@@ -30,11 +32,14 @@ export const parameterFormularSlice = createSlice({
     handleFormSubmit: (state, action) => {
       state = { ...action.payload }
     },
+    setChargeThickness: (state, action) => {
+      state.charge_tickness = action.payload
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setNumElectrodes, handleFormSubmit } =
+export const { setNumElectrodes, handleFormSubmit, setChargeThickness } =
   parameterFormularSlice.actions
 
 export default parameterFormularSlice.reducer
