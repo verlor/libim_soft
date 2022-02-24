@@ -1,23 +1,17 @@
-import React, { useState } from 'react'
+// import React, { useState } from 'react'
+// import ParameterFormular from '../ParameterFormular/ParameterFormular'
+import { form_feed } from './test'
 
-//leidos desde api, independiente de cómo se llamen después
-
-const cathode_material_id = 'NMC'
-const anode_material_id = 'LTO'
-const electrolyte_id = 'LPF6 + EC'
-const slow_charge_rate_id = 0.1
-const fast_charge_rate_id = 5
-const area = 50
-const n_coat = 2
-const n_base_units = 20 //numero electrodos es número de unidades mínimas (pares cc_Cu + sep - cc_Al)
-const cathode_load = 5
-const cathode_add = 5
-const anode_add = 5
-const separator_thickness = 25
-const curr_collect_thickness_cu = 9
-const curr_collect_thickness_al = 15
-const n_series = 3
-const n_parallel = 3
+//valores fijos
+const fixed = {
+  al_density: 2.7,
+  cu_density: 8.96,
+  electrolite_density: 1.5,
+  separator_density: 0.97,
+  cathode_porosity: 0.3,
+  anode_porosity: 0.3,
+  separator_porosity: 0.55,
+}
 
 /* estas variables deben ser respuestas de consultas a la api con la info ingresada
 const s_rate_anode_capacity=anode_material_id AND anode_real_capacity;
@@ -32,6 +26,7 @@ const f_rate_discharge_voltage=(cathode_material_id AND fast_charge_rate_id AND 
 */
 
 //solo para pruebitas
+
 const s_rate_anode_capacity = 175
 const s_rate_cathode_capacity = 145
 const s_rate_charge_voltage = 2.35
@@ -42,32 +37,48 @@ const f_rate_cathode_capacity = 130
 const f_rate_charge_voltage = 4
 const f_rate_discharge_voltage = 2.2
 
-const al_density = 2.7
-const cu_density = 8.96
-const electrolite_density = 1.5
-const separator_density = 0.97
-
-const cathode_porosity = 0.3
-const anode_porosity = 0.3
-const separator_porosity = 0.55
 //solo para pruebitas
 
 //calculos preliminares
-const charge_thickness_dependency_cda = 50 * cathode_load
 
+export const before_calc = {
+  charge_thickness_dependency_cda: 50 * cathode_load.value,
+  cathode_mass:
+    form_feed.area.value *
+    form_feed.cathode_load.value *
+    form_feed.n_coat.value *
+    0.001,
+  cathode_additives:
+    (cathode_mass * form_feed.cathode_add.value) /
+    (100 - form_feed.cathode_add.value),
+  cathode_mass_st: cathode_mass + form_feed.cathode_add.value,
+  cathode_collector_mat:
+    form_feed.area.value *
+    form_feed.curr_collect_thickness_al.value *
+    fixed.al_density *
+    0.0001,
+  cathode_total_mass: cathode_mass_st + cathode_collector_mat,
+  anode_mass:
+    (s_rate_cathode_capacity / s_rate_anode_capacity) *
+    area *
+    cathode_load *
+    n_coat *
+    0.001,
+}
+
+/*
+Procesadas
+**********
+const charge_thickness_dependency_cda = 50 * cathode_load
 const cathode_mass = area * cathode_load * n_coat * 0.001
 const cathode_additives = (cathode_mass * cathode_add) / (100 - cathode_add)
 const cathode_mass_st = cathode_mass + cathode_additives
-const cathode_collector_mat =
-  area * curr_collect_thickness_al * al_density * 0.0001
+const cathode_collector_mat = area * curr_collect_thickness_al * al_density * 0.0001
 const cathode_total_mass = cathode_mass_st + cathode_collector_mat
 
-const anode_mass =
-  (s_rate_cathode_capacity / s_rate_anode_capacity) *
-  area *
-  cathode_load *
-  n_coat *
-  0.001
+********** 
+*/
+
 const anode_additives = (anode_mass * anode_add) / (100 - anode_add)
 const anode_mass_st = anode_mass + anode_additives
 const anode_collector_mat =
@@ -111,6 +122,7 @@ const charge_voltage=(cathode_material_id AND slow_charge_rate_id AND cathode_ch
 const discharge_voltage=(cathode_material_id AND slow_charge_rate_id AND cathode_discharge_voltage)-(anode_material_id AND anode_voltage);
 */
 
+/*
 //calculos para unidades mínimas o base (aparecen como electrodos en planilla)
 const base_unit_charge_energy =
   cathode_capacity * charge_voltage * cathode_mass * 0.001
@@ -167,6 +179,8 @@ const module_discharge_energy_density =
   module_discharge_energy / module_total_mass
 const module_discharge_power_density =
   module_discharge_power / module_total_mass
+
+*/
 
 /* //ALTAS CORRIENTES
 const cathode_capacity=cathode_material_id AND fast_charge_rate_id AND cathode_capacity;

@@ -7,43 +7,47 @@ export const parameterFormularSlice = createSlice({
     cathode_material_id: 'NMC',
     anode_material_id: 'LTO',
     electrolyte_id: 'LPF6 + EC',
-    c_slow_id: '0.1C',
-    c_fast_id: '5C',
     area: 50,
-    coated: 2,
-    num_electrodes: 20,
-    cat_load: 10,
-    additive_pos: 10,
-    additive_neg: 10,
-    sep_thickness: 10,
-    cc_cu_thickness: 10,
-    cc_al_thickness: 10,
-    min_crate: 10,
-    max_crate: 10,
-    serie: 3,
-    parallel: 3,
+    n_coat: 2,
+    n_base_units: 20,
+    cathode_load: 5,
+    cathode_add: 5,
+    anode_add: 5,
+    separator_thickness: 25,
+    curr_collect_thickness_cu: 9,
+    curr_collect_thickness_al: 15,
+    slow_charge_rate_id: 0.1,
+    fast_charge_rate_id: 5,
+    n_series: 3,
+    n_parallel: 3,
     //// tmp var
     charge_tickness: 0,
+    /*
     calculos: {
       calculo1: state.sep_thickness,
       calculo2: 0,
     },
+    */
   },
   reducers: {
-    setNumElectrodes: (state, action) => {
-      state.num_electrodes = action.payload
-    },
     handleFormSubmit: (state, action) => {
       state = { ...action.payload }
     },
-    setChargeThickness: (state, action) => {
-      state.charge_tickness = action.payload
+    /*
+    setNumElectrodes: (state, action) => {
+      state.num_electrodes = action.payload
     },
+        setChargeThickness: (state, action) => {
+      state.charge_tickness = action.payload
+    }, 
+    */
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setNumElectrodes, handleFormSubmit, setChargeThickness } =
-  parameterFormularSlice.actions
+//export const { setNumElectrodes, handleFormSubmit, setChargeThickness } =
+//  parameterFormularSlice.actions
+
+export const { handleFormSubmit } = parameterFormularSlice.actions
 
 export default parameterFormularSlice.reducer
