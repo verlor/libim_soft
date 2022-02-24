@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import '../styles/global.css'
+import '../../styles/global.css'
+import { useSelector, useDispatch } from 'react-redux'
+import { setNumElectrodes, handleFormSubmit } from '../ParameterFormular/slice'
+import { derivar } from './utils'
 
 export default function ParameterFormular() {
+  const formulario = useSelector((state) => state.parameter)
+  const num_elec = useSelector((state) => state.parameter.num_elec)
+  const dispatch = useDispatch()
   const { register, handleSubmit } = useForm({
     defaultValues: {
       cathode_material_id: 'NMC',
@@ -28,11 +34,14 @@ export default function ParameterFormular() {
   const [result, setResult] = useState('')
   return (
     <form
-      onSubmit={handleSubmit((data) => setResult(JSON.stringify(data)))}
+      onSubmit={handleSubmit((data) => {
+        dispatch(handleFormSubmit())
+        setResult(JSON.stringify(data))
+      })}
       className="shadow sm:rounded-md bg-gray-100"
     >
       <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4 pt-4">
-        Chemistry
+        Chemistry {num_elec}
       </h2>
       <div className="grid grid-cols-3 gap-4 px-3">
         <div className="col-span-1">
@@ -267,7 +276,7 @@ export default function ParameterFormular() {
           />
         </div>
       </div>
-      <p>{result}</p>
+      <p>{JSON.stringify(formulario)}</p>
       <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 mt-2">
         <button
           type="submit"
