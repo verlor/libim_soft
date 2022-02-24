@@ -4,7 +4,7 @@ import '../../styles/global.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { setNumElectrodes, handleFormSubmit } from '../ParameterFormular/slice'
 import { derivar } from './utils'
-import { calculo1 } from '../Calcs/test'
+import { calculo1, calculo2l } from '../Calcs/test'
 
 export default function ParameterFormular() {
   const formulario = useSelector((state) => state.parameter)
@@ -39,6 +39,7 @@ export default function ParameterFormular() {
       onSubmit={handleSubmit((data) => {
         // dispatch(handleFormSubmit())
         calculo1(data.cat_load, dispatch)
+        calculo2(data, dispatch)
         setResult(JSON.stringify(data))
       })}
       className="shadow sm:rounded-md bg-gray-100"

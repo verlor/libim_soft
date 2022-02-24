@@ -24,6 +24,10 @@ export const parameterFormularSlice = createSlice({
     parallel: 3,
     //// tmp var
     charge_tickness: 0,
+    calculos: {
+      calculo1: state.sep_thickness,
+      calculo2: 0,
+    },
   },
   reducers: {
     setNumElectrodes: (state, action) => {
