@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useReducer, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import '../../styles/global.css'
 import { useSelector, useDispatch } from 'react-redux'
@@ -7,7 +7,7 @@ import { handleFormSubmit } from '../ParameterFormular/slice'
 import { derivar } from './utils'
 //import { calculo1, calculo2 } from '../Calcs/test'
 import { form_feed } from '../Calcs/test'
-import { before_calc } from '../Calcs/cuentas'
+import { calcExam } from '../Calcs/cuentas'
 import { data } from 'autoprefixer'
 
 export default function ParameterFormular() {
@@ -43,6 +43,7 @@ export default function ParameterFormular() {
         //calculo1(data.cat_load, dispatch)
         //calculo2(data, dispatch)
         form_feed(data, dispatch)
+        calcExam(data, useSelector)
         setResult(JSON.stringify(data))
       })}
       className="shadow sm:rounded-md bg-gray-100"

@@ -40,30 +40,50 @@ const f_rate_discharge_voltage = 2.2
 //solo para pruebitas
 
 //calculos preliminares
-
-export const before_calc = {
-  charge_thickness_dependency_cda: 50 * cathode_load.value,
-  cathode_mass:
-    form_feed.area.value *
-    form_feed.cathode_load.value *
-    form_feed.n_coat.value *
-    0.001,
-  cathode_additives:
-    (cathode_mass * form_feed.cathode_add.value) /
-    (100 - form_feed.cathode_add.value),
-  cathode_mass_st: cathode_mass + form_feed.cathode_add.value,
-  cathode_collector_mat:
-    form_feed.area.value *
-    form_feed.curr_collect_thickness_al.value *
-    fixed.al_density *
-    0.0001,
-  cathode_total_mass: cathode_mass_st + cathode_collector_mat,
-  anode_mass:
-    (s_rate_cathode_capacity / s_rate_anode_capacity) *
-    area *
-    cathode_load *
-    n_coat *
-    0.001,
+export function calcExam(data, useSelector) {
+  const {
+    cathode_material_id,
+    anode_material_id,
+    electrolyte_id,
+    area,
+    n_coat,
+    n_base_units,
+    cathode_load,
+    cathode_add,
+    anode_add,
+    separator_thickness,
+    curr_collect_thickness_cu,
+    curr_collect_thickness_al,
+    slow_charge_rate_id,
+    fast_charge_rate_id,
+    n_series,
+    n_parallel,
+  } = { ...data }
+  const before_calc = {
+    charge_thickness_dependency_cda: 50 * cathode_load,
+    // cathode_mass:
+    //   form_feed.area.value *
+    //   form_feed.cathode_load.value *
+    //   form_feed.n_coat.value *
+    //   0.001,
+    // cathode_additives:
+    //   (cathode_mass * form_feed.cathode_add.value) /
+    //   (100 - form_feed.cathode_add.value),
+    // cathode_mass_st: cathode_mass + form_feed.cathode_add.value,
+    // cathode_collector_mat:
+    //   form_feed.area.value *
+    //   form_feed.curr_collect_thickness_al.value *
+    //   fixed.al_density *
+    //   0.0001,
+    // cathode_total_mass: cathode_mass_st + cathode_collector_mat,
+    // anode_mass:
+    //   (s_rate_cathode_capacity / s_rate_anode_capacity) *
+    //   area *
+    //   cathode_load *
+    //   n_coat *
+    //   0.001,
+  }
+  console.log(before_calc.charge_thickness_dependency_cda)
 }
 
 /*
@@ -78,7 +98,7 @@ const cathode_total_mass = cathode_mass_st + cathode_collector_mat
 
 ********** 
 */
-
+/*
 const anode_additives = (anode_mass * anode_add) / (100 - anode_add)
 const anode_mass_st = anode_mass + anode_additives
 const anode_collector_mat =
