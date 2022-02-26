@@ -8,7 +8,7 @@ import { derivar } from './utils'
 //import { calculo1, calculo2 } from '../Calcs/test'
 import { form_feed } from '../Calcs/test'
 import { calcExam } from '../Calcs/cuentas'
-import { data } from 'autoprefixer'
+import Resultados from '../Resultados'
 
 export default function ParameterFormular() {
   const formulario = useSelector((state) => state.parameter)
@@ -42,8 +42,8 @@ export default function ParameterFormular() {
         // dispatch(handleFormSubmit())
         //calculo1(data.cat_load, dispatch)
         //calculo2(data, dispatch)
-        form_feed(data, dispatch)
-        calcExam(data, useSelector)
+        // form_feed(data, dispatch)
+        calcExam(data, dispatch)
         setResult(JSON.stringify(data))
       })}
       className="shadow sm:rounded-md bg-gray-100"

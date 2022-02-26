@@ -4,6 +4,7 @@ import { decrement, increment } from '../components/testSlice'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import '../styles/global.css'
+import Resultados from '../components/Resultados'
 
 // markup
 const IndexPage = () => {
@@ -12,26 +13,8 @@ const IndexPage = () => {
   const dispatch = useDispatch()
   return (
     <Layout>
-      <h2>{num_elec}</h2>
-      <h1 className="text-3xl md:text-5xl mb-4 font-extrabold" id="home">
-        Input Parameters
-      </h1>
-      <div>
-        <button
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          Increment
-        </button>
-        <span>{count}</span>
-        <button
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          Decrement
-        </button>
-      </div>
       <ParameterFormular />
+      <Resultados />
     </Layout>
   )
 }

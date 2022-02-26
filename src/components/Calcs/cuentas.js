@@ -1,6 +1,8 @@
 // import React, { useState } from 'react'
 // import ParameterFormular from '../ParameterFormular/ParameterFormular'
 import { form_feed } from './test'
+import { setSuma } from '../Resultados/slice'
+import { CU_THICK } from '../../utils/constants'
 
 //valores fijos
 const fixed = {
@@ -40,7 +42,7 @@ const f_rate_discharge_voltage = 2.2
 //solo para pruebitas
 
 //calculos preliminares
-export function calcExam(data, useSelector) {
+export function calcExam(data, dispatch) {
   const {
     cathode_material_id,
     anode_material_id,
@@ -83,7 +85,11 @@ export function calcExam(data, useSelector) {
     //   n_coat *
     //   0.001,
   }
-  console.log(before_calc.charge_thickness_dependency_cda)
+
+  const sumotaRieman = area + 3.141516 + CU_THICK
+
+  dispatch(setSuma(sumotaRieman))
+  //console.log(before_calc.charge_thickness_dependency_cda)
 }
 
 /*
