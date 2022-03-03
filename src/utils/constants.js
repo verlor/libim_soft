@@ -8,8 +8,8 @@ export const ANODE_POROSITY = 0.3
 export const SEPARATOR_POROSITY = 0.55
 
 //provisorias hasta api
-export const PR_s_rate_anode_capacity = 175
-export const PR_s_rate_cathode_capacity = 145
+export const PR_s_rate_anode_capacity = 145
+export const PR_s_rate_cathode_capacity = 175
 export const PR_s_rate_charge_voltage = 2.35
 export const PR_s_rate_discharge_voltage = 2.3
 export const PR_current_min = 0.014
