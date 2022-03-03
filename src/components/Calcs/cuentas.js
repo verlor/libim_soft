@@ -3,6 +3,21 @@ import { setSuma } from '../Resultados/slice'
 import * as fixed from '../../utils/constants'
 
 //calculos preliminares
+
+function calculitos(data, current, before_calc) {
+  const { cathode_material_id, anode_material_id, electrolyte_id } = { ...data }
+
+  const { suma1 } = { ...before_calc }
+
+  const { param1, param2, param3 } = { ...current }
+
+  const suma = suma1 + param1 + param2 + param3 / cathode_material_id
+
+  return {
+    suma,
+  }
+}
+
 export function calcExam(data, dispatch) {
   const {
     cathode_material_id,
@@ -108,7 +123,26 @@ export function calcExam(data, dispatch) {
     module_total_mass,
   }
   console.log(before_calc)
-  dispatch(setSuma(before_calc))
+  //dispatch(setSuma(before_calc))
+
+  const altaCorriente = calculitos(data, before_calc, {
+    param1: 'high curr',
+    param2: 1,
+    param3: 4,
+  })
+  const bajaCorriente = calculitos({
+    data,
+    before_calc,
+    current: { param1: 'low curr', param2: 5, param3: 9 },
+  })
+
+  dispatch(
+    setSuma({
+      ...before_calc,
+      prop1: altaCorriente,
+      voltBajo: bajaCorriente,
+    })
+  )
 }
 
 /*
