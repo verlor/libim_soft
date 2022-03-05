@@ -288,7 +288,7 @@ export function calcExam(data, dispatch) {
 
   dispatch(
     setSuma({
-      ...before_calc,
+      before_calc,
       slow: slow_rate,
       fast: fast_rate,
     })

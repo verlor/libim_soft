@@ -1,5 +1,6 @@
 import React from 'react'
 import '../../styles/global.css'
+import { Link } from 'gatsby'
 
 export default function SideMenu() {
   return (
@@ -39,7 +40,9 @@ export default function SideMenu() {
                 src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/chart-bar.svg"
                 className="w-7 sm:mx-2 mx-4 inline"
               />{' '}
-              <span className="hidden sm:inline">Reports</span>
+              <span className="hidden sm:inline">
+                <Link to="/results/">Results</Link>
+              </span>
             </a>
           </li>
           <li className="py-2 hover:bg-indigo-300 rounded">
