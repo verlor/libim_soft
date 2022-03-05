@@ -1,20 +1,168 @@
-import { form_feed } from './test'
+//import { form_feed } from './test'
 import { setSuma } from '../Resultados/slice'
 import * as fixed from '../../utils/constants'
 
 //calculos preliminares
 
-function calculitos(data, current, before_calc) {
-  const { cathode_material_id, anode_material_id, electrolyte_id } = { ...data }
+function calculitos(data, before_calc, c_rate) {
+  const {
+    cathode_material_id,
+    anode_material_id,
+    electrolyte_id,
+    area,
+    n_coat,
+    n_base_units,
+    cathode_load,
+    cathode_add,
+    anode_add,
+    separator_thickness,
+    curr_collect_thickness_cu,
+    curr_collect_thickness_al,
+    slow_charge_rate_id,
+    fast_charge_rate_id,
+    n_series,
+    n_parallel,
+  } = { ...data }
 
-  const { suma1 } = { ...before_calc }
+  const {
+    charge_thickness_dependency_cda,
+    cathode_mass,
+    cathode_additives,
+    cathode_mass_st,
+    cathode_collector_mat,
+    cathode_total_mass,
+    anode_mass,
+    anode_additives,
+    anode_mass_st,
+    anode_collector_mat,
+    anode_total_mass,
+    electrodes_total_mass,
+    separator_mass,
+    electrolite_cathode_mass,
+    electrolite_anode_mass,
+    electrolite_separator_mass,
+    electrolite_total_mass,
+    base_unit_total_mass,
+    cell_electrodes_mass,
+    cell_electrolite_in_electrodes_mass,
+    cell_separator_and_electrolite_mass,
+    cell_total_mass,
+    module_total_mass,
+  } = { ...before_calc }
 
-  const { param1, param2, param3 } = { ...current }
+  const { cathode_capacity, charge_voltage, discharge_voltage } = { ...c_rate }
 
-  const suma = suma1 + param1 + param2 + param3 / cathode_material_id
+  //const suma = suma1 + param1 + param2 + param3 / cathode_material_id
+
+  //Results calculations
+  const base_unit_charge_energy =
+    c_rate.cathode_capacity *
+    c_rate.charge_voltage *
+    before_calc.cathode_mass *
+    0.001
+  const base_unit_charge_power = c_rate.charge_voltage * fixed.PR_current_min
+  const base_unit_charge_capacity =
+    before_calc.cathode_mass * c_rate.cathode_capacity
+  const base_unit_charge_energy_density =
+    (base_unit_charge_energy / before_calc.base_unit_total_mass) * 1000
+  const base_unit_charge_power_density =
+    (base_unit_charge_power / before_calc.base_unit_total_mass) * 1000
+  const base_unit_discharge_energy =
+    c_rate.cathode_capacity *
+    c_rate.discharge_voltage *
+    before_calc.cathode_mass *
+    0.001
+  const base_unit_discharge_power =
+    c_rate.discharge_voltage * fixed.PR_current_min
+  const base_unit_discharge_capacity = base_unit_charge_capacity
+  const base_unit_efficiency_energy =
+    base_unit_discharge_energy / base_unit_charge_energy
+  const base_unit_efficiency_power =
+    base_unit_discharge_power / base_unit_charge_power
+  const base_unit_efficiency_capacity =
+    base_unit_discharge_capacity / base_unit_charge_capacity
+  const base_unit_discharge_energy_density =
+    (before_calc.base_unit_total_mass / base_unit_discharge_energy) * 1000
+  const base_unit_discharge_power_density =
+    (before_calc.base_unit_total_mass / base_unit_discharge_power) * 1000
+  //Cell slow rate calculations
+  const cell_current = base_unit_charge_capacity * data.n_base_units
+  const cell_volume = 4 //data.area * data.n_base_units * (1 / data.n_base_units) * 0.001
+  const cell_charge_energy = base_unit_charge_energy * data.n_base_units
+  const cell_charge_power = c_rate.charge_voltage * cell_current
+  const cell_charge_capacity = base_unit_charge_capacity * data.n_base_units
+  const cell_charge_energy_density =
+    (cell_charge_energy / before_calc.cell_total_mass) * 1000
+  const cell_charge_power_density =
+    (cell_charge_power / before_calc.cell_total_mass) * 1000
+  const cell_discharge_energy = base_unit_discharge_energy * data.n_base_units
+  const cell_discharge_power = c_rate.discharge_voltage * cell_current
+  const cell_discharge_capacity = cell_charge_capacity
+  const cell_discharge_energy_density =
+    (cell_discharge_energy / before_calc.cell_total_mass) * 1000
+  const cell_discharge_power_density =
+    (cell_discharge_power / before_calc.cell_total_mass) * 1000
+
+  //Module slow rate calculations
+  const module_charge_voltage = c_rate.charge_voltage * data.n_series
+  const module_charge_capacity = cell_charge_capacity * data.n_parallel
+  const module_charge_energy = module_charge_voltage * module_charge_capacity
+  const module_charge_power = module_charge_energy * data.slow_charge_rate_id
+  const module_charge_energy_density =
+    module_charge_energy / before_calc.module_total_mass
+  const module_charge_power_density =
+    module_charge_power / before_calc.module_total_mass
+  const module_discharge_voltage = c_rate.discharge_voltage * data.n_series
+  const module_discharge_capacity = cell_discharge_capacity * data.n_parallel
+  const module_discharge_energy =
+    module_discharge_voltage * module_discharge_capacity
+  const module_discharge_power =
+    module_discharge_energy * data.slow_charge_rate_id
+  const module_discharge_energy_density =
+    module_discharge_energy / before_calc.module_total_mass
+  const module_discharge_power_density =
+    module_discharge_power / before_calc.module_total_mass
+  const module_volume = 4 //ver formula
 
   return {
-    suma,
+    base_unit_charge_energy,
+    base_unit_charge_power,
+    base_unit_charge_capacity,
+    base_unit_charge_energy_density,
+    base_unit_charge_power_density,
+    base_unit_discharge_energy,
+    base_unit_discharge_power,
+    base_unit_discharge_capacity,
+    base_unit_efficiency_energy,
+    base_unit_efficiency_power,
+    base_unit_efficiency_capacity,
+    base_unit_discharge_energy_density,
+    base_unit_discharge_power_density,
+    cell_current,
+    cell_volume,
+    cell_charge_energy,
+    cell_charge_power,
+    cell_charge_capacity,
+    cell_charge_energy_density,
+    cell_charge_power_density,
+    cell_discharge_energy,
+    cell_discharge_power,
+    cell_discharge_capacity,
+    cell_discharge_energy_density,
+    cell_discharge_power_density,
+    module_charge_voltage,
+    module_charge_capacity,
+    module_charge_energy,
+    module_charge_power,
+    module_charge_energy_density,
+    module_charge_power_density,
+    module_discharge_voltage,
+    module_discharge_capacity,
+    module_discharge_energy,
+    module_discharge_power,
+    module_discharge_energy_density,
+    module_discharge_power_density,
+    cell_volume,
   }
 }
 
@@ -94,7 +242,7 @@ export function calcExam(data, dispatch) {
     cell_electrodes_mass +
     cell_electrolite_in_electrodes_mass +
     cell_separator_and_electrolite_mass
-  //modeule
+  //module
   const module_total_mass = cell_total_mass * n_series * n_parallel * 0.001
 
   const before_calc = {
@@ -125,39 +273,29 @@ export function calcExam(data, dispatch) {
   console.log(before_calc)
   //dispatch(setSuma(before_calc))
 
-  const altaCorriente = calculitos(data, before_calc, {
-    param1: 'high curr',
-    param2: 1,
-    param3: 4,
+  const slow_rate = calculitos(data, before_calc, {
+    cathode_capacity: 175, //cathode_material_id AND slow_charge_rate_id AND cathode_capacity
+    charge_voltage: 2.35, //(cathode_material_id AND slow_charge_rate_id AND cathode_charge_voltage)-(anode_material_id AND anode_voltage);
+    discharge_voltage: 2.3, //(cathode_material_id AND slow_charge_rate_id AND cathode_discharge_voltage)-(anode_material_id AND anode_voltage);
   })
-  const bajaCorriente = calculitos({
-    data,
-    before_calc,
-    current: { param1: 'low curr', param2: 5, param3: 9 },
+  const fast_rate = calculitos(data, before_calc, {
+    cathode_capacity: 130, //cathode_material_id AND fast_charge_rate_id AND cathode_capacity;
+    charge_voltage: 4, //(cathode_material_id AND fast_charge_rate_id AND cathode_charge_voltage) -(anode_material_id AND anode_voltage);
+    discharge_voltage: 2.2, //(cathode_material_id AND fast_charge_rate_id AND cathode_discharge_voltage)-(anode_material_id AND anode_voltage)
   })
+
+  //  current: { param1: 'low curr', param2: 5, param3: 9 },
 
   dispatch(
     setSuma({
       ...before_calc,
-      prop1: altaCorriente,
-      voltBajo: bajaCorriente,
+      slow: slow_rate,
+      fast: fast_rate,
     })
   )
 }
 
 /*
-//BAJAS CORRIENTES
-const PR_s_rate_cathode_capacity=cathode_material_id AND slow_charge_rate_id AND cathode_capacity;
-const PR_s_rate_charge_voltage=(cathode_material_id AND slow_charge_rate_id AND cathode_charge_voltage)-(anode_material_id AND anode_voltage);
-const PR_s_rate_discharge_voltage=(cathode_material_id AND slow_charge_rate_id AND cathode_discharge_voltage)-(anode_material_id AND anode_voltage);
-
-//ALTAS CORRIENTES
-const PR_f_rate_cathode_capacity=cathode_material_id AND fast_charge_rate_id AND cathode_capacity;
-const PR_f_rate_charge_voltage=(cathode_material_id AND fast_charge_rate_id AND cathode_charge_voltage) -(anode_material_id AND anode_voltage);;
-const PR_f_rate_discharge_voltage=(cathode_material_id AND fast_charge_rate_id AND cathode_discharge_voltage)-(anode_material_id AND anode_voltage);
-
-*/
-
 export function bu_c_m(props, dispatch) {
   const c_s_rate = {
     cathode_capacity: fixed.PR_s_rate_cathode_capacity,
@@ -170,61 +308,7 @@ export function bu_c_m(props, dispatch) {
     discharge_voltage: fixed.PR_f_rate_discharge_voltage,
   }
   //Base unit slow rate calculations
-  const base_unit_charge_energy =
-    cathode_capacity * charge_voltage * cathode_mass * 0.001
-  const base_unit_charge_power = charge_voltage * current_min
-  const base_unit_charge_capacity = cathode_mass * cathode_capacity
-  const base_unit_charge_energy_density =
-    (base_unit_charge_energy / base_unit_total_mass) * 1000
-  const base_unit_charge_power_density =
-    (base_unit_charge_power / base_unit_total_mass) * 1000
-  const base_unit_discharge_energy =
-    cathode_capacity * discharge_voltage * cathode_mass * 0.001
-  const base_unit_discharge_power = discharge_voltage * current_min
-  const base_unit_discharge_capacity = base_unit_charge_capacity
-  const base_unit_efficiency_energy =
-    base_unit_discharge_energy / base_unit_charge_energy
-  const base_unit_efficiency_power =
-    base_unit_discharge_power / base_unit_charge_power
-  const base_unit_efficiency_capacity =
-    base_unit_discharge_capacity / base_unit_charge_capacity
-  const base_unit_discharge_energy_density =
-    (base_unit_total_mass / base_unit_discharge_energy) * 1000
-  const base_unit_discharge_power_density =
-    (base_unit_total_mass / base_unit_discharge_power) * 1000
-  //Cell slow rate calculations
-  const cell_current = base_unit_charge_capacity * n_base_units
-  const cell_volume = area * n_base_units * (1 / n_base_units) * 0.001
-  const cell_charge_energy = base_unit_charge_energy * n_base_units
-  const cell_charge_power = charge_voltage * cell_current
-  const cell_charge_capacity = base_unit_charge_capacity * n_base_units
-  const cell_charge_energy_density =
-    (cell_charge_energy / cell_total_mass) * 1000
-  const cell_charge_power_density = (cell_charge_power / cell_total_mass) * 1000
-  const cell_discharge_energy = base_unit_discharge_energy * n_base_units
-  const cell_discharge_power = discharge_voltage * cell_current
-  const cell_discharge_capacity = cell_charge_capacity
-  const cell_discharge_energy_density =
-    (cell_discharge_energy / cell_total_mass) * 1000
-  const cell_discharge_power_density =
-    (cell_discharge_power / cell_total_mass) * 1000
-
-  //Module slow rate calculations
-  const module_charge_voltage = charge_voltage * n_series
-  const module_charge_capacity = cell_charge_capacity * n_parallel
-  const module_charge_energy = module_charge_voltage * module_charge_capacity
-  const module_charge_power = module_charge_energy * slow_charge_rate_id
-  const module_charge_energy_density = module_charge_energy / module_total_mass
-  const module_charge_power_density = module_charge_power / module_total_mass
-  const module_discharge_voltage = discharge_voltage * n_series
-  const module_discharge_capacity = cell_discharge_capacity * n_parallel
-  const module_discharge_energy =
-    module_discharge_voltage * module_discharge_capacity
-  const module_discharge_power = module_discharge_energy * slow_charge_rate_id
-  const module_discharge_energy_density =
-    module_discharge_energy / module_total_mass
-  const module_discharge_power_density =
-    module_discharge_power / module_total_mass
+  
 
   const results = {
     base_unit_charge_energy,
@@ -268,3 +352,4 @@ export function bu_c_m(props, dispatch) {
   console.log(results)
   dispatch(setResults(results))
 }
+*/
