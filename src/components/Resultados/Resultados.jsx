@@ -12,6 +12,12 @@ export default function Resultados() {
       <span>Sumota: {JSON.stringify(before)}</span>
       <span>Resultados Slow Rate: {JSON.stringify(slow)}</span>
       <span>Resultados Fast Rate: {JSON.stringify(fast)}</span>
+      {/* {typeof before !== 'undefined' && Object.keys(before).map( prop => <p>1</p>)} */}
+      {Object.keys(before || {}).map((prop) => (
+        <p>
+          {prop}: {before[prop]}
+        </p>
+      ))}
     </>
   )
 }

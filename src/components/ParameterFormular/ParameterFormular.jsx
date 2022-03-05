@@ -9,6 +9,7 @@ import { derivar } from './utils'
 import { form_feed } from '../Calcs/test'
 import { calcExam } from '../Calcs/cuentas'
 import Resultados from '../Resultados'
+import { propsCall } from '../../api'
 
 export default function ParameterFormular() {
   const formulario = useSelector((state) => state.parameter)
@@ -38,11 +39,13 @@ export default function ParameterFormular() {
   const [result, setResult] = useState('')
   return (
     <form
-      onSubmit={handleSubmit((data) => {
+      onSubmit={handleSubmit(async (data) => {
         // dispatch(handleFormSubmit())
         //calculo1(data.cat_load, dispatch)
         //calculo2(data, dispatch)
         // form_feed(data, dispatch)
+        const respMat = await propsCall({ id: data.cathode_material_id })
+        console.log({ respMat })
         calcExam(data, dispatch)
         setResult(JSON.stringify(data))
       })}

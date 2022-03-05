@@ -291,6 +291,7 @@ export function calcExam(data, dispatch) {
       before_calc,
       slow: slow_rate,
       fast: fast_rate,
+      formularData: data,
     })
   )
 }
