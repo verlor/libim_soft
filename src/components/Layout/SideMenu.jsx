@@ -1,6 +1,9 @@
 import React from 'react'
 import '../../styles/global.css'
 import { Link } from 'gatsby'
+import { stringify } from 'postcss'
+
+const activeStyle = { color: 'blue' }
 
 export default function SideMenu() {
   return (
@@ -13,10 +16,36 @@ export default function SideMenu() {
                 src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/home.svg"
                 className="w-7 sm:mx-2 mx-4 inline"
               />
-              <span className="hidden sm:inline">Home</span>
+              <span id="home" className="hidden sm:inline">
+                <Link to="/" activeStyle={activeStyle} exact>
+                  Home
+                </Link>
+                {console.log(window.location.href)}
+              </span>
             </a>
           </li>
           <li className="py-2 hover:bg-indigo-300 rounded">
+            <a className="" href="#">
+              <img
+                src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/chart-bar.svg"
+                className="w-7 sm:mx-2 mx-4 inline"
+              />{' '}
+              <span className="hidden sm:inline">
+                {/* console.log(location) */}
+                <Link to="/results/" activeStyle={activeStyle}>
+                  Results
+                </Link>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+/*
+<li className="py-2 hover:bg-indigo-300 rounded">
             <a className="truncate" href="#">
               <img
                 src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/cog.svg"
@@ -34,17 +63,7 @@ export default function SideMenu() {
               <span className="hidden sm:inline">Products</span>
             </a>
           </li>
-          <li className="py-2 hover:bg-indigo-300 rounded">
-            <a className="" href="#">
-              <img
-                src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/chart-bar.svg"
-                className="w-7 sm:mx-2 mx-4 inline"
-              />{' '}
-              <span className="hidden sm:inline">
-                <Link to="/results/">Results</Link>
-              </span>
-            </a>
-          </li>
+
           <li className="py-2 hover:bg-indigo-300 rounded">
             <a className="" href="#">
               <img
@@ -54,8 +73,9 @@ export default function SideMenu() {
               <span className="hidden sm:inline">Integrations</span>
             </a>
           </li>
-        </ul>
-      </div>
+
+
+
       <div className="bg-gray-50 rounded-xl border my-3 w-full">
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:py-12 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -65,6 +85,5 @@ export default function SideMenu() {
           </h2>
         </div>
       </div>
-    </div>
-  )
-}
+
+*/

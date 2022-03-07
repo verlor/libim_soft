@@ -43,9 +43,9 @@ export default function ParameterFormular() {
         // dispatch(handleFormSubmit())
         //calculo1(data.cat_load, dispatch)
         //calculo2(data, dispatch)
-        // form_feed(data, dispatch)
         const respMat = await propsCall({ id: data.cathode_material_id })
         console.log({ respMat })
+        form_feed(data, dispatch)
         calcExam(data, dispatch)
         setResult(JSON.stringify(data))
       })}
@@ -255,7 +255,7 @@ export default function ParameterFormular() {
           />
         </div>
       </div>
-      <p>{JSON.stringify(formulario)}</p>
+
       <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 mt-2">
         <button
           type="submit"
@@ -267,3 +267,5 @@ export default function ParameterFormular() {
     </form>
   )
 }
+
+//  <p>{JSON.stringify(formulario)}</p>

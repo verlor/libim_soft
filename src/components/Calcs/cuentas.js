@@ -1,6 +1,7 @@
 //import { form_feed } from './test'
 import { setSuma } from '../Resultados/slice'
 import * as fixed from '../../utils/constants'
+import { current } from '@reduxjs/toolkit'
 
 //calculos preliminares
 
@@ -55,14 +56,15 @@ function calculitos(data, before_calc, c_rate) {
   //const suma = suma1 + param1 + param2 + param3 / cathode_material_id
 
   //Results calculations
+  //Base unit
   const base_unit_charge_energy =
     c_rate.cathode_capacity *
     c_rate.charge_voltage *
     before_calc.cathode_mass *
     0.001
-  const base_unit_charge_power = c_rate.charge_voltage * fixed.PR_current_min
+  const base_unit_charge_power = c_rate.charge_voltage * c_rate.current
   const base_unit_charge_capacity =
-    before_calc.cathode_mass * c_rate.cathode_capacity
+    before_calc.cathode_mass * c_rate.cathode_capacity * 0.001
   const base_unit_charge_energy_density =
     (base_unit_charge_energy / before_calc.base_unit_total_mass) * 1000
   const base_unit_charge_power_density =
@@ -72,8 +74,7 @@ function calculitos(data, before_calc, c_rate) {
     c_rate.discharge_voltage *
     before_calc.cathode_mass *
     0.001
-  const base_unit_discharge_power =
-    c_rate.discharge_voltage * fixed.PR_current_min
+  const base_unit_discharge_power = c_rate.discharge_voltage * c_rate.current
   const base_unit_discharge_capacity = base_unit_charge_capacity
   const base_unit_efficiency_energy =
     base_unit_discharge_energy / base_unit_charge_energy
@@ -82,11 +83,13 @@ function calculitos(data, before_calc, c_rate) {
   const base_unit_efficiency_capacity =
     base_unit_discharge_capacity / base_unit_charge_capacity
   const base_unit_discharge_energy_density =
-    (before_calc.base_unit_total_mass / base_unit_discharge_energy) * 1000
+    (base_unit_discharge_energy / before_calc.base_unit_total_mass) * 1000
   const base_unit_discharge_power_density =
-    (before_calc.base_unit_total_mass / base_unit_discharge_power) * 1000
-  //Cell slow rate calculations
-  const cell_current = base_unit_charge_capacity * data.n_base_units
+    (base_unit_discharge_power / before_calc.base_unit_total_mass) * 1000
+
+  //Cell
+  const cell_current =
+    base_unit_charge_capacity * data.n_base_units * c_rate.charge_rate //ver en fast
   const cell_volume = 4 //data.area * data.n_base_units * (1 / data.n_base_units) * 0.001
   const cell_charge_energy = base_unit_charge_energy * data.n_base_units
   const cell_charge_power = c_rate.charge_voltage * cell_current
@@ -103,11 +106,11 @@ function calculitos(data, before_calc, c_rate) {
   const cell_discharge_power_density =
     (cell_discharge_power / before_calc.cell_total_mass) * 1000
 
-  //Module slow rate calculations
+  //Module
   const module_charge_voltage = c_rate.charge_voltage * data.n_series
   const module_charge_capacity = cell_charge_capacity * data.n_parallel
   const module_charge_energy = module_charge_voltage * module_charge_capacity
-  const module_charge_power = module_charge_energy * data.slow_charge_rate_id
+  const module_charge_power = module_charge_energy * c_rate.charge_rate
   const module_charge_energy_density =
     module_charge_energy / before_calc.module_total_mass
   const module_charge_power_density =
@@ -116,8 +119,7 @@ function calculitos(data, before_calc, c_rate) {
   const module_discharge_capacity = cell_discharge_capacity * data.n_parallel
   const module_discharge_energy =
     module_discharge_voltage * module_discharge_capacity
-  const module_discharge_power =
-    module_discharge_energy * data.slow_charge_rate_id
+  const module_discharge_power = module_discharge_energy * c_rate.charge_rate
   const module_discharge_energy_density =
     module_discharge_energy / before_calc.module_total_mass
   const module_discharge_power_density =
@@ -189,7 +191,7 @@ export function calcExam(data, dispatch) {
   const charge_thickness_dependency_cda = 50 * cathode_load
   const cathode_mass = area * cathode_load * n_coat * 0.001
   const cathode_additives = (cathode_mass * cathode_add) / (100 - cathode_add)
-  const cathode_mass_st = cathode_mass + cathode_add
+  const cathode_mass_st = cathode_mass + cathode_additives
   const cathode_collector_mat =
     area * curr_collect_thickness_al * fixed.AL_DENSITY * 0.0001
   const cathode_total_mass = cathode_mass_st + cathode_collector_mat
@@ -219,7 +221,7 @@ export function calcExam(data, dispatch) {
     charge_thickness_dependency_cda *
     fixed.ANODE_POROSITY *
     n_coat *
-    0.0001
+    0.0001 //fórmula corregida en planilla no ibcluye número de capas
   const electrolite_separator_mass =
     area *
     separator_thickness *
@@ -274,11 +276,15 @@ export function calcExam(data, dispatch) {
   //dispatch(setSuma(before_calc))
 
   const slow_rate = calculitos(data, before_calc, {
+    current: 0.014, //fixed.PR_current_min
+    charge_rate: 0.1, // data.slow_charge_rate_id
     cathode_capacity: 175, //cathode_material_id AND slow_charge_rate_id AND cathode_capacity
     charge_voltage: 2.35, //(cathode_material_id AND slow_charge_rate_id AND cathode_charge_voltage)-(anode_material_id AND anode_voltage);
     discharge_voltage: 2.3, //(cathode_material_id AND slow_charge_rate_id AND cathode_discharge_voltage)-(anode_material_id AND anode_voltage);
   })
   const fast_rate = calculitos(data, before_calc, {
+    current: 0.7, //fixed.PR_current_max
+    charge_rate: 5, // data.fast_charge_rate_id
     cathode_capacity: 130, //cathode_material_id AND fast_charge_rate_id AND cathode_capacity;
     charge_voltage: 4, //(cathode_material_id AND fast_charge_rate_id AND cathode_charge_voltage) -(anode_material_id AND anode_voltage);
     discharge_voltage: 2.2, //(cathode_material_id AND fast_charge_rate_id AND cathode_discharge_voltage)-(anode_material_id AND anode_voltage)
@@ -288,10 +294,10 @@ export function calcExam(data, dispatch) {
 
   dispatch(
     setSuma({
+      formularData: data,
       before_calc,
       slow: slow_rate,
       fast: fast_rate,
-      formularData: data,
     })
   )
 }
