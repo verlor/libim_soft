@@ -18,11 +18,14 @@ export default function Resultados() {
       <span>Data Formulario:</span>
       <p></p>
       <label className="block text-sm font-large text-gray-700">
-        {Object.keys(formular || {}).map((prop) => (
-          <p>
-            {prop}: {formular[prop]}
-          </p>
-        ))}
+        <table>
+          {Object.keys(formular || {}).map((prop) => (
+            <tr>
+              <td>{prop}</td>
+              <td>{formular[prop]}</td>
+            </tr>
+          ))}
+        </table>
       </label>
       <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
 

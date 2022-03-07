@@ -10,6 +10,7 @@ import { form_feed } from '../Calcs/test'
 import { calcExam } from '../Calcs/cuentas'
 import Resultados from '../Resultados'
 import { propsCall } from '../../api'
+import { navigate } from 'gatsby'
 
 export default function ParameterFormular() {
   const formulario = useSelector((state) => state.parameter)
@@ -47,6 +48,7 @@ export default function ParameterFormular() {
         console.log({ respMat })
         form_feed(data, dispatch)
         calcExam(data, dispatch)
+        navigate('/results/')
         setResult(JSON.stringify(data))
       })}
       className="shadow sm:rounded-md bg-gray-100"
