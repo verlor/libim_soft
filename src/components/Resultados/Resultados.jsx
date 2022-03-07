@@ -24,7 +24,7 @@ export default function Resultados() {
           </p>
         ))}
       </label>
-      <p></p>
+      <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
 
       <p></p>
       {/*} 
@@ -32,27 +32,39 @@ export default function Resultados() {
       */}
       <span>Sumota:</span>
       <p></p>
-      {Object.keys(before || {}).map((prop) => (
-        <p>
-          {prop}: {before[prop]}
-        </p>
-      ))}
+      <label className="block text-sm font-large text-gray-700">
+        {Object.keys(before || {}).map((prop) => (
+          <p>
+            {prop}: {before[prop]}
+          </p>
+        ))}
+      </label>
+      <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
       <p></p>
+
       <span>Slow Rate:</span>
       <p></p>
-      {Object.keys(slow || {}).map((prop) => (
-        <p>
-          {prop}: {slow[prop]}
-        </p>
-      ))}
+      <label className="block text-sm font-large text-gray-700">
+        {Object.keys(slow || {}).map((prop) => (
+          <p>
+            {prop}: {slow[prop]}
+          </p>
+        ))}
+      </label>
+      <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
       <p></p>
+
       <span>Fast Rate:</span>
       <p></p>
-      {Object.keys(fast || {}).map((prop) => (
-        <p>
-          {prop}: {fast[prop]}
-        </p>
-      ))}
+      <label className="block text-sm font-large text-gray-700">
+        {Object.keys(fast || {}).map((prop) => (
+          <p>
+            {prop}: {fast[prop]}
+          </p>
+        ))}
+      </label>
+      <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
+      <p></p>
     </>
   )
 }

@@ -269,3 +269,5 @@ export default function ParameterFormular() {
 }
 
 //  <p>{JSON.stringify(formulario)}</p>
+
+// location.assign("/results/");

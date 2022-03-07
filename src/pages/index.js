@@ -14,9 +14,10 @@ const IndexPage = () => {
   return (
     <Layout>
       <ParameterFormular />
-      <Resultados />
     </Layout>
   )
 }
 
 export default IndexPage
+
+//<Resultados />
