@@ -20,7 +20,7 @@ export default function SideMenu() {
                 <Link to="/" activeStyle={activeStyle} exact>
                   Home
                 </Link>
-                {console.log(window.location.href)}
+                {/* console.log(window.location.href) */}
               </span>
             </a>
           </li>
