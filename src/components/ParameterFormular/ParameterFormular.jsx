@@ -45,7 +45,7 @@ export default function ParameterFormular() {
         //calculo1(data.cat_load, dispatch)
         //calculo2(data, dispatch)
         const respMat = await propsCall({ id: data.cathode_material_id })
-        console.log({ respMat })
+        // console.log({ respMat })
         form_feed(data, dispatch)
         calcExam(data, dispatch)
         navigate('/results/')

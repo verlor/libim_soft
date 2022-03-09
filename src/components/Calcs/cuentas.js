@@ -53,9 +53,7 @@ function calculitos(data, before_calc, c_rate) {
 
   const { cathode_capacity, charge_voltage, discharge_voltage } = { ...c_rate }
 
-  //const suma = suma1 + param1 + param2 + param3 / cathode_material_id
-
-  //Results calculations
+  //Calculando
   //Base unit
   const base_unit_charge_energy =
     c_rate.cathode_capacity *
@@ -86,11 +84,17 @@ function calculitos(data, before_calc, c_rate) {
     (base_unit_discharge_energy / before_calc.base_unit_total_mass) * 1000
   const base_unit_discharge_power_density =
     (base_unit_discharge_power / before_calc.base_unit_total_mass) * 1000
+  const base_unit_volume =
+    (data.curr_collect_thickness_cu +
+      data.curr_collect_thickness_al * 2 +
+      fixed.COAT_THICKNESS * 4 +
+      data.separator_thickness * 2) *
+    0.0001 *
+    data.area // [cm3] fórmula corregida
 
   //Cell
   const cell_current =
-    base_unit_charge_capacity * data.n_base_units * c_rate.charge_rate //ver en fast
-  const cell_volume = 4 //data.area * data.n_base_units * (1 / data.n_base_units) * 0.001
+    base_unit_charge_capacity * data.n_base_units * c_rate.charge_rate //fórmula corregida en fast
   const cell_charge_energy = base_unit_charge_energy * data.n_base_units
   const cell_charge_power = c_rate.charge_voltage * cell_current
   const cell_charge_capacity = base_unit_charge_capacity * data.n_base_units
@@ -105,12 +109,19 @@ function calculitos(data, before_calc, c_rate) {
     (cell_discharge_energy / before_calc.cell_total_mass) * 1000
   const cell_discharge_power_density =
     (cell_discharge_power / before_calc.cell_total_mass) * 1000
+  const cell_volume =
+    (data.curr_collect_thickness_cu * data.n_base_units +
+      data.curr_collect_thickness_al * (data.n_base_units + 1) +
+      fixed.COAT_THICKNESS * data.n_base_units * 4 +
+      data.separator_thickness * data.n_base_units * 2) *
+    0.0001 *
+    data.area // [cm3] fórmula corregida
 
   //Module
   const module_charge_voltage = c_rate.charge_voltage * data.n_series
   const module_charge_capacity = cell_charge_capacity * data.n_parallel
   const module_charge_energy = module_charge_voltage * module_charge_capacity
-  const module_charge_power = module_charge_energy * c_rate.charge_rate
+  const module_charge_power = module_charge_energy * c_rate.charge_rate //fórmula corregida en fast
   const module_charge_energy_density =
     module_charge_energy / before_calc.module_total_mass
   const module_charge_power_density =
@@ -119,12 +130,12 @@ function calculitos(data, before_calc, c_rate) {
   const module_discharge_capacity = cell_discharge_capacity * data.n_parallel
   const module_discharge_energy =
     module_discharge_voltage * module_discharge_capacity
-  const module_discharge_power = module_discharge_energy * c_rate.charge_rate
+  const module_discharge_power = module_discharge_energy * c_rate.charge_rate //fórmula corregida en fast
   const module_discharge_energy_density =
     module_discharge_energy / before_calc.module_total_mass
   const module_discharge_power_density =
     module_discharge_power / before_calc.module_total_mass
-  const module_volume = 4 //ver formula
+  const module_volume = cell_volume * (data.n_series + data.n_parallel) // [cm3] fórmula corregida
 
   return {
     base_unit_charge_energy,
@@ -140,8 +151,8 @@ function calculitos(data, before_calc, c_rate) {
     base_unit_efficiency_capacity,
     base_unit_discharge_energy_density,
     base_unit_discharge_power_density,
+    base_unit_volume,
     cell_current,
-    cell_volume,
     cell_charge_energy,
     cell_charge_power,
     cell_charge_capacity,
@@ -152,6 +163,7 @@ function calculitos(data, before_calc, c_rate) {
     cell_discharge_capacity,
     cell_discharge_energy_density,
     cell_discharge_power_density,
+    cell_volume,
     module_charge_voltage,
     module_charge_capacity,
     module_charge_energy,
@@ -164,7 +176,7 @@ function calculitos(data, before_calc, c_rate) {
     module_discharge_power,
     module_discharge_energy_density,
     module_discharge_power_density,
-    cell_volume,
+    module_volume,
   }
 }
 
@@ -221,7 +233,7 @@ export function calcExam(data, dispatch) {
     charge_thickness_dependency_cda *
     fixed.ANODE_POROSITY *
     n_coat *
-    0.0001 //fórmula corregida en planilla no ibcluye número de capas
+    0.0001 //fórmula corregida planilla no incluía número de capas
   const electrolite_separator_mass =
     area *
     separator_thickness *
@@ -239,7 +251,7 @@ export function calcExam(data, dispatch) {
   const cell_electrolite_in_electrodes_mass =
     (electrolite_cathode_mass + electrolite_anode_mass) * n_base_units
   const cell_separator_and_electrolite_mass =
-    (separator_mass + electrolite_separator_mass) * (2 * n_base_units - 1) //ver formula
+    (separator_mass + electrolite_separator_mass) * n_base_units //fórmula corregida
   const cell_total_mass =
     cell_electrodes_mass +
     cell_electrolite_in_electrodes_mass +
@@ -272,7 +284,7 @@ export function calcExam(data, dispatch) {
     cell_total_mass,
     module_total_mass,
   }
-  console.log(before_calc)
+  //console.log(before_calc)
   //dispatch(setSuma(before_calc))
 
   const slow_rate = calculitos(data, before_calc, {

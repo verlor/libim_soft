@@ -13,61 +13,63 @@ export default function Resultados() {
       <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3">
         Resultados
       </h2>
-      <p></p>
-      <p></p>
-      <span>Data Formulario:</span>
-      <p></p>
-      <label className="block text-sm font-large text-gray-700">
-        <table>
-          {Object.keys(formular || {}).map((prop) => (
-            <tr>
-              <td>{prop}</td>
-              <td>{formular[prop]}</td>
-            </tr>
-          ))}
-        </table>
-      </label>
-      <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
 
-      <p></p>
-      {/*} 
-     <span>Data Formulario:</span>
-      */}
-      <span>Sumota:</span>
-      <p></p>
-      <label className="block text-sm font-large text-gray-700">
-        {Object.keys(before || {}).map((prop) => (
-          <p>
-            {prop}: {before[prop]}
-          </p>
-        ))}
-      </label>
-      <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
-      <p></p>
-
-      <span>Slow Rate:</span>
-      <p></p>
-      <label className="block text-sm font-large text-gray-700">
-        {Object.keys(slow || {}).map((prop) => (
-          <p>
-            {prop}: {slow[prop]}
-          </p>
-        ))}
-      </label>
-      <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
-      <p></p>
-
-      <span>Fast Rate:</span>
-      <p></p>
-      <label className="block text-sm font-large text-gray-700">
-        {Object.keys(fast || {}).map((prop) => (
-          <p>
-            {prop}: {fast[prop]}
-          </p>
-        ))}
-      </label>
-      <p className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-3 pt-3"></p>
-      <p></p>
+      <div className="grid grid-cols-2 gap-4 px-3">
+        <div className="col-span-1">
+          <span>Data Formulario:</span>
+          <label className="block text-sm font-large text-gray-700">
+            <table>
+              {Object.keys(formular || {}).map((prop) => (
+                <tr>
+                  <td>{prop}:</td>
+                  <td>{formular[prop]}</td>
+                </tr>
+              ))}
+            </table>
+          </label>
+        </div>
+        <div className="col-span-1">
+          <span>Sumota:</span>
+          <label className="block text-sm font-large text-gray-700">
+            <table>
+              {Object.keys(before || {}).map((prop) => (
+                <tr>
+                  <td>{prop}:</td>
+                  <td>{before[prop]}</td>
+                </tr>
+              ))}
+            </table>
+          </label>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 px-3">
+        <div className="col-span-1">
+          <span>Slow Rate:</span>
+          <label className="block text-sm font-large text-gray-700">
+            <table>
+              {Object.keys(slow || {}).map((prop) => (
+                <tr>
+                  <td>{prop}:</td>
+                  <td>{slow[prop]}</td>
+                </tr>
+              ))}
+            </table>
+          </label>
+        </div>
+        <div className="col-span-1">
+          <span>Fast Rate:</span>
+          <label className="block text-sm font-large text-gray-700">
+            <table>
+              {Object.keys(fast || {}).map((prop) => (
+                <tr>
+                  <td>{prop}:</td>
+                  <td>{fast[prop]}</td>
+                </tr>
+              ))}
+            </table>
+          </label>
+        </div>
+      </div>
     </>
   )
 }
