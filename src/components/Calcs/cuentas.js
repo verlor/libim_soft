@@ -25,7 +25,7 @@ function step_1(data, denom) {
     n_parallel,
   } = { ...data }
 
-  const charge_thickness_dependency_cda = cathode_load * data.coating_thickness //internal variable not exported
+  const charge_thickness_dependency_cda = cathode_load * data.coating_thickness //variable not exported
   //console.log(charge_thickness_dependency_cda)
   const cathode_mass =
     area * cathode_load * fixed.N_COAT * 0.001 * (n_base_units / denom)
