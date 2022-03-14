@@ -6,7 +6,7 @@ export const SEPARATOR_DENSITY = 0.97 // [g * cm^-3]
 export const CATHODE_POROSITY = 0.3 // []
 export const ANODE_POROSITY = 0.3 // []
 export const SEPARATOR_POROSITY = 0.55 // []
-export const COAT_THICKNESS = 50 // [um]
+export const N_COAT = 2 //[]
 
 //provisorias hasta api
 export const PR_s_rate_anode_capacity = 145 // [mA*h*g^-1]

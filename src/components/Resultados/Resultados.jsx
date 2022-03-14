@@ -2,10 +2,18 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import '../../styles/global.css'
 import batt from '../../images/batt.svg'
+// import csvDownload from 'json-to-csv-export'
 
 export default function Resultados() {
   const formular = useSelector((state) => state.resultados.suma?.formularData)
-  const before = useSelector((state) => state.resultados.suma?.before_calc)
+  //const before = useSelector((state) => state.resultados.suma?.before_calc)
+  const pre_base_unit = useSelector(
+    (state) => state.resultados.suma?.pre_base_unit
+  )
+  const pre_cell = useSelector((state) => state.resultados.suma?.pre_cell)
+  const module_total_mass = useSelector(
+    (state) => state.resultados.suma?.module_total_mass
+  )
   const fast = useSelector((state) => state.resultados.suma?.fast)
   const slow = useSelector((state) => state.resultados.suma?.slow)
 
@@ -25,7 +33,7 @@ export default function Resultados() {
           <div className="col-span-1 ">
             <img src={batt} alt="" class="object-scale-down h-auto w-auto" />
           </div>
-          <div className="col-span-1 text-sm font-medium text-slate-700 mt-2">
+          <div className="col-span-1 sm:text-4xl mx-4 pt-4 text-slate-700 mt-2">
             <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-4 pt-4">
               Objetive
             </h2>
@@ -183,7 +191,7 @@ export default function Resultados() {
                 <td>
                   <label class="flex justify-between items-center p-2 text-xl ">
                     <input
-                      id="visib_before"
+                      id="visib_pre_base_unit"
                       type="checkbox"
                       class="hidden appearance-none peer"
                       onChange={() => {
@@ -195,10 +203,10 @@ export default function Resultados() {
                 </td>
               </tr>
               <div class={`group ${!showPanel && 'invisible'}`}>
-                {Object.keys(before || {}).map((prop) => (
+                {Object.keys(pre_base_unit || {}).map((prop) => (
                   <tr>
                     <td>{prop}:</td>
-                    <td>{before[prop]}</td>
+                    <td>{pre_base_unit[prop]}</td>
                   </tr>
                 ))}
               </div>
@@ -243,6 +251,7 @@ export default function Resultados() {
       </div>
 
       <div class="flex items-baseline mt-4 mb-6 pb-6 "></div>
+      <button onClick={() => csvDownload(formular)}>Download Data</button>
     </>
   )
 }

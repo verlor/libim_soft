@@ -17,7 +17,7 @@ export default function SideMenu() {
                 className="w-7 sm:mx-2 mx-4 inline"
               />
               <span id="home" className="hidden sm:inline">
-                <Link to="/" activeStyle={activeStyle} exact>
+                <Link to="/" activeStyle={activeStyle} exact="true">
                   Home
                 </Link>
                 {/* console.log(window.location.href) */}

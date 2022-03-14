@@ -7,7 +7,7 @@ import { handleFormSubmit } from '../ParameterFormular/slice'
 import { derivar } from './utils'
 //import { calculo1, calculo2 } from '../Calcs/test'
 import { form_feed } from '../Calcs/test'
-import { calcExam } from '../Calcs/cuentas'
+import { calc } from '../Calcs/cuentas'
 import Resultados from '../Resultados'
 import { propsCall } from '../../api'
 import { navigate } from 'gatsby'
@@ -23,9 +23,9 @@ export default function ParameterFormular() {
       anode_material_id: 'LTO',
       electrolyte_id: 'LPF6 + EC',
       area: 50,
-      n_coat: 2,
       n_base_units: 20,
       cathode_load: 5,
+      coating_thickness: 50,
       cathode_add: 5,
       anode_add: 5,
       separator_thickness: 25,
@@ -47,7 +47,7 @@ export default function ParameterFormular() {
         const respMat = await propsCall({ id: data.cathode_material_id })
         // console.log({ respMat })
         form_feed(data, dispatch)
-        calcExam(data, dispatch)
+        calc(data, dispatch)
         navigate('/results/')
         setResult(JSON.stringify(data))
       })}
@@ -112,10 +112,10 @@ export default function ParameterFormular() {
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
-            Coats: Single (1) / Double (2)
+            # Base Units
           </label>
           <input
-            {...register('n_coat')}
+            {...register('n_base_units')}
             type="text"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
@@ -124,20 +124,20 @@ export default function ParameterFormular() {
       <div className="grid grid-cols-2 gap-4 mt-2 px-3">
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
-            # Basic Units
+            Cathode Load [mg/cm<sup>2</sup>]
           </label>
           <input
-            {...register('n_base_units')}
+            {...register('cathode_load')}
             type="text"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
-            Cathode load [mg/cm<sup>2</sup>]
+            Coating Thickness [um]
           </label>
           <input
-            {...register('cathode_load')}
+            {...register('coating_thickness')}
             type="text"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
@@ -269,7 +269,3 @@ export default function ParameterFormular() {
     </form>
   )
 }
-
-//  <p>{JSON.stringify(formulario)}</p>
-
-// location.assign("/results/");

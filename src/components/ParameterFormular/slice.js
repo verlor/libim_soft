@@ -8,9 +8,9 @@ export const parameterFormularSlice = createSlice({
     anode_material_id: 'LTO',
     electrolyte_id: 'LPF6 + EC',
     area: 50,
-    n_coat: 2,
     n_base_units: 20,
     cathode_load: 5,
+    coating_thickness: 50,
     cathode_add: 5,
     anode_add: 5,
     separator_thickness: 25,
@@ -20,27 +20,12 @@ export const parameterFormularSlice = createSlice({
     fast_charge_rate_id: 5,
     n_series: 3,
     n_parallel: 3,
-    //// tmp var
-    charge_tickness: 0,
-    /*
-    calculos: {
-      calculo1: state.sep_thickness,
-      calculo2: 0,
-    },
-    */
+    //charge_tickness: 0,
   },
   reducers: {
     handleFormSubmit: (state, action) => {
       state = { ...action.payload }
     },
-    /*
-    setNumElectrodes: (state, action) => {
-      state.num_electrodes = action.payload
-    },
-        setChargeThickness: (state, action) => {
-      state.charge_tickness = action.payload
-    }, 
-    */
   },
 })
 
