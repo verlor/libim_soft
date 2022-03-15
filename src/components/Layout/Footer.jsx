@@ -5,10 +5,10 @@ export default function SideMenu() {
   return (
     <footer className="bg-indigo-800 mt-auto">
       <div className="px-4 py-3 text-white mx-auto">
-        <h1 className="text-2xl hidden sm:block mb-2">Footer</h1>
+        <h1 className="text-2xl hidden sm:block mb-2">--</h1>
         <div className="flex">
           <div className="flex-grow flex flex-col">
-            <a href="#" className="text-xs uppercase tracking-wider">
+            {/* <a href="#" className="text-xs uppercase tracking-wider">
               Product
             </a>
             <a href="#" className="text-xs uppercase tracking-wider">
@@ -19,10 +19,10 @@ export default function SideMenu() {
             </a>
             <a href="#" className="text-xs uppercase tracking-wider">
               More...
-            </a>
+            </a> */}
           </div>
           <div className="flex-grow flex flex-col">
-            <a href="#" className="text-xs uppercase tracking-wider">
+            {/* <a href="#" className="text-xs uppercase tracking-wider">
               Contact
             </a>
             <a href="#" className="text-xs uppercase tracking-wider">
@@ -33,10 +33,10 @@ export default function SideMenu() {
             </a>
             <a href="#" className="text-xs uppercase tracking-wider">
               Affiliates
-            </a>
+            </a> */}
           </div>
           <div className="flex-grow flex flex-col">
-            <a href="#" className="text-xs uppercase tracking-wider">
+            {/* <a href="#" className="text-xs uppercase tracking-wider">
               Facebook
             </a>
             <a href="#" className="text-xs uppercase tracking-wider">
@@ -50,10 +50,10 @@ export default function SideMenu() {
             </a>
             <a href="#" className="text-xs uppercase tracking-wider">
               Twitter
-            </a>
+            </a> */}
           </div>
           <div className="flex-grow flex flex-col">
-            <a href="#" className="text-xs uppercase tracking-wider">
+            {/* <a href="#" className="text-xs uppercase tracking-wider">
               FAQ's
             </a>
             <a href="#" className="text-xs uppercase tracking-wider">
@@ -64,11 +64,11 @@ export default function SideMenu() {
             </a>
             <a href="#" className="text-xs uppercase tracking-wider">
               Get Started
-            </a>
+            </a> */}
           </div>
         </div>
         <div className="text-right text-xs py-2">
-          <a href="">&copy;2021 Iatek</a>
+          <a href="">&copy;2022 Electroquímica UAM-I</a>
         </div>
       </div>
     </footer>

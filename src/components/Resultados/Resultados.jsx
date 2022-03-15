@@ -231,7 +231,7 @@ export default function Resultados() {
       <div class="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
 
       <div class="flex items-baseline mt-4 mb-6 pb-6 "></div>
-      <button onClick={() => csvDownload(formular)}>Download Data</button>
+      <button onClick={() => csvDownload([formular])}>Download Data</button>
     </>
   )
 }
