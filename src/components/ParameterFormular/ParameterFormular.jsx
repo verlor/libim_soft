@@ -11,8 +11,14 @@ import { calc } from '../Calcs/cuentas'
 import Resultados from '../Resultados'
 import { propsCall } from '../../api'
 import { navigate } from 'gatsby'
+import useSWR from 'swr'
+import { getCathodeMaterialsFetcher } from '../../api'
 
 export default function ParameterFormular() {
+  const { data, _ } = useSWR(
+    '?filter=%7B%0A%20%20%22where%22%3A%20%7B%0A%20%20%20%20%22type%22%3A%20%22cathode%22%0A%20%20%7D%2C%0A%20%20%22fields%22%3A%20%7B%0A%20%20%20%20%22name%22%3A%20true%2C%0A%20%20%20%20%22id%22%3A%20true%0A%20%20%7D%0A%7D',
+    getCathodeMaterialsFetcher
+  )
   const formulario = useSelector((state) => state.parameter)
   //const num_elec = useSelector((state) => state.parameter.num_elec)
   //const res1 = useSelector((state) => state.parameter.charge_tickness)
@@ -65,7 +71,15 @@ export default function ParameterFormular() {
             {...register('cathode_material_id')}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            <option value="NMC">NMC</option>
+            {!data ? (
+              <option value="-1">Loading</option>
+            ) : (
+              <>
+                {data.map((elem) => (
+                  <option value={elem.id}>{elem.name}</option>
+                ))}
+              </>
+            )}
           </select>
         </div>
         <div className="col-span-1">

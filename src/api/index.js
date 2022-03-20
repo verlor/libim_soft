@@ -1,3 +1,5 @@
+const API_URL = 'http://127.0.0.1:3000/materials'
+
 export const propsCall = async ({ param1, param2, param3 }) => {
   try {
     const resp = await fetch(`https://api.github.coms/repos/gatsbyjs/gatsby`, {
@@ -25,3 +27,8 @@ export const propsCall = async ({ param1, param2, param3 }) => {
   //   setStarsCount(resultData.stargazers_count)
   // }) // set data for the number of stars
 }
+
+export const getCathodeMaterialsFetcher = (params) =>
+  fetch(`${API_URL + params}`, {
+    method: 'GET',
+  }).then((res) => res.json())
