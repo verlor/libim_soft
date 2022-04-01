@@ -65,10 +65,6 @@ export default function ParameterFormular() {
         const respAnode = await propsCall(form_data.anode_material_id)
         const respElectrolyte = await propsCall(form_data.electrolyte_id)
 
-        console.log("respElectrolyte",respElectrolyte)
-        console.log("respAnode",respAnode)
-
-        
         const foData = {
           cathode_material_id: {
             id: form_data.cathode_material_id,
@@ -83,8 +79,8 @@ export default function ParameterFormular() {
           electrolyte_id: {
             id: form_data.electrolyte_id,
             name: respElectrolyte.name,
-            value:respElectrolyte.value, 
-            unit: respElectrolyte.unit,
+            value:respElectrolyte.properties.density.value, 
+            unit: respElectrolyte.properties.density.unit
           },
           area: {
             name: 'Area',
