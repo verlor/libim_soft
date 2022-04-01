@@ -1,12 +1,13 @@
 // export const CU_THICK = 5.123 // [um]
-export const AL_DENSITY = 2.7 // [g * cm^-3]
-export const CU_DENSITY = 8.96 // [g * cm^-3]
-export const ELECTROLITE_DENSITY = 1.5 // [g * cm^-3]
-export const SEPARATOR_DENSITY = 0.97 // [g * cm^-3]
-export const CATHODE_POROSITY = 0.3 // []
-export const ANODE_POROSITY = 0.3 // []
-export const SEPARATOR_POROSITY = 0.55 // []
-export const N_COAT = 2 //[]
+export const AL_DENSITY = {value:2.7, unit:"g cm^-3"}
+export const CU_DENSITY = {value:8.96, unit:"g cm^-3"}
+//export const ELECTROLYTE_DENSITY = {value:1.5, unit:"g cm^-3"}
+export const SEPARATOR_DENSITY = {value:0.97, unit:"g cm^-3"}
+export const CATHODE_POROSITY = {value:0.3, unit:"[]"}
+export const ANODE_POROSITY = {value:0.3, unit:"[]"}
+export const SEPARATOR_POROSITY = {value:0.55, unit:"[]"}
+export const N_COAT = {value:2, unit:"[]"}
+export const CONV_ONE={value:1, unit:"[]"}
 
 //to convert
 export const cm_um={value:0.0001,unit:"cm um-1"}

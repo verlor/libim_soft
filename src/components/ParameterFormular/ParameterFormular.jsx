@@ -63,8 +63,12 @@ export default function ParameterFormular() {
 
         const respCathode = await propsCall(form_data.cathode_material_id)
         const respAnode = await propsCall(form_data.anode_material_id)
-        const respElectrolyte = await propsCall(form_data.eletrolyte_id)
+        const respElectrolyte = await propsCall(form_data.electrolyte_id)
 
+        console.log("respElectrolyte",respElectrolyte)
+        console.log("respAnode",respAnode)
+
+        
         const foData = {
           cathode_material_id: {
             id: form_data.cathode_material_id,
@@ -79,7 +83,8 @@ export default function ParameterFormular() {
           electrolyte_id: {
             id: form_data.electrolyte_id,
             name: respElectrolyte.name,
-            //unit: respElectrolyte.unit,
+            value:respElectrolyte.value, 
+            unit: respElectrolyte.unit,
           },
           area: {
             name: 'Area',
@@ -146,7 +151,6 @@ export default function ParameterFormular() {
             value: form_data.n_parallel,
             unit: '[]',
           },
-
           anode_real_capacity: respAnode.properties.anode_real_capacity,
           anode_theor_voltage: respAnode.properties.anode_voltage,
           cathode_theor_capacity: respCathode.properties.cathode_theor_capacity,
@@ -157,7 +161,7 @@ export default function ParameterFormular() {
           fr_cathode_charge_voltage: respCathode.properties.charge_voltage[`${("C"+form_data.fast_charge_rate_id).replace('.',"")}`],
           fr_cathode_discharge_voltage: respCathode.properties.discharge_voltage[`${("C"+form_data.fast_charge_rate_id).replace('.',"")}`],
         }
-        // console.log(foData)
+        //console.log(foData)
         //form_feed(form_data, dispatch)
         //calc(form_data, dispatch)
         calc(foData, dispatch)

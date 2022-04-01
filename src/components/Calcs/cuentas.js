@@ -9,7 +9,7 @@ function step_1(data, denom) {
   const {
     //cathode_material_id,
     //anode_material_id,
-    //electrolyte_id,
+    electrolyte_id,
     area,
     n_base_units,
     cathode_load,
@@ -292,7 +292,7 @@ function step_1(data, denom) {
     value:
       area.value *
       separator_thickness.value *
-      fixed.ELECTROLYTE_DENSITY.value *
+      electrolyte_id.value *
       fixed.SEPARATOR_POROSITY.value *
       fixed.cm_um.value *
       ((2 * n_base_units.value) / denom.value), // 2 separators per base unit,
@@ -302,7 +302,7 @@ function step_1(data, denom) {
       ' * ' +
       separator_thickness.unit +
       ' * ' +
-      fixed.ELECTROLYTE_DENSITY.unit +
+      electrolyte_id.unit +
       ' * ' +
       fixed.SEPARATOR_POROSITY.unit +
       ' * ' +
