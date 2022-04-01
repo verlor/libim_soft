@@ -20,6 +20,13 @@ export default function Resultados() {
   const [showPanel, setShowPanel] = useState(true)
   const [showPanel2, setShowPanel2] = useState(true)
 
+  //console.log('slow', slow)
+  //console.log('slow_ok', Object.keys(slow))
+  console.log('slow_oe', (formular?.slow_charge_rate_id.value))
+  //console.log('slow_ov', Object.values(slow))
+  //console.log('fast', fast)
+  //console.log('pre_base_unit', pre_base_unit)
+
   return (
     <>
       <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-4 pt-4">
@@ -31,12 +38,12 @@ export default function Resultados() {
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <label className="block text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-            Slow C Rate: {formular?.slow_charge_rate_id}
+            Slow C Rate: {formular?.slow_charge_rate_id.value}
           </label>
           <div class="grid grid-cols-5 p-2 text-center text-sm font-sm text-gray-700">
             <div className="col-span-2"> Voltage: </div>
             <div className="col-span-2 font-medium">
-              {slow?.module_discharge_voltage.toFixed(2)}
+              {slow?.module_discharge_voltage.value.toFixed(2)}
             </div>
             <div className="col-span-1"> [V] </div>
             <div className="col-span-2">
@@ -44,7 +51,7 @@ export default function Resultados() {
               Energy<sub> density</sub>:
             </div>
             <div className="col-span-2 font-medium">
-              {slow?.module_discharge_energy_density.toFixed(2)}
+              {slow?.module_discharge_energy_density.value.toFixed(2)}
             </div>
             <div className="col-span-1"> [Wh/Kg] </div>
             <div className="col-span-2">
@@ -52,12 +59,12 @@ export default function Resultados() {
               Power<sub> density</sub>:
             </div>
             <div className="col-span-2 font-medium">
-              {slow?.module_discharge_power_density.toFixed(2)}
+              {slow?.module_discharge_power_density.value.toFixed(2)}
             </div>
             <div className="col-span-1"> [W/Kg] </div>
             <div className="col-span-2"> Volume: </div>
             <div className="col-span-2 font-medium">
-              {slow?.module_volume.toFixed(2)}
+              {slow?.module_volume.value.toFixed(2)}
             </div>
             <div className="col-span-1"> [cm^3] </div>
           </div>
@@ -65,12 +72,12 @@ export default function Resultados() {
 
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <label className="block text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-            Fast C Rate: {formular?.fast_charge_rate_id}
+            Fast C Rate: {formular?.fast_charge_rate_id.value}
           </label>
           <div class="grid grid-cols-5 p-2 text-center text-sm font-sm text-gray-700">
             <div className="col-span-2"> Voltage: </div>
             <div className="col-span-2 font-medium">
-              {fast?.module_discharge_voltage.toFixed(2)}
+              {fast?.module_discharge_voltage.value.toFixed(2)}
             </div>
             <div className="col-span-1"> [V] </div>
             <div className="col-span-2">
@@ -78,7 +85,7 @@ export default function Resultados() {
               Energy<sub> density</sub>:
             </div>
             <div className="col-span-2 font-medium">
-              {fast?.module_discharge_energy_density.toFixed(2)}
+              {fast?.module_discharge_energy_density.value.toFixed(2)}
             </div>
             <div className="col-span-1"> [Wh/Kg] </div>
             <div className="col-span-2">
@@ -86,12 +93,12 @@ export default function Resultados() {
               Power<sub> density</sub>:
             </div>
             <div className="col-span-2 font-medium">
-              {fast?.module_discharge_power_density.toFixed(2)}
+              {fast?.module_discharge_power_density.value.toFixed(2)}
             </div>
             <div className="col-span-1"> [W/Kg] </div>
             <div className="col-span-2"> Volume: </div>
             <div className="col-span-2 font-medium">
-              {fast?.module_volume.toFixed(2)}
+              {fast?.module_volume.value.toFixed(2)}
             </div>
             <div className="col-span-1"> [cm^3] </div>
           </div>
@@ -107,13 +114,14 @@ export default function Resultados() {
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <label className="block text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-            Slow C Rate: {formular?.slow_charge_rate_id}
+            Slow C Rate: {formular?.slow_charge_rate_id.value}
           </label>
           <div>
-            {Object.keys(slow || {}).map((prop) => (
+            {/*
+            {Object.values(slow || {}).map((name, value) => (
               <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
                 <div class="col-span-3 text-left">
-                  {prop
+                 {slow.name
                     .replace('base_unit_', 'bu_')
                     .replace('cell_', 'c_')
                     .replace('module_', 'm_')
@@ -127,14 +135,16 @@ export default function Resultados() {
                 <div class="col-span-1"> [?] </div>
               </div>
             ))}
+            */}
           </div>
         </div>
 
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <label className="block text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-            Fast C Rate: {formular?.fast_charge_rate_id}
+            Fast C Rate: {formular?.fast_charge_rate_id.value}
           </label>
           <div>
+            {/*
             {Object.keys(fast || {}).map((prop) => (
               <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
                 <div class="col-span-3 text-left">
@@ -147,11 +157,12 @@ export default function Resultados() {
                   :
                 </div>
                 <div class="col-span-2 font-medium">
-                  {slow[prop].toPrecision(6)}
+                {slow[prop].toPrecision(6)}
                 </div>
                 <div class="col-span-1"> [?] </div>
               </div>
             ))}
+            */}
           </div>
         </div>
       </div>
@@ -181,17 +192,19 @@ export default function Resultados() {
             </label>
           </div>
           <div class={`group ${!showPanel && 'invisible'}`}>
+            {/*
             {Object.keys(pre_base_unit || {}).map((prop) => (
               <div class="grid grid-cols-6 text-center text-xs font-sm text-gray-700 sm:text-sm">
                 <div class="col-span-3 text-left">
                   {prop.replace('base_unit_', 'bu_')}:
                 </div>
                 <div class="col-span-2 font-medium">
-                  {pre_base_unit[prop].toPrecision(6)}
+                  {pre_base_unit[prop].toPrecision(6) }
                 </div>
                 <div class="col-span-1"> [?] </div>
               </div>
             ))}
+            */}
           </div>
         </div>
 
@@ -213,17 +226,19 @@ export default function Resultados() {
             </label>
           </div>
           <div class={`group ${!showPanel2 && 'invisible'}`}>
+            {/*
             {Object.keys(pre_cell || {}).map((prop) => (
               <div class="grid grid-cols-6 text-center text-xs font-sm text-gray-700 sm:text-sm">
                 <div class="col-span-3 text-left">
                   {prop.replace('base_unit_', 'bu_')}:
                 </div>
                 <div class="col-span-2 font-medium">
-                  {pre_cell[prop].toPrecision(6)}
+                {pre_base_unit[prop].toPrecision(6) }
                 </div>
-                <div class="col-span-1"> [?] </div>
+                <div class="col-span-1"> [?] </div> 
               </div>
             ))}
+            */}
           </div>
         </div>
       </div>

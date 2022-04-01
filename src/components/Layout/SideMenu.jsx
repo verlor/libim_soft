@@ -12,30 +12,30 @@ export default function SideMenu() {
         <ul className="flex sm:flex-col overflow-hidden content-center justify-between">
           <li className="py-2 hover:bg-indigo-300 rounded">
             <a className="truncate" href="#">
-              <img
-                src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/home.svg"
-                className="w-7 sm:mx-2 mx-4 inline"
-              />
-              <span id="home" className="hidden sm:inline">
-                <Link to="/" activeStyle={activeStyle} exact="true">
+              <Link to="/" activeStyle={activeStyle} exact="true">
+                <img
+                  src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/home.svg"
+                  className="w-7 sm:mx-2 mx-4 inline"
+                />
+                <span id="home" className="hidden sm:inline">
                   Home
-                </Link>
-                {/* console.log(window.location.href) */}
-              </span>
+                </span>
+              </Link>
+              {/* console.log(window.location.href) */}
             </a>
           </li>
           <li className="py-2 hover:bg-indigo-300 rounded">
             <a className="" href="#">
-              <img
-                src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/chart-bar.svg"
-                className="w-7 sm:mx-2 mx-4 inline"
-              />{' '}
-              <span className="hidden sm:inline">
-                {/* console.log(location) */}
-                <Link to="/results/" activeStyle={activeStyle}>
-                  Results
-                </Link>
-              </span>
+              <Link to="/results/" activeStyle={activeStyle}>
+                <img
+                  src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/chart-bar.svg"
+                  className="w-7 sm:mx-2 mx-4 inline"
+                />{' '}
+                <span className="hidden sm:inline">
+                  {/* console.log(location) */}
+                </span>
+                Results
+              </Link>
             </a>
           </li>
         </ul>

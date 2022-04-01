@@ -1,11 +1,9 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import '../../styles/global.css'
 import { useSelector, useDispatch } from 'react-redux'
-//import { setNumElectrodes, handleFormSubmit } from '../ParameterFormular/slice'
 import { handleFormSubmit } from '../ParameterFormular/slice'
-import { derivar } from './utils'
-//import { calculo1, calculo2 } from '../Calcs/test'
+//import { derivar } from './utils'
 import { form_feed } from '../Calcs/test'
 import { calc } from '../Calcs/cuentas'
 import Resultados from '../Resultados'
@@ -13,21 +11,30 @@ import { propsCall } from '../../api'
 import { navigate } from 'gatsby'
 import useSWR from 'swr'
 import { getCathodeMaterialsFetcher } from '../../api'
+import { stringify } from 'postcss'
 
 export default function ParameterFormular() {
   const { data, _ } = useSWR(
-    '?filter=%7B%0A%20%20%22where%22%3A%20%7B%0A%20%20%20%20%22type%22%3A%20%22cathode%22%0A%20%20%7D%2C%0A%20%20%22fields%22%3A%20%7B%0A%20%20%20%20%22name%22%3A%20true%2C%0A%20%20%20%20%22id%22%3A%20true%0A%20%20%7D%0A%7D',
+    '?filter=%7B%22fields%22%3A%20%7B%0A%20%20%20%20%22name%22%3A%20true%2C%0A%20%20%20%20%22type%22%3A%20true%2C%0A%20%20%20%20%22c_rates%22%3A%20true%2C%0A%20%20%20%20%22id%22%3A%20true%0A%20%20%7D%0A%7D',
     getCathodeMaterialsFetcher
   )
+  let resp_ca = []
+  let resp_an = []
+  let resp_el = []
+
+  if (data) {
+    resp_ca = data.filter((elem) => elem.type === 'cathode')
+    resp_an = data.filter((elem) => elem.type == 'anode')
+    resp_el = data.filter((elem) => elem.type == 'electrolyte')
+  }
+
   const formulario = useSelector((state) => state.parameter)
-  //const num_elec = useSelector((state) => state.parameter.num_elec)
-  //const res1 = useSelector((state) => state.parameter.charge_tickness)
   const dispatch = useDispatch()
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, watch } = useForm({
     defaultValues: {
-      cathode_material_id: 'NMC',
-      anode_material_id: 'LTO',
-      electrolyte_id: 'LPF6 + EC',
+      cathode_material_id: '',
+      anode_material_id: '',
+      electrolyte_id: '',
       area: 50,
       n_base_units: 20,
       cathode_load: 5,
@@ -44,18 +51,118 @@ export default function ParameterFormular() {
     },
   })
   const [result, setResult] = useState('')
+  const cat_id = watch('cathode_material_id')
+  const [cRates, setCRates] = useState([])
+  useEffect(() => {
+    setCRates(resp_ca?.find((cat) => cat.id == cat_id)?.c_rates)
+  }, [cat_id])
+  
   return (
     <form
-      onSubmit={handleSubmit(async (data) => {
-        // dispatch(handleFormSubmit())
-        //calculo1(data.cat_load, dispatch)
-        //calculo2(data, dispatch)
-        const respMat = await propsCall({ id: data.cathode_material_id })
-        // console.log({ respMat })
-        form_feed(data, dispatch)
-        calc(data, dispatch)
+      onSubmit={handleSubmit(async (form_data) => {
+
+        const respCathode = await propsCall(form_data.cathode_material_id)
+        const respAnode = await propsCall(form_data.anode_material_id)
+        const respElectrolyte = await propsCall(form_data.eletrolyte_id)
+
+        const foData = {
+          cathode_material_id: {
+            id: form_data.cathode_material_id,
+            name: respCathode.name,
+            //unit: respCathode.unit,
+          },
+          anode_material_id: {
+            id:form_data.anode_material_id,
+            name: respAnode.name,
+            //unit: respAnode.unit,
+          },
+          electrolyte_id: {
+            id: form_data.electrolyte_id,
+            name: respElectrolyte.name,
+            //unit: respElectrolyte.unit,
+          },
+          area: {
+            name: 'Area',
+            value: form_data.area,
+            unit: 'cm2',
+          },
+          n_base_units: {
+            name: '# Base unit',
+            value: form_data.n_base_units,
+            unit: '[]',
+          },
+          cathode_load: {
+            name: 'Cathodic load',
+            value: form_data.cathode_load,
+            unit: 'mg cm-2',
+          },
+          coating_thickness: {
+            name: 'Coating thickness',
+            value: form_data.coating_thickness,
+            unit: 'um',
+          },
+          cathode_add: {
+            name: 'Cathode additives %',
+            value: form_data.cathode_add,
+            unit: '[]',
+          },
+          anode_add: {
+            name: 'Anode additives %',
+            value: form_data.anode_add,
+            unit: '[]',
+          },
+          separator_thickness: {
+            name: 'Separator thickness',
+            value: form_data.separator_thickness,
+            unit: 'um',
+          },
+          curr_collect_thickness_cu: {
+            name: 'Cu Current collector thickness (cathode)',
+            value: form_data.curr_collect_thickness_cu,
+            unit: 'um',
+          },
+          curr_collect_thickness_al: {
+            name: 'Al Current collector thickness (anode)',
+            value: form_data.curr_collect_thickness_al,
+            unit: 'um',
+          },
+          slow_charge_rate_id: {
+            name: 'Slow charga rate',
+            value: form_data.slow_charge_rate_id,
+            unit: 'h-1',
+          },
+          fast_charge_rate_id: {
+            name: 'Fast charge rate',
+            value: form_data.fast_charge_rate_id,
+            unit: 'h-1',
+          },
+          n_series: {
+            name: '# cells in series',
+            value: form_data.n_series,
+            unit: '[]',
+          },
+          n_parallel: {
+            name: '# cells in parallel',
+            value: form_data.n_parallel,
+            unit: '[]',
+          },
+
+          anode_real_capacity: respAnode.properties.anode_real_capacity,
+          anode_theor_voltage: respAnode.properties.anode_voltage,
+          cathode_theor_capacity: respCathode.properties.cathode_theor_capacity,
+          sr_cathode_capacity: respCathode.properties.capacity[`${("C"+form_data.slow_charge_rate_id).replace('.',"")}`],
+          sr_cathode_charge_voltage: respCathode.properties.charge_voltage[`${("C"+form_data.slow_charge_rate_id).replace('.',"")}`],
+          sr_cathode_discharge_voltage: respCathode.properties.discharge_voltage[`${("C"+form_data.slow_charge_rate_id).replace('.',"")}`],
+          fr_cathode_capacity: respCathode.properties.capacity[`${("C"+form_data.fast_charge_rate_id).replace('.',"")}`],
+          fr_cathode_charge_voltage: respCathode.properties.charge_voltage[`${("C"+form_data.fast_charge_rate_id).replace('.',"")}`],
+          fr_cathode_discharge_voltage: respCathode.properties.discharge_voltage[`${("C"+form_data.fast_charge_rate_id).replace('.',"")}`],
+        }
+        // console.log(foData)
+        //form_feed(form_data, dispatch)
+        //calc(form_data, dispatch)
+        calc(foData, dispatch)
         navigate('/results/')
-        setResult(JSON.stringify(data))
+        setResult(JSON.stringify(form_data))
       })}
       className="shadow sm:rounded-md bg-gray-100"
     >
@@ -75,7 +182,8 @@ export default function ParameterFormular() {
               <option value="-1">Loading</option>
             ) : (
               <>
-                {data.map((elem) => (
+                <option value="-1" selected>Select one</option>
+                {resp_ca.map((elem) => (
                   <option value={elem.id}>{elem.name}</option>
                 ))}
               </>
@@ -90,7 +198,16 @@ export default function ParameterFormular() {
             {...register('anode_material_id')}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            <option>LTO</option>
+            {!data ? (
+              <option value="-1">Loading</option>
+            ) : (
+              <>
+              <option value="-1" selected>Select one</option>
+                {resp_an.map((elem) => (
+                  <option value={elem.id}>{elem.name}</option>
+                ))}
+              </>
+            )}
           </select>
         </div>
         <div className="col-span-1">
@@ -101,7 +218,16 @@ export default function ParameterFormular() {
             {...register('electrolyte_id')}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            <option>LPF6 + EC</option>
+            {!data ? (
+              <option value="-1">Loading</option>
+            ) : (
+              <>
+              <option value="-1" selected>Select one</option>
+                {resp_el.map((elem) => (
+                  <option value={elem.id}>{elem.name}</option>
+                ))}
+              </>
+            )}
           </select>
         </div>
       </div>
@@ -228,24 +354,29 @@ export default function ParameterFormular() {
       <div className="grid grid-cols-2 gap-4 px-3 mt-1">
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
-            Min. C Rate
+            Min. C Rate [h<sup>-1</sup>]
           </label>
           <select
             {...register('slow_charge_rate_id')}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            <option value="0.1">0.1</option>
+            {cRates?.map((rate) => (
+              <option value={rate}>{rate}</option>
+            ))}
           </select>
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
-            Max. C Rate
+            Max. C Rate [h<sup>-1</sup>]
           </label>
           <select
             {...register('fast_charge_rate_id')}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          >
-            <option value="5">5</option>
+          > 
+         {cRates?.map((rate) => (
+              <option value={rate}>{rate}</option>
+            ))}
+ 
           </select>
         </div>
       </div>
