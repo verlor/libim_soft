@@ -20,10 +20,6 @@ export default function Resultados() {
   const [showPanel, setShowPanel] = useState(true)
   const [showPanel2, setShowPanel2] = useState(true)
 
-  //console.log('slow', slow)
-  //console.log('slow_ok', Object.keys(slow))
-  console.log('slow_oe', (formular?.slow_charge_rate_id.value))
-  //console.log('slow_ov', Object.values(slow))
   //console.log('fast', fast)
   //console.log('pre_base_unit', pre_base_unit)
 
@@ -117,8 +113,16 @@ export default function Resultados() {
             Slow C Rate: {formular?.slow_charge_rate_id.value}
           </label>
           <div>
-            {/*
-            {Object.values(slow || {}).map((name, value) => (
+            {Object.keys(slow).map((elem) => {
+              if (elem.includes('base_unit_'))
+                return (
+                  <div>
+                    {slow[elem].name} - {slow[elem].value} - {slow[elem].unit} -{' '}
+                    {slow[elem].unit_a}
+                  </div>
+                )
+            })}
+            {/* {Object.values(slow || {}).map((name, value) => (
               <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
                 <div class="col-span-3 text-left">
                  {slow.name
@@ -134,8 +138,7 @@ export default function Resultados() {
                 </div>
                 <div class="col-span-1"> [?] </div>
               </div>
-            ))}
-            */}
+            ))} */}
           </div>
         </div>
 
