@@ -402,35 +402,19 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
   const current = {
     name: 'Current',
     s_name: 'Current',
-    value:
-      c_rate === slow_charge_rate_id
-        ? data.cathode_theor_capacity.value *
-          pre_base_unit.cathode_mass.value *
-          fixed.kg_g.value *
-          slow_charge_rate_id.value
-        : data.cathode_theor_capacity.value *
-          pre_base_unit.cathode_mass.value *
-          fixed.kg_g.value *
-          fast_charge_rate_id.value,
+    value: data.cathode_theor_capacity.value *
+    pre_base_unit.cathode_mass.value *
+    fixed.kg_g.value * ( c_rate === slow_charge_rate_id ? slow_charge_rate_id.value : fast_charge_rate_id.value ),
     unit: 'A',
-    unit_a:
-      c_rate === slow_charge_rate_id
-        ? data.cathode_theor_capacity.unit +
-          ' * ' +
-          pre_base_unit.cathode_mass.unit +
-          ' * ' +
-          fixed.kg_g.unit +
-          ' * ' +
-          slow_charge_rate_id.unit
-        : data.cathode_theor_capacity.unit +
-          ' * ' +
-          pre_base_unit.cathode_mass.unit +
-          ' * ' +
-          fixed.kg_g.unit +
-          ' * ' +
-          fast_charge_rate_id.unit,
+    unit_a: data.cathode_theor_capacity.unit +
+    ' * ' +
+    pre_base_unit.cathode_mass.unit +
+    ' * ' +
+    fixed.kg_g.unit +
+    ' * ' + 
+    ( c_rate === slow_charge_rate_id ? slow_charge_rate_id.unit : fast_charge_rate_id.unit )
   }
-  const charge_rate = {
+    const charge_rate = {
     name: 'Charge rate',
     s_name: 'C_Rate',
     value:
@@ -455,39 +439,25 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
     name: 'Charge voltage',
     s_name: 'ch_V',
     value:
-      c_rate === slow_charge_rate_id
-        ? data.sr_cathode_charge_voltage.value - data.anode_theor_voltage.value
-        : data.fr_cathode_charge_voltage.value - data.anode_theor_voltage.value,
+      (c_rate === slow_charge_rate_id ? data.sr_cathode_charge_voltage.value : data.fr_cathode_charge_voltage.value) - data.anode_theor_voltage.value,
     unit: 'V',
-    unit_a:
-      c_rate === slow_charge_rate_id
-        ? data.sr_cathode_charge_voltage.unit +
-          ' - ' +
-          data.anode_theor_voltage.unit
-        : data.fr_cathode_charge_voltage.unit +
-          ' - ' +
-          data.anode_theor_voltage.unit,
+    unit_a: (c_rate === slow_charge_rate_id ? data.sr_cathode_charge_voltage.unit : data.fr_cathode_charge_voltage.unit) +
+    ' - ' + data.anode_theor_voltage.unit,  
   }
   const discharge_voltage = {
     name: 'Discharge voltage',
     s_name: 'dch_V',
     value:
-      c_rate === slow_charge_rate_id
-        ? data.sr_cathode_discharge_voltage.value -
-          data.anode_theor_voltage.value
-        : data.fr_cathode_discharge_voltage.value -
-          data.anode_theor_voltage.value,
+      (c_rate === slow_charge_rate_id
+        ? data.sr_cathode_discharge_voltage.value : data.fr_cathode_discharge_voltage.value) - data.anode_theor_voltage.value,
     unit: 'V',
     unit_a:
-      c_rate === slow_charge_rate_id
-        ? data.sr_cathode_discharge_voltage.unit +
-          ' - ' +
-          data.anode_theor_voltage.unit
-        : data.fr_cathode_discharge_voltage.unit +
-          ' - ' +
-          data.anode_theor_voltage.unit,
+      (c_rate === slow_charge_rate_id 
+        ? data.sr_cathode_discharge_voltage.unit : data.fr_cathode_discharge_voltage.unit) + ' - ' + data.anode_theor_voltage.unit,
   }
 
+  //console.log("current",current,"charge_rate",charge_rate,"cathode_capacity",cathode_capacity,"charge_voltage",charge_voltage,"discharge_voltage",discharge_voltage)
+  
   //Calculando
   //Base unit
   const base_unit_charge_energy = {
