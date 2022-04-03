@@ -38,7 +38,7 @@ function step_1(data, denom) {
     name: 'Charge thickness dependency',
     s_name: 'ch_thick_d',
     value: cathode_load.value * coating_thickness.value,
-    unit: 'mg cm-2',
+    unit: 'um',
     unit_a: cathode_load.unit + ' * ' + coating_thickness.unit, //unidades raras, ver
   }
   const cathode_mass = {
@@ -238,9 +238,10 @@ function step_1(data, denom) {
     value:
       area.value *
       charge_thickness_dependency_cda.value *
+      fixed.cm_um.value *
+      electrolyte_id.value * 
       fixed.CATHODE_POROSITY.value *
       fixed.N_COAT.value *
-      fixed.g_mg.value *
       (n_base_units.value / denom.value),
     unit: 'g',
     unit_a:
@@ -248,11 +249,13 @@ function step_1(data, denom) {
       ' * ' +
       charge_thickness_dependency_cda.unit +
       ' * ' +
+      fixed.cm_um.unit +
+      ' * ' +
+      electrolyte_id.unit +
+      ' * ' +
       fixed.CATHODE_POROSITY.unit +
       ' * ' +
       fixed.N_COAT.unit +
-      ' * ' +
-      fixed.g_mg.unit +
       ' * (' +
       n_base_units.unit +
       ' / ' +
@@ -265,9 +268,10 @@ function step_1(data, denom) {
     value:
       area.value *
       charge_thickness_dependency_cda.value *
+      fixed.cm_um.value *
+      electrolyte_id.value * 
       fixed.ANODE_POROSITY.value *
       fixed.N_COAT.value *
-      fixed.g_mg.value *
       (n_base_units.value / denom.value),
     unit: 'g',
     unit_a:
@@ -275,11 +279,13 @@ function step_1(data, denom) {
       ' * ' +
       charge_thickness_dependency_cda.unit +
       ' * ' +
+      fixed.cm_um.unit +
+      ' * ' +
+      electrolyte_id.value + 
+      ' * ' +
       fixed.ANODE_POROSITY.unit +
       ' * ' +
       fixed.N_COAT.unit +
-      ' * ' +
-      fixed.g_mg.unit +
       ' * (' +
       n_base_units.unit +
       ' / ' +
@@ -404,13 +410,13 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
     s_name: 'Current',
     value: data.cathode_theor_capacity.value *
     pre_base_unit.cathode_mass.value *
-    fixed.kg_g.value * ( c_rate === slow_charge_rate_id ? slow_charge_rate_id.value : fast_charge_rate_id.value ),
+    fixed.A_mA.value * ( c_rate === slow_charge_rate_id ? slow_charge_rate_id.value : fast_charge_rate_id.value ),
     unit: 'A',
     unit_a: data.cathode_theor_capacity.unit +
     ' * ' +
     pre_base_unit.cathode_mass.unit +
     ' * ' +
-    fixed.kg_g.unit +
+    fixed.A_mA.unit +
     ' * ' + 
     ( c_rate === slow_charge_rate_id ? slow_charge_rate_id.unit : fast_charge_rate_id.unit )
   }
@@ -456,7 +462,7 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
         ? data.sr_cathode_discharge_voltage.unit : data.fr_cathode_discharge_voltage.unit) + ' - ' + data.anode_theor_voltage.unit,
   }
 
-  //console.log("current",current,"charge_rate",charge_rate,"cathode_capacity",cathode_capacity,"charge_voltage",charge_voltage,"discharge_voltage",discharge_voltage)
+  console.log("current",current,"charge_rate",charge_rate,"cathode_capacity",cathode_capacity,"charge_voltage",charge_voltage,"discharge_voltage",discharge_voltage)
   
   //Calculando
   //Base unit
@@ -480,7 +486,7 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
     s_name: "Ch_pow",
     value: charge_voltage.value * current.value,
     unit:"W",
-    unit_a: charge_voltage.unit * current.unit,
+    unit_a: charge_voltage.unit + " * " + current.unit,
     }
   const base_unit_charge_capacity ={
     name: "Charge capacity",
@@ -557,7 +563,7 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
     name: "Discharge power density",
     s_name: "Dch_p_rho",
     value: base_unit_discharge_power.value / (pre_base_unit.total_mass.value * fixed.kg_g.value),
-    unit:"Wh kg-1",
+    unit:"W kg-1",
     unit_a: base_unit_discharge_power.unit + " / (" + pre_base_unit.total_mass.unit + " * " + fixed.kg_g.unit + ")",
     }
   const base_unit_volume =  {
@@ -652,7 +658,7 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
     name: "Discharge power density",
     s_name: "Dch_p_rho",
     value: cell_discharge_power.value / (pre_cell.total_mass.value * fixed.kg_g.value),
-    unit:"Wh kg-1",
+    unit:"W kg-1",
     unit_a: cell_discharge_power.unit + " / (" + pre_cell.total_mass.unit + " * " + fixed.kg_g.unit + ")",
     }
   const cell_volume ={
@@ -754,7 +760,7 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
     name: "Discharge power density",
     s_name: "Dch_p_rho",
     value: module_discharge_power.value / module_total_mass.value,
-    unit:"Wh kg-1",
+    unit:"W kg-1",
     unit_a: module_discharge_power.unit + " / " + module_total_mass.unit,
     }
   const module_volume = {
@@ -865,7 +871,6 @@ export function calc(data, dispatch) {
     module_total_mass,
     data.fast_charge_rate_id
   )
-
 
   dispatch(
     setSuma({

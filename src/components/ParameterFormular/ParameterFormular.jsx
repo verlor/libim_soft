@@ -93,14 +93,14 @@ export default function ParameterFormular() {
             unit: '[]',
           },
           cathode_load: {
-            name: 'Cathodic load',
+            name: 'Cathode load',
             value: form_data.cathode_load,
             unit: 'mg cm-2',
           },
           coating_thickness: {
             name: 'Coating thickness',
             value: form_data.coating_thickness,
-            unit: 'um',
+            unit: 'um cm2 mg-1',
           },
           cathode_add: {
             name: 'Cathode additives %',
@@ -157,7 +157,7 @@ export default function ParameterFormular() {
           fr_cathode_charge_voltage: respCathode.properties.charge_voltage[`${("C"+form_data.fast_charge_rate_id).replace('.',"")}`],
           fr_cathode_discharge_voltage: respCathode.properties.discharge_voltage[`${("C"+form_data.fast_charge_rate_id).replace('.',"")}`],
         }
-        //console.log(foData)
+        console.log(foData)
         //form_feed(form_data, dispatch)
         //calc(form_data, dispatch)
         calc(foData, dispatch)
@@ -264,7 +264,7 @@ export default function ParameterFormular() {
       <div className="grid grid-cols-2 gap-4 mt-2 px-3">
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
-            Cathode Load [mg/cm<sup>2</sup>]
+            Cathode Load [um cm<sup>2</sup>/mg]
           </label>
           <input
             {...register('cathode_load')}

@@ -1,0 +1,999 @@
+Electrolitos:
+
+  {
+    "name": "LPF6 + EC",
+    "type": "electrolyte",
+    "properties": {
+      "density": {
+        "value": 1.5,
+        "unit": "g cm-3"
+      }
+    }
+  }
+
+______________________________
+
+  {
+    "name": "Foo",
+    "type": "electrolyte",
+    "properties": {
+      "density": {
+        "value": 1,
+        "unit": "g cm-3"
+      }
+    }
+  }
+
+____________________________________________________________
+
+Ánodos:
+
+ {
+    "name": "Graphite",
+    "type": "anode",
+    "properties": {
+      "anode_theor_capacity": {
+        "value": 372,
+        "unit": "mAhg-1"
+      },
+      "anode_real_capacity": {
+        "value": 360,
+        "unit": "mAhg-1"
+      },
+      "anode_voltage": {
+        "value": 0,
+        "unit": "V"
+      }
+    }
+  }
+
+______________________________
+
+ {
+    "name": "Silicon",
+    "type": "anode",
+    "properties": {
+      "anode_theor_capacity": {
+        "value": 4200,
+        "unit": "mAhg-1"
+      },
+      "anode_real_capacity": {
+        "value": 3590,
+        "unit": "mAhg-1"
+      },
+      "anode_voltage": {
+        "value": 0.05,
+        "unit": "V"
+      }
+    }
+  }
+
+______________________________
+
+ {
+    "name": "Tin",
+    "type": "anode",
+    "properties": {
+      "anode_theor_capacity": {
+        "value": 790,
+        "unit": "mAhg-1"
+      },
+      "anode_real_capacity": {
+        "value": 700,
+        "unit": "mAhg-1"
+      },
+      "anode_voltage": {
+        "value": 0.4,
+        "unit": "V"
+      }
+    }
+  }
+
+
+______________________________
+
+
+  {
+    "name": "SC",
+    "type": "anode",
+    "properties": {
+      "anode_theor_capacity": {
+        "value": 1700,
+        "unit": "mAhg-1"
+      },
+      "anode_real_capacity": {
+        "value": 550,
+        "unit": "mAhg-1"
+      },
+      "anode_voltage": {
+        "value": 0.8,
+        "unit": "V"
+      }
+    }
+  }
+
+
+______________________________
+
+  {
+    "name": "LTO",
+    "type": "anode",
+    "properties": {
+      "anode_theor_capacity": {
+        "value": 170,
+        "unit": "mAhg-1"
+      },
+      "anode_real_capacity": {
+        "value": 145,
+        "unit": "mAhg-1"
+      },
+      "anode_voltage": {
+        "value": 1.55,
+        "unit": "V"
+      }
+    }
+  }
+
+
+
+
+____________________________________________________________
+
+Cátodos:
+
+
+  {
+    "name": "LCO",
+    "type": "cathode",
+    "properties": {
+      "cathode_theor_capacity": {
+        "name": "Cathode theoretical capacity",
+        "s_name": "ca_th_cap",
+        "value": 274,
+        "unit": "mAhg-1"
+      },
+      "cathode_theor_voltage": {
+        "name": "Cathode theoretical voltage",
+        "s_name": "ca_th_V",
+        "value": 3.8,
+        "unit": "V"
+      },
+      "cathode_theor_density": {
+        "name": "Cathode theoretical density",
+        "s_name": "ca_th_rho",
+        "value": 1041.2,
+        "unit": "mWhg-1"
+      },
+      "capacity": {
+        "C01": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 0.1,
+          "value": 165,
+          "unit": "mAhg-1"
+        },
+        "C1": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 1,
+          "value": 149,
+          "unit": "mAhg-1"
+        },
+        "C5": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 5,
+          "value": 58,
+          "unit": "mAhg-1"
+        }
+      },
+      "charge_voltage": {
+        "C01": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 0.1,
+          "value": 4.1,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 1,
+          "value": 3.9,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 5,
+          "value": 4.2,
+          "unit": "V"
+        }
+      },
+      "discharge_voltage": {
+        "C01": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 0.1,
+          "value": 3.7,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 1,
+          "value": 3.8,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 5,
+          "value": 3.5,
+          "unit": "V"
+        }
+      }
+    },
+    "c_rates": [
+      0.1,
+      1,
+      5
+    ]
+  }
+
+______________________________
+
+
+  {
+    "name": "LMO",
+    "type": "cathode",
+    "properties": {
+      "cathode_theor_capacity": {
+        "name": "Cathode theoretical capacity",
+        "s_name": "ca_th_cap",
+        "value": 148,
+        "unit": "mAhg-1"
+      },
+      "cathode_theor_voltage": {
+        "name": "Cathode theoretical voltage",
+        "s_name": "ca_th_V",
+        "value": 4.1,
+        "unit": "V"
+      },
+      "cathode_theor_density": {
+        "name": "Cathode theoretical density",
+        "s_name": "ca_th_rho",
+        "value": 606.8,
+        "unit": "mWhg-1"
+      },
+      "capacity": {
+        "C01": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 0.1,
+          "value": 105,
+          "unit": "mAhg-1"
+        },
+        "C1": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 1,
+          "value": 99,
+          "unit": "mAhg-1"
+        },
+        "C5": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 5,
+          "value": 48,
+          "unit": "mAhg-1"
+        }
+      },
+      "charge_voltage": {
+        "C01": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 0.1,
+          "value": 4.1,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 1,
+          "value": 4.1,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 5,
+          "value": 4.1,
+          "unit": "V"
+        }
+      },
+      "discharge_voltage": {
+        "C01": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 0.1,
+          "value": 4,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 1,
+          "value": 3.85,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 5,
+          "value": 3.9,
+          "unit": "V"
+        }
+      }
+    },
+    "c_rates": [
+      0.1,
+      1,
+      5
+    ]
+  }
+
+______________________________
+
+
+{
+    "name": "LFP",
+    "type": "cathode",
+    "properties": {
+      "cathode_theor_capacity": {
+        "name": "Cathode theoretical capacity",
+        "s_name": "ca_th_cap",
+        "value": 170,
+        "unit": "mAhg-1"
+      },
+      "cathode_theor_voltage": {
+        "name": "Cathode theoretical voltage",
+        "s_name": "ca_th_V",
+        "value": 3.4,
+        "unit": "V"
+      },
+      "cathode_theor_density": {
+        "name": "Cathode theoretical density",
+        "s_name": "ca_th_rho",
+        "value": 578,
+        "unit": "mWhg-1"
+      },
+      "capacity": {
+        "C01": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 0.1,
+          "value": 150,
+          "unit": "mAhg-1"
+        },
+        "C1": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 1,
+          "value": 130,
+          "unit": "mAhg-1"
+        },
+        "C5": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 5,
+          "value": 90,
+          "unit": "mAhg-1"
+        },
+        "C10": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 10,
+          "value": 30,
+          "unit": "mAhg-1"
+        }
+      },
+      "charge_voltage": {
+        "C01": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 0.1,
+          "value": 3.45,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 1,
+          "value": 3.5,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 5,
+          "value": 3.75,
+          "unit": "V"
+        },
+        "C10": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 10,
+          "value": 4,
+          "unit": "V"
+        }
+      },
+      "discharge_voltage": {
+        "C01": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 0.1,
+          "value": 3.4,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 1,
+          "value": 3.3,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 5,
+          "value": 3.15,
+          "unit": "V"
+        },
+        "C10": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 10,
+          "value": 3,
+          "unit": "V"
+        }
+      }
+    },
+    "c_rates": [
+      0.1,
+      1,
+      5,
+      10
+    ]
+  }
+
+
+______________________________
+
+
+  {
+    "name": "LNMO",
+    "type": "cathode",
+    "properties": {
+      "cathode_theor_capacity": {
+        "name": "Cathode theoretical capacity",
+        "s_name": "ca_th_cap",
+        "value": 147,
+        "unit": "mAhg-1"
+      },
+      "cathode_theor_voltage": {
+        "name": "Cathode theoretical voltage",
+        "s_name": "ca_th_V",
+        "value": 4.7,
+        "unit": "V"
+      },
+      "cathode_theor_density": {
+        "name": "Cathode theoretical density",
+        "s_name": "ca_th_rho",
+        "value": 690.9,
+        "unit": "mWhg-1"
+      },
+      "capacity": {
+        "C01": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 0.1,
+          "value": 158,
+          "unit": "mAhg-1"
+        },
+        "C1": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 1,
+          "value": 150,
+          "unit": "mAhg-1"
+        },
+        "C5": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 5,
+          "value": 138,
+          "unit": "mAhg-1"
+        }
+      },
+      "charge_voltage": {
+        "C01": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 0.1,
+          "value": 4.8,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 1,
+          "value": 4.8,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 5,
+          "value": 4.8,
+          "unit": "V"
+        }
+      },
+      "discharge_voltage": {
+        "C01": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 0.1,
+          "value": 4.68,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 1,
+          "value": 4.6,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 5,
+          "value": 4.5,
+          "unit": "V"
+        }
+      }
+    },
+    "c_rates": [
+      0.1,
+      1,
+      5
+    ]
+  }
+
+______________________________
+
+{
+    "name": "LVP",
+    "type": "cathode",
+    "properties": {
+      "cathode_theor_capacity": {
+        "name": "Cathode theoretical capacity",
+        "s_name": "ca_th_cap",
+        "value": 197,
+        "unit": "mAhg-1"
+      },
+      "cathode_theor_voltage": {
+        "name": "Cathode theoretical voltage",
+        "s_name": "ca_th_V",
+        "value": 3.8,
+        "unit": "V"
+      },
+      "cathode_theor_density": {
+        "name": "Cathode theoretical density",
+        "s_name": "ca_th_rho",
+        "value": 748.6,
+        "unit": "mWhg-1"
+      },
+      "capacity": {
+        "C01": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 0.1,
+          "value": 122,
+          "unit": "mAhg-1"
+        },
+        "C1": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 1,
+          "value": 103,
+          "unit": "mAhg-1"
+        },
+        "C5": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 5,
+          "value": 90,
+          "unit": "mAhg-1"
+        },
+        "C10": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 10,
+          "value": 71,
+          "unit": "mAhg-1"
+        }
+      },
+      "charge_voltage": {
+        "C01": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 0.1,
+          "value": 4.1,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 1,
+          "value": 4.1,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 5,
+          "value": 4.12,
+          "unit": "V"
+        },
+        "C10": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 10,
+          "value": 4.19,
+          "unit": "V"
+        }
+      },
+      "discharge_voltage": {
+        "C01": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 0.1,
+          "value": 3.6,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 1,
+          "value": 3.57,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 5,
+          "value": 3.5,
+          "unit": "V"
+        },
+        "C10": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 10,
+          "value": 3.4,
+          "unit": "V"
+        }
+      }
+    },
+    "c_rates": [
+      0.1,
+      1,
+      5,
+      10
+    ]
+  }
+
+______________________________
+
+
+  {
+    "name": "NMC",
+    "type": "cathode",
+    "properties": {
+      "cathode_theor_capacity": {
+        "name": "Cathode theoretical capacity",
+        "s_name": "ca_th_cap",
+        "value": 280,
+        "unit": "mAhg-1"
+      },
+      "cathode_theor_voltage": {
+        "name": "Cathode theoretical voltage",
+        "s_name": "ca_th_V",
+        "value": 3.7,
+        "unit": "V"
+      },
+      "cathode_theor_density": {
+        "name": "Cathode theoretical density",
+        "s_name": "ca_th_rho",
+        "value": 1036,
+        "unit": "mWhg-1"
+      },
+      "capacity": {
+        "C01": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 0.1,
+          "value": 175,
+          "unit": "mAhg-1"
+        },
+        "C1": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 1,
+          "value": 160,
+          "unit": "mAhg-1"
+        },
+        "C5": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 5,
+          "value": 130,
+          "unit": "mAhg-1"
+        },
+        "C10": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 10,
+          "value": 75,
+          "unit": "mAhg-1"
+        }
+      },
+      "charge_voltage": {
+        "C01": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 0.1,
+          "value": 3.9,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 1,
+          "value": 3.95,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 5,
+          "value": 4,
+          "unit": "V"
+        },
+        "C10": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 10,
+          "value": 4.1,
+          "unit": "V"
+        }
+      },
+      "discharge_voltage": {
+        "C01": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 0.1,
+          "value": 3.85,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 1,
+          "value": 3.8,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 5,
+          "value": 3.75,
+          "unit": "V"
+        },
+        "C10": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 10,
+          "value": 3.65,
+          "unit": "V"
+        }
+      }
+    },
+    "c_rates": [
+      0.1,
+      1,
+      5,
+      10
+    ]
+  }
+
+______________________________
+
+  {
+    "name": "NCA",
+    "type": "cathode",
+    "properties": {
+      "cathode_theor_capacity": {
+        "name": "Cathode theoretical capacity",
+        "s_name": "ca_th_cap",
+        "value": 279,
+        "unit": "mAhg-1"
+      },
+      "cathode_theor_voltage": {
+        "name": "Cathode theoretical voltage",
+        "s_name": "ca_th_V",
+        "value": 3.7,
+        "unit": "V"
+      },
+      "cathode_theor_density": {
+        "name": "Cathode theoretical density",
+        "s_name": "ca_th_rho",
+        "value": 1032.3,
+        "unit": "mWhg-1"
+      },
+      "capacity": {
+        "C01": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 0.1,
+          "value": 199,
+          "unit": "mAhg-1"
+        },
+        "C1": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 1,
+          "value": 161,
+          "unit": "mAhg-1"
+        },
+        "C5": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 5,
+          "value": 140,
+          "unit": "mAhg-1"
+        }
+      },
+      "charge_voltage": {
+        "C01": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 0.1,
+          "value": 4.2,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 1,
+          "value": 3.85,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 5,
+          "value": 4,
+          "unit": "V"
+        }
+      },
+      "discharge_voltage": {
+        "C01": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 0.1,
+          "value": 3.7,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 1,
+          "value": 3.6,
+          "unit": "V"
+        },
+        "C5": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 5,
+          "value": 3.3,
+          "unit": "V"
+        }
+      }
+    },
+    "c_rates": [
+      0.1,
+      1,
+      5
+    ]
+  }
+
+______________________________
+
+  
+  {
+    "name": "LCP",
+    "type": "cathode",
+    "properties": {
+      "cathode_theor_capacity": {
+        "name": "Cathode theoretical capacity",
+        "s_name": "ca_th_cap",
+        "value": 167,
+        "unit": "mAhg-1"
+      },
+      "cathode_theor_voltage": {
+        "name": "Cathode theoretical voltage",
+        "s_name": "ca_th_V",
+        "value": 4.8,
+        "unit": "V"
+      },
+      "cathode_theor_density": {
+        "name": "Cathode theoretical density",
+        "s_name": "ca_th_rho",
+        "value": 801.6,
+        "unit": "mWhg-1"
+      },
+      "capacity": {
+        "C01": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 0.1,
+          "value": 121,
+          "unit": "mAhg-1"
+        },
+        "C1": {
+          "name": "Cathode capacity",
+          "s_name": "ca_cap",
+          "rate": 1,
+          "value": 70,
+          "unit": "mAhg-1"
+        }
+      },
+      "charge_voltage": {
+        "C01": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 0.1,
+          "value": 4.55,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode charge voltage",
+          "s_name": "ca_ch_V",
+          "rate": 1,
+          "value": 4.6,
+          "unit": "V"
+        }
+      },
+      "discharge_voltage": {
+        "C01": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 0.1,
+          "value": 4.5,
+          "unit": "V"
+        },
+        "C1": {
+          "name": "Cathode discharge voltage",
+          "s_name": "ca_dch_V",
+          "rate": 1,
+          "value": 4.4,
+          "unit": "V"
+        }
+      }
+    },
+    "c_rates": [
+      0.1,
+      1
+    ]
+  }

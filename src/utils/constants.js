@@ -14,6 +14,7 @@ export const cm_um={value:0.0001,unit:"cm um-1"}
 export const g_mg={value:0.001,unit:"g mg-1"}
 export const kg_g={value:0.001,unit:"kg g-1"}
 export const W_mW={value:0.001,unit:"W mW-1"}
+export const A_mA={value:0.001,unit:"A mA-1"}
 
 
 //provisorias hasta api

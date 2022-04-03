@@ -21,7 +21,16 @@ export default function Resultados() {
   const [showPanel2, setShowPanel2] = useState(true)
 
   //console.log('fast', fast)
-  console.log('pre_base_unit', Object.keys(pre_base_unit))
+  //console.log('pre_base_unit', Object.keys(pre_base_unit))
+  console.log("data",formular)
+  console.log("pre_base_unit",pre_base_unit)
+  console.log("pre_cell",pre_cell)
+  console.log("module_total_mass",module_total_mass)
+  console.log("slow",slow)
+  console.log("fast",fast)
+
+
+
 
   return (
     <>
