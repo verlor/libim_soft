@@ -38,6 +38,34 @@ export default function SideMenu() {
               </Link>
             </a>
           </li>
+          <li className="py-2 hover:bg-indigo-300 rounded">
+            <a className="" href="#">
+              <Link to="/managemats/" activeStyle={activeStyle}>
+                <img
+                  src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/beaker.svg"
+                  className="w-7 sm:mx-2 mx-4 inline"
+                />{' '}
+                <span className="hidden sm:inline">
+                  {/* console.log(location) */}
+                </span>
+                Manage Mats
+              </Link>
+            </a>
+          </li>
+          <li className="py-2 hover:bg-indigo-300 rounded">
+            <a className="" href="#">
+              <Link to="/info/" activeStyle={activeStyle}>
+                <img
+                  src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/information-circle.svg"
+                  className="w-7 sm:mx-2 mx-4 inline"
+                />{' '}
+                <span className="hidden sm:inline">
+                  {/* console.log(location) */}
+                </span>
+                Info & Defs 
+              </Link>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

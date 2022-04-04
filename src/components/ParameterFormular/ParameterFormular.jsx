@@ -27,10 +27,10 @@ export default function ParameterFormular() {
     resp_an = data.filter((elem) => elem.type == 'anode')
     resp_el = data.filter((elem) => elem.type == 'electrolyte')
   }
-
+  
   const formulario = useSelector((state) => state.parameter)
   const dispatch = useDispatch()
-  const { register, handleSubmit, watch } = useForm({
+  const { register, formState: { errors }, getValues, handleSubmit, watch } = useForm({
     defaultValues: {
       cathode_material_id: '',
       anode_material_id: '',
@@ -44,8 +44,8 @@ export default function ParameterFormular() {
       separator_thickness: 25,
       curr_collect_thickness_cu: 9,
       curr_collect_thickness_al: 15,
-      slow_charge_rate_id: 0.1,
-      fast_charge_rate_id: 5,
+      slow_charge_rate_id: '',
+      fast_charge_rate_id:'',
       n_series: 3,
       n_parallel: 3,
     },
@@ -56,7 +56,7 @@ export default function ParameterFormular() {
   useEffect(() => {
     setCRates(resp_ca?.find((cat) => cat.id == cat_id)?.c_rates)
   }, [cat_id])
-  
+
   return (
     <form
       onSubmit={handleSubmit(async (form_data) => {
@@ -175,7 +175,7 @@ export default function ParameterFormular() {
             Cathode Material
           </label>
           <select
-            {...register('cathode_material_id')}
+            {...register('cathode_material_id', { required: true})}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {!data ? (
@@ -189,13 +189,14 @@ export default function ParameterFormular() {
               </>
             )}
           </select>
+          {errors.cathode_material_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Anode Material
           </label>
           <select
-            {...register('anode_material_id')}
+            {...register('anode_material_id', { required: true})}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {!data ? (
@@ -209,13 +210,14 @@ export default function ParameterFormular() {
               </>
             )}
           </select>
+          {errors.anode_material_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Electrolyte
           </label>
           <select
-            {...register('electrolyte_id')}
+            {...register('electrolyte_id', { required: true})}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {!data ? (
@@ -229,6 +231,7 @@ export default function ParameterFormular() {
               </>
             )}
           </select>
+          {errors.electrolyte_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
       </div>
       <div className="hidden sm:block" aria-hidden="true">
@@ -245,20 +248,23 @@ export default function ParameterFormular() {
             Area [cm<sup>2</sup>]
           </label>
           <input
-            {...register('area')}
-            type="text"
+            {...register('area', { required: true, min: 0})}
+            type="number"
+            step="any"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+          {errors.area?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             # Base Units
           </label>
           <input
-            {...register('n_base_units')}
-            type="text"
+            {...register('n_base_units', { required: true, min: 0})}
+            type="number"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+          {errors.n_base_units?.type === 'required' && <span className="italic text-xs font-medium text-red-400">An integer value is required</span>}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mt-2 px-3">
@@ -267,20 +273,24 @@ export default function ParameterFormular() {
             Cathode Load [um cm<sup>2</sup>/mg]
           </label>
           <input
-            {...register('cathode_load')}
-            type="text"
+            {...register('cathode_load', { required: true, min: 0})}
+            type="number"
+            step="any"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+          {errors.cathode_load?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Coating Thickness [um]
           </label>
           <input
-            {...register('coating_thickness')}
-            type="text"
+            {...register('coating_thickness', { required: true, min: 0})}
+            type="number"
+            step="any"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+          {errors.coating_thickness?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
         </div>
       </div>
       <div className="hidden sm:block" aria-hidden="true">
@@ -297,50 +307,60 @@ export default function ParameterFormular() {
             % additive +
           </label>
           <input
-            {...register('cathode_add')}
-            type="text"
+            {...register('cathode_add', { required: true, min: 0,max:100})}
+            type="number"
+            step="any"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+          {errors.cathode_add?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A number between 0 and 100 is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             % additive -
           </label>
           <input
-            {...register('anode_add')}
-            type="text"
+            {...register('anode_add', { required: true, min: 0, max:100})}
+            type="number"
+            step="any"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+           {errors.anode_add?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A number between 0 and 100 is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Separator thickness [um]
           </label>
           <input
-            {...register('separator_thickness')}
-            type="text"
+            {...register('separator_thickness', { required: true, min: 0})}
+            type="number"
+            step="any"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+          {errors.separator_thickness?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Cu Current Collector Thickness [um]
           </label>
           <input
-            {...register('curr_collect_thickness_cu')}
-            type="text"
+            {...register('curr_collect_thickness_cu', { required: true,  min: 0})}
+            type="number"
+            step="any"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+          {errors.curr_collect_thickness_cu?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Al Current Collector Thickness [um]
           </label>
           <input
-            {...register('curr_collect_thickness_al')}
-            type="text"
+            {...register('curr_collect_thickness_al', { required: true})}
+            type="number"
+            step="any"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
+          {errors.curr_collect_thickness_al?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
         </div>
       </div>
       <div className="hidden sm:block" aria-hidden="true">
@@ -357,27 +377,38 @@ export default function ParameterFormular() {
             Min. C Rate [h<sup>-1</sup>]
           </label>
           <select
-            {...register('slow_charge_rate_id')}
+            {...register('slow_charge_rate_id', { required: true,min: 0})}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            {cRates?.map((rate) => (
+             <>
+              <option value="-1" selected>Select one</option>
+              {cRates?.map((rate) => (
               <option value={rate}>{rate}</option>
-            ))}
+                ))}
+              </>
           </select>
+          {errors.slow_charge_rate_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Max. C Rate [h<sup>-1</sup>]
           </label>
           <select
-            {...register('fast_charge_rate_id')}
+            {...register('fast_charge_rate_id', {
+              required: true, min: 0.01 + Number(getValues('slow_charge_rate_id')), 
+            })}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           > 
-         {cRates?.map((rate) => (
+             <>
+              <option value="-1" selected>Select one</option>
+              {cRates?.map((rate) => (
               <option value={rate}>{rate}</option>
-            ))}
+                ))}
+              </>
  
           </select>
+          {errors.fast_charge_rate_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.fast_charge_rate_id?.type === 'min' && <span className="italic text-xs font-medium text-red-400">Selected value must be greater than Min. C Rate</span>}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 px-3">
@@ -387,7 +418,7 @@ export default function ParameterFormular() {
           </label>
           <input
             {...register('n_series')}
-            type="text"
+            type="number"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
         </div>
@@ -397,7 +428,7 @@ export default function ParameterFormular() {
           </label>
           <input
             {...register('n_parallel')}
-            type="text"
+            type="number"
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           />
         </div>
