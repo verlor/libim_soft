@@ -10,13 +10,14 @@ import Resultados from '../Resultados'
 import { propsCall } from '../../api'
 import { navigate } from 'gatsby'
 import useSWR from 'swr'
-import { getCathodeMaterialsFetcher } from '../../api'
+import { getMaterialsFetcher } from '../../api'
 import { stringify } from 'postcss'
 
 export default function ParameterFormular() {
   const { data, _ } = useSWR(
-    '?filter=%7B%22fields%22%3A%20%7B%0A%20%20%20%20%22name%22%3A%20true%2C%0A%20%20%20%20%22type%22%3A%20true%2C%0A%20%20%20%20%22c_rates%22%3A%20true%2C%0A%20%20%20%20%22id%22%3A%20true%0A%20%20%7D%0A%7D',
-    getCathodeMaterialsFetcher
+    '?filter=%7B%22order%22%3A%20%22type%22%2C%0A%20%22order%22%3A%20%22name%22%2C%0A%20%20%22fields%22%3A%20%7B%0A%20%20%20%20%22name%22%3A%20true%2C%0A%20%20%20%20%22type%22%3A%20true%2C%0A%20%20%20%20%22c_rates%22%3A%20true%2C%0A%20%20%20%20%22id%22%3A%20true%0A%20%20%7D%0A%7D',
+    //'?filter=%7B%22fields%22%3A%20%7B%0A%20%20%20%20%22name%22%3A%20true%2C%0A%20%20%20%20%22type%22%3A%20true%2C%0A%20%20%20%20%22c_rates%22%3A%20true%2C%0A%20%20%20%20%22id%22%3A%20true%0A%20%20%7D%0A%7D',
+    getMaterialsFetcher
   )
   let resp_ca = []
   let resp_an = []
@@ -50,7 +51,7 @@ export default function ParameterFormular() {
       n_parallel: 3,
     },
   })
-  const [result, setResult] = useState('')
+  //const [result, setResult] = useState('')
   const cat_id = watch('cathode_material_id')
   const [cRates, setCRates] = useState([])
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function ParameterFormular() {
   }, [cat_id])
 
   return (
-    <form
+    <form 
       onSubmit={handleSubmit(async (form_data) => {
 
         const respCathode = await propsCall(form_data.cathode_material_id)
@@ -162,8 +163,9 @@ export default function ParameterFormular() {
         //calc(form_data, dispatch)
         calc(foData, dispatch)
         navigate('/results/')
-        setResult(JSON.stringify(form_data))
+        //setResult(JSON.stringify(form_data))
       })}
+
       className="shadow sm:rounded-md bg-gray-100"
     >
       <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4 pt-4">
@@ -239,7 +241,8 @@ export default function ParameterFormular() {
           <div className="border-t border-gray-200" />
         </div>
       </div>
-      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+
+      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4">
         Geommetry data
       </h2>
       <div className="grid grid-cols-2 gap-4 px-3">
@@ -298,7 +301,7 @@ export default function ParameterFormular() {
           <div className="border-t border-gray-200" />
         </div>
       </div>
-      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4">
         Additive Data
       </h2>
       <div className="grid grid-cols-2 gap-4 px-3 mt-1">
@@ -368,7 +371,7 @@ export default function ParameterFormular() {
           <div className="border-t border-gray-200" />
         </div>
       </div>
-      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4">
         Operation Data
       </h2>
       <div className="grid grid-cols-2 gap-4 px-3 mt-1">
@@ -387,7 +390,7 @@ export default function ParameterFormular() {
                 ))}
               </>
           </select>
-          {errors.slow_charge_rate_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.slow_charge_rate_id?.type === ('required'||'min') && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
@@ -395,7 +398,7 @@ export default function ParameterFormular() {
           </label>
           <select
             {...register('fast_charge_rate_id', {
-              required: true, min: 0.01 + Number(getValues('slow_charge_rate_id')), 
+              required: true, min: (0.01+ Number(getValues('slow_charge_rate_id'))), 
             })}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           > 

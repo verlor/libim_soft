@@ -5,7 +5,7 @@ export const propsCall = async (id) =>
     method: 'GET',
   }).then((res) => res.json())
 
-export const getCathodeMaterialsFetcher = (params) =>
+export const getMaterialsFetcher = (params) =>
   fetch(`${API_URL + params}`, {
     method: 'GET',
   }).then((res) => res.json())

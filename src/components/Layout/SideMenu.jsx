@@ -33,8 +33,9 @@ export default function SideMenu() {
                 />{' '}
                 <span className="hidden sm:inline">
                   {/* console.log(location) */}
-                </span>
+                
                 Results
+                </span>
               </Link>
             </a>
           </li>
@@ -47,8 +48,9 @@ export default function SideMenu() {
                 />{' '}
                 <span className="hidden sm:inline">
                   {/* console.log(location) */}
-                </span>
+                
                 Manage Mats
+                </span>
               </Link>
             </a>
           </li>
@@ -61,8 +63,9 @@ export default function SideMenu() {
                 />{' '}
                 <span className="hidden sm:inline">
                   {/* console.log(location) */}
-                </span>
+                
                 Info & Defs 
+                </span>
               </Link>
             </a>
           </li>

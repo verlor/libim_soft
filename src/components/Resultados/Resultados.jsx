@@ -22,12 +22,12 @@ export default function Resultados() {
 
   //console.log('fast', fast)
   //console.log('pre_base_unit', Object.keys(pre_base_unit))
-  console.log("data",formular)
-  console.log("pre_base_unit",pre_base_unit)
-  console.log("pre_cell",pre_cell)
-  console.log("module_total_mass",module_total_mass)
-  console.log("slow",slow)
-  console.log("fast",fast)
+  //console.log("data",formular)
+  //console.log("pre_base_unit",pre_base_unit)
+  //console.log("pre_cell",pre_cell)
+  //console.log("module_total_mass",module_total_mass)
+  //console.log("slow",slow)
+  //console.log("fast",fast)
 
 
 
@@ -125,7 +125,7 @@ export default function Resultados() {
         </div>
       </div>
 
-      <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-2 pt-2">
+      <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-4 pt-3">
         Base Unit
       </h2>
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
@@ -134,7 +134,7 @@ export default function Resultados() {
             {Object.keys(slow).map((elem) => {
               if (elem.includes('base_unit_'))
                 return (
-                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
+                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
                     <div class="col-span-3 text-left">
                       {slow[elem].name} : 
                     </div>
@@ -155,7 +155,7 @@ export default function Resultados() {
             {Object.keys(fast).map((elem) => {
               if (elem.includes('base_unit_'))
                 return (
-                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
+                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
                     <div class="col-span-3 text-left">
                       {fast[elem].name} : 
                     </div>
@@ -172,7 +172,7 @@ export default function Resultados() {
         </div>
       </div>
 
-      <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-2 pt-2">
+      <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-4 pt-3">
         Cell
       </h2>
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
@@ -181,7 +181,7 @@ export default function Resultados() {
             {Object.keys(slow).map((elem) => {
               if (elem.includes('cell_'))
                 return (
-                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
+                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
                     <div class="col-span-3 text-left">
                       {slow[elem].name} : 
                     </div>
@@ -202,7 +202,7 @@ export default function Resultados() {
             {Object.keys(fast).map((elem) => {
               if (elem.includes('cell_'))
                 return (
-                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
+                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
                     <div class="col-span-3 text-left">
                       {fast[elem].name} : 
                     </div>
@@ -220,7 +220,7 @@ export default function Resultados() {
       </div>
 
 
-      <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-2 pt-2">
+      <h2 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-4 pt-3">
         Module
       </h2>
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
@@ -229,7 +229,7 @@ export default function Resultados() {
             {Object.keys(slow).map((elem) => {
               if (elem.includes('module_'))
                 return (
-                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
+                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
                     <div class="col-span-3 text-left">
                       {slow[elem].name} : 
                     </div>
@@ -250,7 +250,7 @@ export default function Resultados() {
             {Object.keys(fast).map((elem) => {
               if (elem.includes('module_'))
                 return (
-                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
+                  <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
                     <div class="col-span-3 text-left">
                       {fast[elem].name} : 
                     </div>
@@ -270,7 +270,7 @@ export default function Resultados() {
 
       <div class="flex items-baseline mt-4 mb-6 pb-1 border-slate-200"></div>
 
-      <h2 class="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-4">
+      <h2 class="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
         Pre Calculations:
       </h2>
 
@@ -295,7 +295,7 @@ export default function Resultados() {
           <div class={`group ${!showPanel && 'invisible'}`}>
           {Object.keys(pre_base_unit).map((elem) => {
             return (
-            <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
+            <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
                     <div class="col-span-3 text-left">
                       {pre_base_unit[elem].name} : 
                     </div>
@@ -330,7 +330,7 @@ export default function Resultados() {
           <div class={`group ${!showPanel2 && 'invisible'}`}>
           {Object.keys(pre_cell).map((elem) => {
             return (
-            <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm">
+            <div class="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
                     <div class="col-span-3 text-left">
                       {pre_cell[elem].name} : 
                     </div>
