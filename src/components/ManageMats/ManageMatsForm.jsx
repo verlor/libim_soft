@@ -21,6 +21,38 @@ export default function ModMatsForm() {
     },
   })
 
+/*
+  let coordinate_names = coordinates.map(coordinate => {
+    return coordinate.name;
+});console.log(coordinate_names);
+*/
+
+
+function recur (obj) {
+  //console.log('obj',obj)
+  Object.keys(obj)?.map(elem => { 
+    console.log('obj',elem,'type',typeof obj[elem] )
+    if(typeof obj[elem] !== "object") { 
+      return 
+      <input value={obj[elem].value} />}
+    if(typeof obj[elem] === "object") { recur(obj[elem])}
+  })}
+
+
+
+{/*
+  
+         <div>
+        <label className="block text-sm font-medium text-gray-700 ml-8 "> {Object.getOwnPropertyNames(elem)} </label>
+        <input {...register(Object.values(elem))}
+          className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
+        </div>
+      }
+    if(typeof Object.values(elem) === "object") { recur(elem)}
+  })
+*/}
+
+
   const { data, _ } = useSWR(
     '?filter=%7B%22order%22%3A%20%22type%22%2C%0A%20%22order%22%3A%20%22name%22%2C%0A%20%20%22fields%22%3A%20%7B%0A%20%20%20%20%22name%22%3A%20true%2C%0A%20%20%20%20%22type%22%3A%20true%2C%0A%20%20%20%20%22c_rates%22%3A%20true%2C%0A%20%20%20%20%22id%22%3A%20true%0A%20%20%7D%0A%7D',
     getMaterialsFetcher
@@ -31,7 +63,7 @@ export default function ModMatsForm() {
   useEffect(async () => {
     const myMaterial = await propsCall(watchedMat)
     setFetchedMat(myMaterial)
-    console.log({ myMaterial })
+    //console.log('uu',{ myMaterial })
   }, [watchedMat])
 
   return (
@@ -66,7 +98,7 @@ export default function ModMatsForm() {
 
 */}
 
-      {console.log(watchedMat)}
+      {/*console.log('ver',watchedMat)*/}
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
 
       <h2 class="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
@@ -108,15 +140,16 @@ export default function ModMatsForm() {
       <label className="block text-l font-medium text-gray-700 mx-4 ">
         Material properties
       </label>
-
+      <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
       <div>
-        {Object.keys(fetchedMaterial?.properties || {}).map((elem) => {
-          const prop = fetchedMaterial.properties[elem]
-          if (typeof prop !== 'undefined') {
-            return <input value={prop.value} />
-          }
-        })}
+      {!fetchedMaterial ? '': recur(fetchedMaterial)}
+
       </div>
+
+    
+
+
+        
 
       <div className="col-span-1">
         <label className="block text-sm font-medium text-gray-700">
