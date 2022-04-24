@@ -33,14 +33,20 @@ ____________________________________________________________
     "type": "anode",
     "properties": {
       "anode_theor_capacity": {
+        "name": "Anode theoretical capacity",
+        "s_name": "an_th_cap", 
         "value": 372,
         "unit": "mAhg-1"
       },
       "anode_real_capacity": {
+        "name": "Anode real capacity",
+        "s_name": "an_re_cap", 
         "value": 360,
         "unit": "mAhg-1"
       },
       "anode_voltage": {
+        "name": "Anode voltage",
+        "s_name": "anode_V", 
         "value": 0,
         "unit": "V"
       }
@@ -54,14 +60,20 @@ ______________________________
     "type": "anode",
     "properties": {
       "anode_theor_capacity": {
+        "name": "Anode theoretical capacity",
+        "s_name": "an_th_cap", 
         "value": 4200,
         "unit": "mAhg-1"
       },
       "anode_real_capacity": {
+        "name": "Anode real capacity",
+        "s_name": "an_re_cap", 
         "value": 3590,
         "unit": "mAhg-1"
       },
       "anode_voltage": {
+        "name": "Anode voltage",
+        "s_name": "anode_V", 
         "value": 0.05,
         "unit": "V"
       }
@@ -75,14 +87,20 @@ ______________________________
     "type": "anode",
     "properties": {
       "anode_theor_capacity": {
+        "name": "Anode theoretical capacity",
+        "s_name": "an_th_cap",         
         "value": 790,
         "unit": "mAhg-1"
       },
       "anode_real_capacity": {
+        "name": "Anode real capacity",
+        "s_name": "an_re_cap", 
         "value": 700,
         "unit": "mAhg-1"
       },
       "anode_voltage": {
+        "name": "Anode voltage",
+        "s_name": "anode_V", 
         "value": 0.4,
         "unit": "V"
       }
@@ -98,14 +116,20 @@ ______________________________
     "type": "anode",
     "properties": {
       "anode_theor_capacity": {
+        "name": "Anode theoretical capacity",
+        "s_name": "an_th_cap", 
         "value": 1700,
         "unit": "mAhg-1"
       },
       "anode_real_capacity": {
+        "name": "Anode real capacity",
+        "s_name": "an_re_cap", 
         "value": 550,
         "unit": "mAhg-1"
       },
       "anode_voltage": {
+        "name": "Anode voltage",
+        "s_name": "anode_V", 
         "value": 0.8,
         "unit": "V"
       }
@@ -120,14 +144,20 @@ ______________________________
     "type": "anode",
     "properties": {
       "anode_theor_capacity": {
+        "name": "Anode theoretical capacity",
+        "s_name": "an_th_cap", 
         "value": 170,
         "unit": "mAhg-1"
       },
       "anode_real_capacity": {
+        "name": "Anode real capacity",
+        "s_name": "an_re_cap", 
         "value": 145,
         "unit": "mAhg-1"
       },
       "anode_voltage": {
+        "name": "Anode voltage",
+        "s_name": "anode_V", 
         "value": 1.55,
         "unit": "V"
       }

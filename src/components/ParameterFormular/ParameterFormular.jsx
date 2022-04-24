@@ -50,6 +50,7 @@ export default function ParameterFormular() {
       n_series: 3,
       n_parallel: 3,
     },
+    reValidateMode: 'onChange',
   })
   //const [result, setResult] = useState('')
   const cat_id = watch('cathode_material_id')
