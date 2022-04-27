@@ -571,17 +571,17 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
     s_name: "Volume",
     value: (data.curr_collect_thickness_al.value +
       data.curr_collect_thickness_cu.value * 2 +
-      data.coating_thickness.value * 4 +
+      pre_base_unit.charge_thickness_dependency_cda.value * 4 +
       data.separator_thickness.value * 2) * fixed.cm_um.value *
     data.area.value,
     unit:"cm3",
     unit_a: "(" + data.curr_collect_thickness_al.unit + " + " +
       data.curr_collect_thickness_cu.unit + " * " + 2 + " + " +
-      data.coating_thickness.unit + " * " + 4 + " + " +
+      pre_base_unit.charge_thickness_dependency_cda.unit + " * " + 4 + " + " +
       data.separator_thickness.unit + " * " + 2 + ") * " + fixed.cm_um.unit + " * " +
     data.area.unit,
     }
-    //console.log('uu', base_unit_discharge_power,base_unit_discharge_capacity,base_unit_efficiency_energy,base_unit_efficiency_power,base_unit_efficiency_capacity,base_unit_discharge_energy_density,base_unit_discharge_power_density,base_unit_volume)  
+    console.log('uu', base_unit_discharge_power,base_unit_discharge_capacity,base_unit_efficiency_energy,base_unit_efficiency_power,base_unit_efficiency_capacity,base_unit_discharge_energy_density,base_unit_discharge_power_density,base_unit_volume)  
   
     //Cell
   const cell_current ={
@@ -666,17 +666,17 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
     s_name: "Volume",
     value: (data.curr_collect_thickness_al.value * data.n_base_units.value +
       data.curr_collect_thickness_cu.value * (data.n_base_units.value + 1) +
-      data.coating_thickness.value * data.n_base_units.value * 4 +
+      pre_base_unit.charge_thickness_dependency_cda.value * data.n_base_units.value * 4 +
       data.separator_thickness.value * data.n_base_units.value * 2) * fixed.cm_um.value *
     data.area.value ,
     unit:"cm3",
     unit_a: "(" + data.curr_collect_thickness_al.unit + " * " + data.n_base_units.unit + " + " + 
       data.curr_collect_thickness_cu.unit + " * (" + data.n_base_units.unit + " + " + 1 + ") + " +
-      data.coating_thickness.unit + " * " + data.n_base_units.unit + " * " + 4 + " + " +
+      pre_base_unit.charge_thickness_dependency_cda.unit + " * " + data.n_base_units.unit + " * " + 4 + " + " +
       data.separator_thickness.unit + " * " + data.n_base_units.unit + " * " + 2 + ") * " + fixed.cm_um.unit + " * " +
     data.area.unit ,
     }
-    //console.log('cell',cell_current,cell_charge_energy,cell_charge_power,cell_charge_capacity,cell_charge_energy_density,cell_charge_power_density,cell_discharge_energy,cell_discharge_power,cell_discharge_capacity,cell_discharge_energy_density,cell_discharge_power_density,cell_volume)
+    console.log('cell',cell_current,cell_charge_energy,cell_charge_power,cell_charge_capacity,cell_charge_energy_density,cell_charge_power_density,cell_discharge_energy,cell_discharge_power,cell_discharge_capacity,cell_discharge_energy_density,cell_discharge_power_density,cell_volume)
 
   //Module
   const module_charge_voltage =  {

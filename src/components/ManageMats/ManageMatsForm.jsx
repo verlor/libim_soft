@@ -22,7 +22,8 @@ export default function NewMatForm() {
     setError,
   } = useForm({
     defaultValues: {
-      newname: '',
+
+      newName: '',
       selectedType: '',
     },
   })
@@ -32,7 +33,7 @@ export default function NewMatForm() {
     getMaterialsFetcher
   )
 
-  function nameIsNew(e) {
+  const nameIsNew = (e) => {
     let flip = true
     data?.map((elem) => {
       if (elem.name.toUpperCase() === e?.toUpperCase()) {
@@ -64,20 +65,18 @@ export default function NewMatForm() {
           <NewAnodeForm name={watch('newname')} type={watch('selectedType')} />
         )
       case 'electrolyte':
-        return <NewElectrolyteForm />
+        return <NewElectrolyteForm name={watch('newname')} type={watch('selectedType')} />
       default:
         return <></>
     }
   }
-
+ 
+  console.log('errors: ',errors)
   return (
     <>
       <form
-        onSubmit={handleSubmit((props) => {
-          const toNewMat = {
-            newname,
-            selecedType,
-          }
+        onSubmit={handleSubmit((props) => {console.log(props)
+  
         })}
       >
         <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
@@ -88,35 +87,34 @@ export default function NewMatForm() {
         <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
         <div className="grid grid-cols-2 gap-4 px-3">
           <div className="col-span-1">
-            <input
-              type="text"
-              placeholder="Email"
-              {...register('Email', { required: true, pattern: /^\S+@\S+$/i })}
-              onChange={(e) => trigger('Email')}
-            />
-            {errors.Email?.type === 'required' && 'First name is required'}
-            <label className="block text-sm font-medium text-gray-700">
+           <label className="block text-sm font-medium text-gray-700">
               Material name
             </label>
             <input
               {...register('newName', {
-                required: true,
-                validate: nameIsNew(watch('newName')),
+                required: {value:true, message:<span className="italic text-xs font-medium text-red-400">
+                A name is required
+              </span>},
+                minLength:{
+                  value:4,
+                message:'min 4 char'}              
               })}
               type="text"
+              name="newName"
               className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              style={{ border: errors.newName ? '1px solid red' : '' }} 
             />
 
-            {errors.newName && errors.newName.type === 'required' && (
+            {/*errors.newName && errors.newName.type === 'required' && (
               <span className="italic text-xs font-medium text-red-400">
                 A name is required
               </span>
-            )}
-            {errors.newName && errors.newName.type === 'validate' && (
+            )*/}
+            {/*errors.newName && errors.newName.type === 'validate' && (
               <span className="italic text-xs font-medium text-red-400">
                 Material name already exists
               </span>
-            )}
+            )*/}
           </div>
           <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">
@@ -125,7 +123,6 @@ export default function NewMatForm() {
             <select
               {...register('selecedType', { required: true })}
               className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              onSelect={selectNewMat(watch('newName'), watch('selectedType'))}
             >
               <>
                 <option value="anode">Anode</option>
@@ -141,25 +138,16 @@ export default function NewMatForm() {
           </div>
         </div>
 
-        {console.log(
-          'newname :',
-          watch('newName'),
-          'usedName2: ',
-          nameIsNew(getValues('newName'))
-        )}
-        {console.log('errors: ', errors)}
 
-        {console.log('name', watch('newName'), 'type', watch('selecedType'))}
+       
 
-        {/*data.map((elem) => {
-        console.log("elem: ", elem.name, elem.type)
-      }
-      )*/}
 
-        {renderForm(watch('selecedType'))}
+
       </form>
 
       {/* (usedName(watch('name'))===true) ? console.log("elem: ", elem.name, elem.type) : console.log(usedName(watch('name'))) */}
+
+      {renderForm(watch('selecedType'))}
     </>
   )
 }

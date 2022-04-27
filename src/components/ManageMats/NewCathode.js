@@ -2,11 +2,11 @@ import React, { useReducer, useState, useEffect } from 'react'
 import '../../styles/global.css'
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
-import { getMaterialsFetcher, propsCall } from '../../api'
+import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
 
 let renderCount = 0
 
-export default function NewCathodeForm (name, type) {
+export default function NewCathodeForm(type) {
   const dispatch = useDispatch()
   const {
     register,
@@ -20,88 +20,171 @@ export default function NewCathodeForm (name, type) {
     setError,
   } = useForm({
     defaultValues: {
-        cathode_theor_capacity: 0,
-        cathode_theor_voltage: 0,
-        cathode_theor_density: 0,
-        crate: [{ rate: 0, capacity: 0, charge_voltage:0, discharge_voltage: 0 }],
+      newMatName: '',
+      cathode_theor_capacity: 0,
+      cathode_theor_voltage: 0,
+      cathode_theor_density: 0,
+      crate: [
+        { rate: 0, capacity: 0, charge_voltage: 0, discharge_voltage: 0 },
+      ],
     },
   })
 
-  const { fields, append, remove } =
-    useFieldArray({
-      control,
-      name: 'crate',
-    })
+  let watchedMat = ''
 
-  const onSubmit = (data) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'crate',
+  })
 
-   const onSubmit = (mat_data) => {
-
-
-const newMat = {
-  name: name,
-  type: type,
-  c_rates: [fieds.crate.index.rate],
-  properties:{
-    cathode_theor_capacity: {
-        name: "Cathode theoretical capacity",
-        s_name: "ca_th_cap",
-        value: fields.cathode_theor_capacity,
-        unit: "mAhg-1"
-      },
-      cathode_theor_voltage: {
-        name: "Cathode theoretical voltage",
-        s_name: "ca_th_V",
-        value: fields.cathode_theor_voltage,
-        unit: "V"
-      },
-      cathode_theor_density: {
-        name: "Cathode theoretical density",
-        s_name: "ca_th_rho",
-        value: fields.cathode_theor_density,
-        unit: "mWhg-1"
-      },
-
-  }
-}
-
-  }
-
+  const TextParams = (
+    newName,
+    newTheorCapacity,
+    newTheorVoltage,
+    newTheorDensity,
+    crate
+  ) => {
     
+      let toAddObj, capacity, charge_voltage,discharge_voltage={}
+      let c_rates=[]
+      for (let i = 0;i<crate.length;i++){
+        let cky="C"+crate[i].rate.replace(".","")
+        //console.log('cky: ',cky)
+            capacity={...capacity,
+            [cky]:{
+            name: "Cathode capacity",
+            s_name: "ca_cap",
+            rate: crate[i].rate,
+            value: parseFloat(crate[i].capacity),
+            unit: "mAhg-1"
+            }} 
+          charge_voltage={...charge_voltage,
+            [cky]:{
+            name: "Cathode charge voltage",
+            s_name: "ca_ch_V",
+            rate: crate[i].rate,
+            value: parseFloat(crate[i].charge_voltage),
+            unit: "V"
+            }}
+          discharge_voltage={...discharge_voltage,
+            [cky]:{
+            name: "Cathode discharge voltage",
+            s_name: "ca_dch_V",
+            rate: crate[i].rate,
+            value: parseFloat(crate[i].discharge_voltage),
+            unit: "V"
+            }}
+        
+        c_rates[i]=parseFloat(crate[i].rate)
+        toAddObj={capacity,charge_voltage,discharge_voltage}
+      }
+      //console.log('toAddObj: ',toAddObj, 'c_rates: ',c_rates)
+        
+    const step = {
+      name: newName,
+      type: 'cathode',
+      properties: {
+        cathode_theor_capacity: {
+          name: 'Cathode theoretical capacity',
+          s_name: 'ca_th_cap',
+          value: parseFloat(newTheorCapacity),
+          unit: 'mAhg-1',
+        },
+        cathode_theor_voltage: {
+          name: 'Cathode theoretical voltage',
+          s_name: 'ca_th_V',
+          value: parseFloat(newTheorVoltage),
+          unit: 'V',
+        },
+        cathode_theor_density: {
+          name: 'Cathode theoretical density',
+          s_name: 'ca_th_rho',
+          value: parseFloat(newTheorDensity),
+          unit: 'mWhg-1',
+        },
+        capacity: toAddObj.capacity,
+        charge_voltage: toAddObj.charge_voltage,
+        discharge_voltage:toAddObj.discharge_voltage,    
+      },
+      c_rates,
+      }
+
+      //console.log('ver str: ', JSON.stringify(step))
+    return JSON.stringify(step)
   }
 
-  const [fetchedMaterial, setFetchedMat] = useState({})
-
-  useEffect(async () => {
-    const myMaterial = await propsCall(watchedMat)
-    setFetchedMat(myMaterial)
-    //console.log('uu',{ myMaterial })
-  }, [watchedMat])
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
-      className=" shadow sm:rounded-md bg-gray-100 "
-    >  
-     <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
-        <div className="flex items-center grid grid-cols-3 gap-4 px-3">
+    onSubmit={handleSubmit(async (newCathodeData) => {
+      const reqNewCathode = await postNewMaterial(
+      //console.log('uu: ',  
+      TextParams(
+            newCathodeData?.newMatName,
+            newCathodeData?.cathode_theor_capacity,
+            newCathodeData?.cathode_theor_voltage,
+            newCathodeData?.cathode_theor_density,
+            newCathodeData?.crate
+          )
+
+
+        )
+      })}
+    >
+      <div className="shadow sm:rounded-md bg-gray-100">
+        <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
+
+        <div className="flex items-center grid grid-cols-3 gap-4 px-3 ">
+          <div className="col-span-1">
+            <label className="block  text-right text-sm font-medium text-gray-700">
+              Material name
+            </label>
+          </div>
+          <div className="col-span-1">
+            <input
+              {...register('newMatName', {
+                required: true,
+              })}
+              type="text"
+              name="newMatName"
+              className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              style={{ border: errors.newMatName ? '2px solid red' : '' }}
+            />
+            {errors.newMatName?.type === 'required' && (
+              <span className="col-span-1 italic text-xs font-medium text-red-400">
+                (A name is required)
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
           <div className="col-span-1">
             <label className="block  text-right text-sm font-medium text-gray-700">
               Theoretical capacity
             </label>
           </div>
+
           <div className="col-span-1">
             <input
               {...register('cathode_theor_capacity', {
                 required: true,
-                min: 0,
+                validate: { positive: (v) => parseFloat(v) > 0 },
               })}
               type="number"
               step="any"
+              name="cathode_theor_capacity"
               className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              style={{
+                border: errors.cathode_theor_capacity ? '2px solid red' : '',
+              }}
             />
-            {errors.cathode_theor_capacity?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
+            {errors.cathode_theor_capacity?.type === 'validate' && (
+              <span className="italic text-xs font-medium text-red-400">
+                A value &gt; 0 is required
+              </span>
+            )}
           </div>
+
           <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">
               mA h g<sup>-1</sup>
@@ -114,25 +197,33 @@ const newMat = {
         <div className="flex items-center grid grid-cols-3 gap-4 px-3">
           <div className="col-span-1">
             <label className="block text-right text-sm font-medium text-gray-700">
-            Theoretical voltage
+              Theoretical voltage
             </label>
           </div>
+
           <div className="col-span-1">
             <input
               {...register('cathode_theor_voltage', {
                 required: true,
-                min: 0,
+                validate: { positive: (v) => parseFloat(v) > 0 },
               })}
               type="number"
               step="any"
+              name="cathode_theor_voltage"
               className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              style={{
+                border: errors.cathode_theor_voltage ? '2px solid red' : '',
+              }}
             />
-            {errors.cathode_theor_voltage?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
+            {errors.cathode_theor_voltage?.type === 'validate' && (
+              <span className="italic text-xs font-medium text-red-400">
+                A value &gt; 0 is required
+              </span>
+            )}
           </div>
+
           <div className="col-span-1">
-            <label className="block text-sm font-medium text-gray-700">
-              V
-            </label>
+            <label className="block text-sm font-medium text-gray-700">V</label>
           </div>
         </div>
 
@@ -141,193 +232,239 @@ const newMat = {
         <div className="flex items-center grid grid-cols-3 gap-4 px-3">
           <div className="col-span-1">
             <label className="block text-right text-sm font-medium text-gray-700">
-            Theoretical energy density
+              Theoretical energy density
             </label>
           </div>
+
           <div className="col-span-1">
             <input
               {...register('cathode_theor_density', {
                 required: true,
-                min: 0,
+                validate: { positive: (v) => parseFloat(v) > 0 },
               })}
               type="number"
               step="any"
+              name="cathode_theor_density"
               className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              style={{
+                border: errors.cathode_theor_density ? '2px solid red' : '',
+              }}
             />
-            {errors.cathode_theor_density?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
+            {errors.cathode_theor_density?.type === 'validate' && (
+              <span className="italic text-xs font-medium text-red-400">
+                A value &gt; 0 is required
+              </span>
+            )}
           </div>
+
           <div className="col-span-1">
             <label className="block text-sm font-medium text-gray-700">
-            mW h g <sup>-1</sup>
+              mW h g <sup>-1</sup>
             </label>
           </div>
         </div>
-    
 
-{/*crates con field array */}
-
-        <label className="block text-sm font-medium text-gray-700">
-            C Rate Values 
-        </label>
-
+        {/*crates con field array */}
 
         <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
-       
-        <div >
+      </div>
+
+      <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
+
+      <h2 class="text-md font-extrabold tracking-tight text-gray-700 mx-6 pt-6">
+        C Rate Values
+      </h2>
+
+      <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
+
+      <div>
         {fields.map((item, index) => {
           return (
             <>
-            <div key={item.id} className="flex items-center grid grid-cols-3 gap-4 px-3">
-              <div className="col-span-1">
-                <label className="block text-right text-sm font-medium text-gray-700">
-                  C rate 
-                </label>
-              </div>
-              <div className="col-span-1">
-                  <input
-                    {...register(`crate.${index}.rate`, {
-                      required: true,
-                      min: 0,
-                    })}
-                    type="number"
-                    step="any"
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                  {/*errors.`crate.${index}.rate`.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
-              </div>
-              <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                    [h <sup>-1</sup>]
-                  </label>
-              </div>
+              <div className="shadow sm:rounded-md bg-gray-100">
+                <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
+                <div
+                  key={item.id}
+                  className="flex items-center grid grid-cols-3 gap-4 px-3 "
+                >
+                  <div className="col-span-1">
+                    <label className="block text-right text-sm font-medium text-gray-700">
+                      C rate
+                    </label>
+                  </div>
+                  <div className="col-span-1">
+                    <input
+                      {...register(`crate.${index}.rate`, {
+                        required: true,
+                        validate: { positive: (v) => parseFloat(v) > 0 },
+                      })}
+                      name={`crate.${index}.rate`}
+                      type="number"
+                      step="any"
+                      style={{
+                        border: errors.crate?.[index]?.rate
+                          ? '2px solid red'
+                          : '',
+                      }}
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                    {/*errors.crate?.[index].rate.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
+                  </div>
+                  <div className="col-span-1">
+                    <label className="block text-sm font-medium text-gray-700">
+                      [h <sup>-1</sup>]
+                    </label>
+                  </div>
 
-              <div className="col-span-1">
-                <label className="block text-right text-sm font-medium text-gray-700">
-                  Capacity 
-                </label>
-              </div>
-              <div className="col-span-1">
-                  <input
-                    {...register(`crate.${index}.capacity`, {
-                      required: true,
-                      min: 0,
-                    })}
-                    type="number"
-                    step="any"
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                  {/*errors.`crate.${index}.capacity`.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
-              </div>
-              <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                  [mA h g<sup>-1</sup>]
-                  </label>
-              </div>
+                  <div className="col-span-1">
+                    <label className="block text-right text-sm font-medium text-gray-700">
+                      Capacity
+                    </label>
+                  </div>
+                  <div className="col-span-1">
+                    <input
+                      {...register(`crate.${index}.capacity`, {
+                        required: true,
+                        validate: { positive: (v) => parseFloat(v) > 0 },
+                      })}
+                      name={`crate.${index}.capacity`}
+                      type="number"
+                      step="any"
+                      style={{
+                        border: errors.crate?.[index]?.capacity
+                          ? '2px solid red'
+                          : '',
+                      }}
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                    {/*errors.crate?.[index].capacity.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
+                  </div>
+                  <div className="col-span-1">
+                    <label className="block text-sm font-medium text-gray-700">
+                      [mA h g<sup>-1</sup>]
+                    </label>
+                  </div>
 
-              <div className="col-span-1">
-                <label className="block text-right text-sm font-medium text-gray-700">
-                  Charge voltage 
-                </label>
-              </div>
-              <div className="col-span-1">
-                  <input
-                    {...register(`crate.${index}.charge_voltage`, {
-                      required: true,
-                      min: 0,
-                    })}
-                    type="number"
-                    step="any"
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                  {/*errors.`crate.${index}.charge_voltage`.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
-              </div>
-              <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                  [V]
-                  </label>
-              </div>
+                  <div className="col-span-1">
+                    <label className="block text-right text-sm font-medium text-gray-700">
+                      Charge voltage
+                    </label>
+                  </div>
+                  <div className="col-span-1">
+                    <input
+                      {...register(`crate.${index}.charge_voltage`, {
+                        required: true,
+                        validate: { positive: (v) => parseFloat(v) > 0 },
+                      })}
+                      name={`crate.${index}.charge_voltage`}
+                      type="number"
+                      step="any"
+                      style={{
+                        border: errors.crate?.[index]?.charge_voltage
+                          ? '2px solid red'
+                          : '',
+                      }}
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                    {/*errors.crate?.[index].charge_voltage.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
+                  </div>
+                  <div className="col-span-1">
+                    <label className="block text-sm font-medium text-gray-700">
+                      [V]
+                    </label>
+                  </div>
 
-              <div className="col-span-1">
-                <label className="block text-right text-sm font-medium text-gray-700">
-                  Discharge voltage 
-                </label>
-              </div>
-              <div className="col-span-1">
-                  <input
-                    {...register(`crate.${index}.discharge_voltage`, {
-                      required: true,
-                      min: 0,
-                    })}
-                    type="number"
-                    step="any"
-                    className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                  {/*errors.`crate.${index}.discharge_voltage`.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
-              </div>
-              <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-700">
-                  [V]
-                  </label>
-              </div>
+                  <div className="col-span-1">
+                    <label className="block text-right text-sm font-medium text-gray-700">
+                      Discharge voltage
+                    </label>
+                  </div>
+                  <div className="col-span-1">
+                    <input
+                      {...register(`crate.${index}.discharge_voltage`, {
+                        required: true,
+                        validate: { positive: (v) => parseFloat(v) > 0 },
+                      })}
+                      name={`crate.${index}.discharge_voltage`}
+                      type="number"
+                      step="any"
+                      style={{
+                        border: errors.crate?.[index]?.discharge_voltage
+                          ? '2px solid red'
+                          : '',
+                      }}
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                    {/*errors.crate?.[index].discharge_voltage.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
+                  </div>
+                  <div className="col-span-1">
+                    <label className="block text-sm font-medium text-gray-700">
+                      [V]
+                    </label>
+                  </div>
 
-<div className="col-span-2"></div>
-        <div className="w-1/6 items-end">
-        <button
-          type="submit"
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={() => remove(index)}
-        >
-          Delete 
-        </button>
-      </div>
-
-
-           <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
-              
-            </div>
+                  <div className=" col-span-3 px-4  bg-gray-50 text-right ">
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={() => remove(index)}
+                    >
+                      Del C rate
+                    </button>
+                  </div>
+                  <br />
+                </div>
+              </div>
             </>
-          )})
-          
-        }
-        
-      <section className="grid grid-cols-2 gap-4 px-8">
-        <button 
-        type="submit"
-        className=" w-32 py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={() => {
-            append({ rate: 0, capacity: 0, charge_voltage: 0, discharge_voltage: 0})
-          }}
-        >
-          Add C rate
-        </button>
-        <button 
-                   type="submit"
-                   className="w-32 py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-         
-          onClick={() =>
-            reset({
-              crate: [{ rate: 0, capacity: 0, charge_voltage: 0, discharge_voltage: 0}],
-            })
-          }
-        >
-          Reset C rates
-        </button>
-      </section>
+          )
+        })}
 
+        <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
+
+        <section className=" flex items-center justify-center gap-4 ">
+          <button
+            type="submit"
+            className=" w-32 py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={() => {
+              append({
+                rate: 0,
+                capacity: 0,
+                charge_voltage: 0,
+                discharge_voltage: 0,
+              })
+            }}
+          >
+            Add C rate
+          </button>
+          <button
+            type="submit"
+            className="w-32 py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={() =>
+              reset({
+                crate: [
+                  {
+                    rate: 0,
+                    capacity: 0,
+                    charge_voltage: 0,
+                    discharge_voltage: 0,
+                  },
+                ],
+              })
+            }
+          >
+            Reset C rates
+          </button>
+        </section>
       </div>
-
-
-
 
       <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 mt-2">
         <button
           type="submit"
           className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          Save Material
+          Save new cathode
         </button>
       </div>
     </form>
   )
 }
-
-
-
-
-

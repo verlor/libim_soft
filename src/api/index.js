@@ -11,6 +11,8 @@ export const getMaterialsFetcher = (params) =>
   }).then((res) => res.json())
 
 export const postNewMaterial = (params) =>
-  fetch(`${API_URL + params}`, {
+  fetch(`${API_URL}`, {
     method: 'POST',
+    headers: {"Content-Type": "application/json; charset=utf-8"},
+    body:params,
   }).then((res) => res.json())
