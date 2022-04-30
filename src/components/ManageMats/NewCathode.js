@@ -30,6 +30,8 @@ export default function NewCathodeForm(type) {
     },
   })
 
+  
+
   let watchedMat = ''
 
   const { fields, append, remove } = useFieldArray({
@@ -48,7 +50,7 @@ export default function NewCathodeForm(type) {
       let toAddObj, capacity, charge_voltage,discharge_voltage={}
       let c_rates=[]
       for (let i = 0;i<crate.length;i++){
-        let cky="C"+crate[i].rate.replace(".","")
+        let cky=()=>{"C"+crate[i].rate.replace(".","")}
         //console.log('cky: ',cky)
             capacity={...capacity,
             [cky]:{
@@ -113,6 +115,7 @@ export default function NewCathodeForm(type) {
     return JSON.stringify(step)
   }
 
+ 
 
   return (
     <form
@@ -152,7 +155,7 @@ export default function NewCathodeForm(type) {
             />
             {errors.newMatName?.type === 'required' && (
               <span className="col-span-1 italic text-xs font-medium text-red-400">
-                (A name is required)
+                A name is required
               </span>
             )}
           </div>
@@ -168,7 +171,6 @@ export default function NewCathodeForm(type) {
             <input
               {...register('cathode_theor_capacity', {
                 required: true,
-                validate: { positive: (v) => parseFloat(v) > 0 },
               })}
               type="number"
               step="any"
@@ -178,9 +180,9 @@ export default function NewCathodeForm(type) {
                 border: errors.cathode_theor_capacity ? '2px solid red' : '',
               }}
             />
-            {errors.cathode_theor_capacity?.type === 'validate' && (
+            {errors.cathode_theor_capacity?.type === 'required' && (
               <span className="italic text-xs font-medium text-red-400">
-                A value &gt; 0 is required
+                A numeric value is required
               </span>
             )}
           </div>
@@ -204,8 +206,7 @@ export default function NewCathodeForm(type) {
           <div className="col-span-1">
             <input
               {...register('cathode_theor_voltage', {
-                required: true,
-                validate: { positive: (v) => parseFloat(v) > 0 },
+                required: true, 
               })}
               type="number"
               step="any"
@@ -215,9 +216,9 @@ export default function NewCathodeForm(type) {
                 border: errors.cathode_theor_voltage ? '2px solid red' : '',
               }}
             />
-            {errors.cathode_theor_voltage?.type === 'validate' && (
+            {errors.cathode_theor_voltage?.type === 'required' && (
               <span className="italic text-xs font-medium text-red-400">
-                A value &gt; 0 is required
+                A numeric value is required
               </span>
             )}
           </div>
@@ -240,7 +241,6 @@ export default function NewCathodeForm(type) {
             <input
               {...register('cathode_theor_density', {
                 required: true,
-                validate: { positive: (v) => parseFloat(v) > 0 },
               })}
               type="number"
               step="any"
@@ -250,9 +250,9 @@ export default function NewCathodeForm(type) {
                 border: errors.cathode_theor_density ? '2px solid red' : '',
               }}
             />
-            {errors.cathode_theor_density?.type === 'validate' && (
+            {errors.cathode_theor_density?.type === 'required' && (
               <span className="italic text-xs font-medium text-red-400">
-                A value &gt; 0 is required
+                A numeric value is required
               </span>
             )}
           </div>
@@ -271,7 +271,7 @@ export default function NewCathodeForm(type) {
 
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
 
-      <h2 class="text-md font-extrabold tracking-tight text-gray-700 mx-6 pt-6">
+      <h2 className="text-md font-extrabold tracking-tight text-gray-700 mx-6 pt-6">
         C Rate Values
       </h2>
 
@@ -279,6 +279,8 @@ export default function NewCathodeForm(type) {
 
       <div>
         {fields.map((item, index) => {
+          console.log('fields',fields)
+          console.log('errors', errors)
           return (
             <>
               <div className="shadow sm:rounded-md bg-gray-100">
@@ -295,8 +297,7 @@ export default function NewCathodeForm(type) {
                   <div className="col-span-1">
                     <input
                       {...register(`crate.${index}.rate`, {
-                        required: true,
-                        validate: { positive: (v) => parseFloat(v) > 0 },
+                        required: true,  
                       })}
                       name={`crate.${index}.rate`}
                       type="number"
@@ -308,7 +309,7 @@ export default function NewCathodeForm(type) {
                       }}
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/*errors.crate?.[index].rate.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
+                    {errors.crate?.[index].rate?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -324,8 +325,7 @@ export default function NewCathodeForm(type) {
                   <div className="col-span-1">
                     <input
                       {...register(`crate.${index}.capacity`, {
-                        required: true,
-                        validate: { positive: (v) => parseFloat(v) > 0 },
+                        required: true, 
                       })}
                       name={`crate.${index}.capacity`}
                       type="number"
@@ -337,7 +337,7 @@ export default function NewCathodeForm(type) {
                       }}
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/*errors.crate?.[index].capacity.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
+                    {errors.crate?.[index].capacity.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -354,7 +354,6 @@ export default function NewCathodeForm(type) {
                     <input
                       {...register(`crate.${index}.charge_voltage`, {
                         required: true,
-                        validate: { positive: (v) => parseFloat(v) > 0 },
                       })}
                       name={`crate.${index}.charge_voltage`}
                       type="number"
@@ -366,7 +365,7 @@ export default function NewCathodeForm(type) {
                       }}
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/*errors.crate?.[index].charge_voltage.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
+                    {errors.crate?.[index].charge_voltage.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -383,7 +382,6 @@ export default function NewCathodeForm(type) {
                     <input
                       {...register(`crate.${index}.discharge_voltage`, {
                         required: true,
-                        validate: { positive: (v) => parseFloat(v) > 0 },
                       })}
                       name={`crate.${index}.discharge_voltage`}
                       type="number"
@@ -395,7 +393,7 @@ export default function NewCathodeForm(type) {
                       }}
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/*errors.crate?.[index].discharge_voltage.value?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>*/}
+                    {errors.crate?.[index].discharge_voltage.type === 'required' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -405,7 +403,7 @@ export default function NewCathodeForm(type) {
 
                   <div className=" col-span-3 px-4  bg-gray-50 text-right ">
                     <button
-                      type="submit"
+                    type="submit"
                       className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       onClick={() => remove(index)}
                     >
@@ -423,7 +421,7 @@ export default function NewCathodeForm(type) {
 
         <section className=" flex items-center justify-center gap-4 ">
           <button
-            type="submit"
+          type="submit"
             className=" w-32 py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             onClick={() => {
               append({
@@ -437,7 +435,7 @@ export default function NewCathodeForm(type) {
             Add C rate
           </button>
           <button
-            type="submit"
+          type="submit"
             className="w-32 py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             onClick={() =>
               reset({

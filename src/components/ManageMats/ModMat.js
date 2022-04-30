@@ -40,18 +40,21 @@ export default function ModMatsForm() {
 
   return (
     <form
-      onSubmit={handleSubmit(async (manma_data) => {
-        const respMat = respMat === undefined ? {} : await propsCall(watchedMat)
-      })}
+      onSubmit={handleSubmit((mod_data) => console.log(moddata))}
       className=" shadow sm:rounded-md bg-gray-100 "
     >
       {/*
+
+      onSubmit={handleSubmit(async (manma_data) => {
+        const respMat = respMat === undefined ? {} : await propsCall(watchedMat)
+      })}
+
 
     <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4 pt-4">
         Materials Management 
     </h2>
 
-    <div class="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
+    <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
 
     <fieldset className="grid grid-cols-4 gap-4 p-4 ">
       <div className="col-span-1">
@@ -73,7 +76,7 @@ export default function ModMatsForm() {
       {/*console.log('ver',watchedMat)*/}
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
 
-      <h2 class="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
+      <h2 className="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
         Modify or Delete a Material
       </h2>
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>

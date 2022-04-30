@@ -32,10 +32,11 @@ export default function ParameterFormular() {
   const formulario = useSelector((state) => state.parameter)
   const dispatch = useDispatch()
   const { register, formState: { errors }, getValues, handleSubmit, watch } = useForm({
+    reValidateMode: 'onChange',
     defaultValues: {
-      cathode_material_id: '',
-      anode_material_id: '',
-      electrolyte_id: '',
+      cathode_material_id: '-1',
+      anode_material_id: '-1',
+      electrolyte_id: '-1',
       area: 50,
       n_base_units: 20,
       cathode_load: 5,
@@ -45,8 +46,8 @@ export default function ParameterFormular() {
       separator_thickness: 25,
       curr_collect_thickness_cu: 9,
       curr_collect_thickness_al: 15,
-      slow_charge_rate_id: '',
-      fast_charge_rate_id:'',
+      slow_charge_rate_id: '-1',
+      fast_charge_rate_id:'-1',
       n_series: 3,
       n_parallel: 3,
     },
@@ -178,63 +179,90 @@ export default function ParameterFormular() {
             Cathode Material
           </label>
           <select
-            {...register('cathode_material_id', { required: true})}
+            {...register('cathode_material_id', { required: true,
+              validate: { notDefault: (v) => parseFloat(v) !== -1}, 
+              })}
+              name="cathode_material_id"
+              style={{
+                border: errors.slow_charge_rate_id
+                  ? '2px solid red'
+                  : '',
+              }}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {!data ? (
               <option value="-1">Loading</option>
             ) : (
               <>
-                <option value="-1" selected>Select one</option>
+                <option value="-1" >Select one</option>
                 {resp_ca.map((elem) => (
                   <option value={elem.id}>{elem.name}</option>
                 ))}
               </>
             )}
           </select>
-          {errors.cathode_material_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.cathode_material_id && errors.cathode_material_id.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.cathode_material_id && errors.cathode_material_id.type === 'notDefault' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Anode Material
           </label>
           <select
-            {...register('anode_material_id', { required: true})}
+            {...register('anode_material_id', { required: true,
+              validate: { notDefault: (v) => parseFloat(v) !== -1}, 
+              })}
+              name="anode_material_id"
+              style={{
+                border: errors.slow_charge_rate_id
+                  ? '2px solid red'
+                  : '',
+              }}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {!data ? (
               <option value="-1">Loading</option>
             ) : (
               <>
-              <option value="-1" selected>Select one</option>
+              <option value="-1" >Select one</option>
                 {resp_an.map((elem) => (
                   <option value={elem.id}>{elem.name}</option>
                 ))}
               </>
             )}
           </select>
-          {errors.anode_material_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.anode_material_id && errors.anode_material_id.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.anode_material_id && errors.anode_material_id.type === 'notDefault' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Electrolyte
           </label>
           <select
-            {...register('electrolyte_id', { required: true})}
+            {...register('electrolyte_id', { required: true,
+              validate: { notDefault: (v) => parseFloat(v) !== -1}, 
+              })}
+              name="electrolyte_id"
+              style={{
+                border: errors.slow_charge_rate_id
+                  ? '2px solid red'
+                  : '',
+              }}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {!data ? (
               <option value="-1">Loading</option>
             ) : (
               <>
-              <option value="-1" selected>Select one</option>
+              <option value="-1" >Select one</option>
                 {resp_el.map((elem) => (
                   <option value={elem.id}>{elem.name}</option>
                 ))}
               </>
             )}
           </select>
-          {errors.electrolyte_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.electrolyte_id && errors.electrolyte_id.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.electrolyte_id && errors.electrolyte_id.type === 'notDefault' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
       </div>
       <div className="hidden sm:block" aria-hidden="true">
@@ -381,17 +409,26 @@ export default function ParameterFormular() {
             Min. C Rate [h<sup>-1</sup>]
           </label>
           <select
-            {...register('slow_charge_rate_id', { required: true,min: 0})}
+            {...register('slow_charge_rate_id', { required: true,
+            validate: { notDefault: (v) => parseFloat(v) !== -1}, 
+            })}
+            name="slow_charge_rate_id"
+            style={{
+              border: errors.slow_charge_rate_id
+                ? '2px solid red'
+                : '',
+            }}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
              <>
-              <option value="-1" selected>Select one</option>
+              <option value="-1" >Select one</option>
               {cRates?.map((rate) => (
               <option value={rate}>{rate}</option>
                 ))}
               </>
           </select>
-          {errors.slow_charge_rate_id?.type === ('required'||'min') && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.slow_charge_rate_id && errors.slow_charge_rate_id.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.slow_charge_rate_id && errors.slow_charge_rate_id.type === 'notDefault' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium text-gray-700">
@@ -399,20 +436,27 @@ export default function ParameterFormular() {
           </label>
           <select
             {...register('fast_charge_rate_id', {
-              required: true, min: (0.01+ Number(getValues('slow_charge_rate_id'))), 
+              required: true, 
+              validate: { gtr: (v) => parseFloat(v) > parseFloat(getValues('slow_charge_rate_id'))}, 
             })}
+            name="slow_charge_rate_id"
+            style={{
+              border: errors.fast_charge_rate_id
+                ? '2px solid red'
+                : '',
+            }}
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           > 
              <>
-              <option value="-1" selected>Select one</option>
+              <option value="-1" >Select one</option>
               {cRates?.map((rate) => (
               <option value={rate}>{rate}</option>
                 ))}
               </>
  
           </select>
-          {errors.fast_charge_rate_id?.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
-          {errors.fast_charge_rate_id?.type === 'min' && <span className="italic text-xs font-medium text-red-400">Selected value must be greater than Min. C Rate</span>}
+          {errors.fast_charge_rate_id && errors.fast_charge_rate_id.type === 'required' && <span className="italic text-xs font-medium text-red-400">A selection is required</span>}
+          {errors.fast_charge_rate_id && errors.fast_charge_rate_id.type === 'gtr' && <span className="italic text-xs font-medium text-red-400">Selected value must be greater than Min. C Rate</span>}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4 px-3">

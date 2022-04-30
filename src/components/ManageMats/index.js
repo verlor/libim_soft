@@ -1,6 +1,4 @@
-//import ManageMatsForm from './ManageMatsForm'
-import NewMat from './NewMat'
+import ManageMats from './ManageMats'
 
-//export default ManageMatsForm
-export default NewMat
+export default ManageMats
 

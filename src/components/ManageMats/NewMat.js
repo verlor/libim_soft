@@ -28,31 +28,44 @@ const [choosedType,setChoosedType]= useState("")
     <>
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
 
-      <h2 class="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
-        New Material
+{/*
+      <h2 className="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
+        New material type
       </h2>
-
+*/}
       
         
-        <div className="px-4 py-3 bg-gray-50 sm:px-6 mt-2 ">
+        <div className="px-4 py-3 sm:px-6 mt-2 ">
         <div className=" flex items:stretch gap-4 ">
-          <label className="py-2 px-4 shadow-sm text-sm font-medium rounded-md text-gray-900 hidden md:block">Choose the material type: </label>
+           <label className="py-2 px-4 shadow-sm text-sm font-medium rounded-md text-gray-900 hidden md:block">New material type: </label>
             <button
-            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={()=>setChoosedType("anode")}
+            id="anode"
+            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-300"
+            onClick={()=>{setChoosedType("anode")
+            document.getElementById("cathode").disabled=true
+            document.getElementById("electrolyte").disabled=true
+          }}
 
             >
               Anode
             </button>
             <button
-            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={()=>setChoosedType("cathode")}
+            id="cathode"
+            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-300"
+            onClick={()=>{setChoosedType("cathode")
+            document.getElementById("anode").disabled=true
+            document.getElementById("electrolyte").disabled=true
+          }}
             >
               Cathode
             </button>
             <button
-            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={()=>setChoosedType("electrolyte")}
+            id="electrolyte"
+            className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-300"
+            onClick={()=>{setChoosedType("electrolyte")
+            document.getElementById("anode").disabled=true
+            document.getElementById("cathode").disabled=true
+          }}
             >
               Electrolyte
             </button>
