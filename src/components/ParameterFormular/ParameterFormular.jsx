@@ -439,7 +439,7 @@ export default function ParameterFormular() {
               required: true, 
               validate: { gtr: (v) => parseFloat(v) > parseFloat(getValues('slow_charge_rate_id'))}, 
             })}
-            name="slow_charge_rate_id"
+            name="fast_charge_rate_id"
             style={{
               border: errors.fast_charge_rate_id
                 ? '2px solid red'

@@ -27,12 +27,6 @@ const [choosedType,setChoosedType]= useState("")
   return (
     <>
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
-
-{/*
-      <h2 className="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
-        New material type
-      </h2>
-*/}
       
         
         <div className="px-4 py-3 sm:px-6 mt-2 ">

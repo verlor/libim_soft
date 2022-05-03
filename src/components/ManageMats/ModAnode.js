@@ -6,7 +6,7 @@ import { getMaterialsFetcher, propsCall,postNewMaterial } from '../../api'
 
 let renderCount = 0
 
-export default function NewAnodeForm(matType) {
+export default function ModAnodeForm(matType) {
   const dispatch = useDispatch()
   const {
     register,

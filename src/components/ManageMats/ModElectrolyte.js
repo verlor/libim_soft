@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import useSWR from 'swr'
 import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
 
-export default function NewElectrolyteForm(matType) {
+export default function ModElectrolyteForm(matType) {
   const dispatch = useDispatch()
   const {
     register,

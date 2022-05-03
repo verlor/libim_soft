@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import '../../styles/global.css'
-import { useForm, useFieldArray } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
-import { postNewMaterial } from '../../api'
+import { useForm, useFieldArray, Controller } from 'react-hook-form'
+import { useSelector, useDispatch } from 'react-redux'
+import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
 
 let renderCount = 0
 
-export default function NewCathodeForm(matType) {
+export default function ModCathodeForm(mat) {
   const dispatch = useDispatch()
   const {
     register,
     control,
     formState: { errors },
+    getValues,
     handleSubmit,
+    watch,
     reset,
+    trigger,
+    setError,
   } = useForm({
     reValidateMode:"onChange",
     defaultValues: {
@@ -26,6 +30,10 @@ export default function NewCathodeForm(matType) {
       ],
     },
   })
+
+  
+
+  let watchedMat = ''
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -77,7 +85,7 @@ export default function NewCathodeForm(matType) {
         
     const step = {
       name: newName,
-      type: 'cathode',
+      mat: 'cathode',
       properties: {
         cathode_theor_capacity: {
           name: 'Cathode theoretical capacity',
@@ -112,7 +120,7 @@ export default function NewCathodeForm(matType) {
 
   return (
     <form
-    onSubmit={handleSubmit(async (newCathodeData) => {
+    onSubmit={handleSubmit(async (ModCathodeData) => {
       const reqNewCathode = await postNewMaterial(
       //console.log('uu: ',  
       TextParams(
