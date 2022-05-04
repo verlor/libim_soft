@@ -6,7 +6,7 @@ import { getMaterialsFetcher, propsCall,postNewMaterial } from '../../api'
 
 let renderCount = 0
 
-export default function ModAnodeForm(matType) {
+export default function ModAnodeForm(params) {
   const dispatch = useDispatch()
   const {
     register,
@@ -19,10 +19,10 @@ export default function ModAnodeForm(matType) {
     setError,
   } = useForm({
     defaultValues: {
-      newMatName: '',
-      anode_theor_capacity: 0,
-      anode_real_capacity: 0,
-      anode_voltage: 0,
+      newMatName: `${params.matToMod.name}`,
+      anode_theor_capacity: `${params.matToMod.properties.anode_theor_capacity.value}`,
+      anode_real_capacity: `${params.matToMod.properties.anode_real_capacity.value}`,
+      anode_voltage: `${params.matToMod.properties.anode_voltage.value}`,
     },
   })
 
@@ -55,6 +55,7 @@ export default function ModAnodeForm(matType) {
     return JSON.stringify(step)
   }
 
+  console.log('matToMod',params.matToMod)
 
 
   return (

@@ -5,12 +5,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import useSWR from 'swr'
 import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
 
-export default function ModElectrolyteForm(matType) {
+export default function ModElectrolyteForm(props) {
   const dispatch = useDispatch()
   const {
     register,
     control,
     formState: { errors },
+    getValues,
     handleSubmit,
     watch,
     reset,
@@ -18,10 +19,11 @@ export default function ModElectrolyteForm(matType) {
     setError,
   } = useForm({
     defaultValues: {
-      newMatName: '',
-      density: 0,
+      newMatName: `${props.matToMod.name}`,
+      density: `${props.matToMod.properties.density.value}`,
     },
   })
+
 
   const TextParams = (newName, newValue) => {
     const step = {
@@ -113,7 +115,7 @@ export default function ModElectrolyteForm(matType) {
           type="submit"
           className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          Save new electrolyte
+          Save changes
         </button>
       </div>
     </form>

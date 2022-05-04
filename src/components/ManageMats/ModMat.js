@@ -41,22 +41,23 @@ export default function ModMatsForm() {
     //console.log('uu',{ myMaterial })
   }, [watchedMat])
 
-
+console.log ('fetchedMaterial.name',fetchedMaterial.name)
   const renderForm = (e) => {
-    switch (e) {
+    switch (e.type) {
       case 'anode':
-        return <ModAnodeForm />
+        return <ModAnodeForm matToMod={fetchedMaterial}/>
       case 'cathode':
-        return <ModCathodeForm />
+        return <ModCathodeForm matToMod={fetchedMaterial}/>
       case 'electrolyte':
-        return <ModElectrolyteForm />
+        return <ModElectrolyteForm matToMod={fetchedMaterial}/>
       case 'reset':
         return ''
       default:
         return <></>
-    }
-  }
+    }}
 
+
+  
 
   return (
 
@@ -80,13 +81,12 @@ export default function ModMatsForm() {
               border: errors.selectedMat
                 ? '2px solid red'
                 : '',
-            }}
-            
+            }}            
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
              <>
               <option value="-1" >Select a material</option>
-              {data.map((elem) => (
+              {data?.map((elem) => (
                   <option value={elem.id}>{elem.name}</option> 
                 ))}
              
@@ -119,10 +119,8 @@ Modify material properties
      
 <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
 
-
-{renderForm(fetchedMaterial.type)}
-
-
+{console.log('fetchedMaterial',fetchedMaterial)}
+{renderForm(fetchedMaterial)}
 
       <div className=" flex items:center gap-4 ">
       <label className="text-s font-extrabold tracking-tight text-gray-700 mx-4 pt-4 py-4"> Delete material from data base </label>
