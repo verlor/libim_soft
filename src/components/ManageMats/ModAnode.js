@@ -2,11 +2,12 @@ import React, { useReducer, useState, useEffect } from 'react'
 import '../../styles/global.css'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
-import { getMaterialsFetcher, propsCall,postNewMaterial } from '../../api'
+import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
 
 let renderCount = 0
 
 export default function ModAnodeForm(params) {
+  console.log({ obj1: params })
   const dispatch = useDispatch()
   const {
     register,
@@ -15,8 +16,10 @@ export default function ModAnodeForm(params) {
     handleSubmit,
     watch,
     reset,
+    resetField,
     trigger,
     setError,
+    setValue,
   } = useForm({
     defaultValues: {
       newMatName: `${params.matToMod.name}`,
@@ -26,28 +29,37 @@ export default function ModAnodeForm(params) {
     },
   })
 
-  const TextParams = (newName, newTheorCapacity, newRealCapacity, newVoltage) => {
+  useEffect(() => {
+    setValue('newMatName', params.matToMod.name)
+  }, [params])
+
+  const TextParams = (
+    newName,
+    newTheorCapacity,
+    newRealCapacity,
+    newVoltage
+  ) => {
     const step = {
       name: newName,
       type: 'anode',
       properties: {
         anode_theor_capacity: {
           name: 'Anode theoretical capacity',
-          s_name: 'an_th_cap', 
+          s_name: 'an_th_cap',
           value: parseFloat(newTheorCapacity),
-          unit: 'mAhg-1'
+          unit: 'mAhg-1',
         },
         anode_real_capacity: {
           name: 'Anode real capacity',
-          s_name: 'an_re_cap', 
+          s_name: 'an_re_cap',
           value: parseFloat(newRealCapacity),
-          unit: 'mAhg-1'
+          unit: 'mAhg-1',
         },
         anode_voltage: {
           name: 'Anode voltage',
-          s_name: 'anode_V', 
+          s_name: 'anode_V',
           value: parseFloat(newVoltage),
-          unit: 'V'
+          unit: 'V',
         },
       },
     }
@@ -55,23 +67,21 @@ export default function ModAnodeForm(params) {
     return JSON.stringify(step)
   }
 
-  console.log('matToMod',params.matToMod)
-
+  console.log('matToMod', params.matToMod)
 
   return (
     <form
-    onSubmit={handleSubmit(async (newAnodeData) => {
-      const reqNewElectrolyte = await postNewMaterial(
-        TextParams(
-          newAnodeData?.newMatName,
-          newAnodeData?.anode_theor_capacity,
-          newAnodeData?.anode_real_capacity,
-          newAnodeData?.anode_voltage
+      onSubmit={handleSubmit(async (newAnodeData) => {
+        const reqNewElectrolyte = await postNewMaterial(
+          TextParams(
+            newAnodeData?.newMatName,
+            newAnodeData?.anode_theor_capacity,
+            newAnodeData?.anode_real_capacity,
+            newAnodeData?.anode_voltage
+          )
         )
-      )
-      //console.log('ver_resp_form: ' , TextParams(NewElectrolyteData?.newMatName, NewElectrolyteData?.density))
-    })}
-
+        //console.log('ver_resp_form: ' , TextParams(NewElectrolyteData?.newMatName, NewElectrolyteData?.density))
+      })}
       className=" shadow sm:rounded-md bg-gray-100 "
     >
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>

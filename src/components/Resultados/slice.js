@@ -4,6 +4,7 @@ export const resultadosReducer = createSlice({
   name: 'resultados',
   initialState: {
     suma: {},
+    isComplete: false,
     // results: {
     //   calc_high_curr,
     //   calc_low_curr

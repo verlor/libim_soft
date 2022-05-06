@@ -2,8 +2,12 @@ import React from 'react'
 import '../../styles/global.css'
 import { Link } from 'gatsby'
 import { stringify } from 'postcss'
+import { useSelector } from 'react-redux'
 
 const activeStyle = { color: 'blue' }
+
+// const isComplete = useSelector( state => state.isComplete );
+const isComplete = false
 
 export default function SideMenu() {
   return (
@@ -24,21 +28,23 @@ export default function SideMenu() {
               {/* console.log(window.location.href) */}
             </a>
           </li>
-          <li className="py-2 hover:bg-indigo-300 rounded">
-            <a className="" href="#">
-              <Link to="/results/" activeStyle={activeStyle}>
-                <img
-                  src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/chart-bar.svg"
-                  className="w-7 sm:mx-2 mx-4 inline"
-                />{' '}
-                <span className="hidden sm:inline">
-                  {/* console.log(location) */}
-                
-                Results
-                </span>
-              </Link>
-            </a>
-          </li>
+          {isComplete && (
+            <li className="py-2 hover:bg-indigo-300 rounded">
+              <a className="" href="#">
+                <Link to="/results/" activeStyle={activeStyle}>
+                  <img
+                    src="//cdn.jsdelivr.net/npm/heroicons@1.0.1/outline/chart-bar.svg"
+                    className="w-7 sm:mx-2 mx-4 inline"
+                  />{' '}
+                  <span className="hidden sm:inline">
+                    {/* console.log(location) */}
+                    Results
+                  </span>
+                </Link>
+              </a>
+            </li>
+          )}
+
           <li className="py-2 hover:bg-indigo-300 rounded">
             <a className="" href="#">
               <Link to="/managemats/" activeStyle={activeStyle}>
@@ -48,8 +54,7 @@ export default function SideMenu() {
                 />{' '}
                 <span className="hidden sm:inline">
                   {/* console.log(location) */}
-                
-                Manage Mats
+                  Manage Mats
                 </span>
               </Link>
             </a>
@@ -63,8 +68,7 @@ export default function SideMenu() {
                 />{' '}
                 <span className="hidden sm:inline">
                   {/* console.log(location) */}
-                
-                Info & Defs 
+                  Info & Defs
                 </span>
               </Link>
             </a>
