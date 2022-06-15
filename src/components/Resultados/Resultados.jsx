@@ -29,9 +29,6 @@ export default function Resultados() {
   //console.log("slow",slow)
   //console.log("fast",fast)
 
-
-
-
   return (
     <>
       <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl mx-4 pt-4">
@@ -50,7 +47,10 @@ export default function Resultados() {
             <div className="col-span-2 font-medium">
               {slow?.module_discharge_voltage.value.toFixed(2)}
             </div>
-            <div className="col-span-1"> {"[" + slow?.module_discharge_voltage.unit + "]"} </div>
+            <div className="col-span-1">
+              {' '}
+              {'[' + slow?.module_discharge_voltage.unit + ']'}{' '}
+            </div>
             <div className="col-span-2">
               {' '}
               Energy<sub> density</sub>:
@@ -58,7 +58,10 @@ export default function Resultados() {
             <div className="col-span-2 font-medium">
               {slow?.module_discharge_energy_density.value.toFixed(2)}
             </div>
-            <div className="col-span-1">  {"[" + slow?.module_discharge_energy_density.unit + "]"}  </div>
+            <div className="col-span-1">
+              {' '}
+              {'[' + slow?.module_discharge_energy_density.unit + ']'}{' '}
+            </div>
             <div className="col-span-2">
               {' '}
               Power<sub> density</sub>:
@@ -66,12 +69,18 @@ export default function Resultados() {
             <div className="col-span-2 font-medium">
               {slow?.module_discharge_power_density.value.toFixed(2)}
             </div>
-            <div className="col-span-1"> {"[" + slow?.module_discharge_power_density.unit + "]"}  </div>
+            <div className="col-span-1">
+              {' '}
+              {'[' + slow?.module_discharge_power_density.unit + ']'}{' '}
+            </div>
             <div className="col-span-2"> Volume: </div>
             <div className="col-span-2 font-medium">
               {slow?.module_volume.value.toFixed(2)}
             </div>
-            <div className="col-span-1"> {"[" + slow?.module_volume.unit + "]"}  </div>
+            <div className="col-span-1">
+              {' '}
+              {'[' + slow?.module_volume.unit + ']'}{' '}
+            </div>
           </div>
         </div>
 
@@ -84,7 +93,10 @@ export default function Resultados() {
             <div className="col-span-2 font-medium">
               {fast?.module_discharge_voltage.value.toFixed(2)}
             </div>
-            <div className="col-span-1"> {"[" + fast?.module_discharge_voltage.unit + "]"} </div>
+            <div className="col-span-1">
+              {' '}
+              {'[' + fast?.module_discharge_voltage.unit + ']'}{' '}
+            </div>
             <div className="col-span-2">
               {' '}
               Energy<sub> density</sub>:
@@ -92,7 +104,10 @@ export default function Resultados() {
             <div className="col-span-2 font-medium">
               {fast?.module_discharge_energy_density.value.toFixed(2)}
             </div>
-            <div className="col-span-1"> {"[" + fast?.module_discharge_energy_density.unit + "]"}  </div>
+            <div className="col-span-1">
+              {' '}
+              {'[' + fast?.module_discharge_energy_density.unit + ']'}{' '}
+            </div>
             <div className="col-span-2">
               {' '}
               Power<sub> density</sub>:
@@ -100,12 +115,18 @@ export default function Resultados() {
             <div className="col-span-2 font-medium">
               {fast?.module_discharge_power_density.value.toFixed(2)}
             </div>
-            <div className="col-span-1"> {"[" + fast?.module_discharge_power_density.unit + "]"} </div>
+            <div className="col-span-1">
+              {' '}
+              {'[' + fast?.module_discharge_power_density.unit + ']'}{' '}
+            </div>
             <div className="col-span-2"> Volume: </div>
             <div className="col-span-2 font-medium">
               {fast?.module_volume.value.toFixed(2)}
             </div>
-            <div className="col-span-1"> {"[" + fast?.module_volume.unit + "]"} </div>
+            <div className="col-span-1">
+              {' '}
+              {'[' + fast?.module_volume.unit + ']'}{' '}
+            </div>
           </div>
         </div>
       </div>
@@ -114,12 +135,12 @@ export default function Resultados() {
 
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
         <div className="col-span-1  sm:rounded-md ">
-        <label className="block text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
+          <label className="block text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
             Slow C Rate: {formular?.slow_charge_rate_id.value}
           </label>
         </div>
-        <div className="col-span-1  sm:rounded-md ">  
-        <label className="block text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
+        <div className="col-span-1  sm:rounded-md ">
+          <label className="block text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl">
             Fast C Rate: {formular?.fast_charge_rate_id.value}
           </label>
         </div>
@@ -134,15 +155,17 @@ export default function Resultados() {
             {Object.keys(slow).map((elem) => {
               if (elem.includes('base_unit_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
-                    <div className="col-span-3 text-left">
-                      {slow[elem].name} : 
+                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div className="col-span-3 text-left sm:text-sm">
+                      {slow[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium">
-                      {slow[elem].value.toPrecision(6)} {' '}
+                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                      {slow[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1"> 
-                    {"[" + (slow[elem].unit !=="[]"? slow[elem].unit : " ") + "]"}
+                    <div className="col-span-1 sm:text-sm">
+                      {'[' +
+                        (slow[elem].unit !== '[]' ? slow[elem].unit : ' ') +
+                        ']'}
                     </div>
                   </div>
                 )
@@ -155,15 +178,17 @@ export default function Resultados() {
             {Object.keys(fast).map((elem) => {
               if (elem.includes('base_unit_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
-                    <div className="col-span-3 text-left">
-                      {fast[elem].name} : 
+                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div className="col-span-3 text-left sm:text-sm">
+                      {fast[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium">
-                      {fast[elem].value.toPrecision(6)} {' '}
+                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                      {fast[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1"> 
-                     {"[" + (fast[elem].unit !=="[]"? fast[elem].unit : " ") + "]"}
+                    <div className="col-span-1 sm:text-sm">
+                      {'[' +
+                        (fast[elem].unit !== '[]' ? fast[elem].unit : ' ') +
+                        ']'}
                     </div>
                   </div>
                 )
@@ -171,6 +196,8 @@ export default function Resultados() {
           </div>
         </div>
       </div>
+
+      <div className="flex items-baseline mt-4 mb-6 pb-1 border-slate-200"></div>
 
       <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-4 pt-3">
         Cell
@@ -181,15 +208,17 @@ export default function Resultados() {
             {Object.keys(slow).map((elem) => {
               if (elem.includes('cell_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
-                    <div className="col-span-3 text-left">
-                      {slow[elem].name} : 
+                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div className="col-span-3 text-left sm:text-sm">
+                      {slow[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium">
-                      {slow[elem].value.toPrecision(6)} {' '}
+                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                      {slow[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1"> 
-                    {"[" + (slow[elem].unit !=="[]"? slow[elem].unit : " ") + "]"}
+                    <div className="col-span-1 sm:text-sm">
+                      {'[' +
+                        (slow[elem].unit !== '[]' ? slow[elem].unit : ' ') +
+                        ']'}
                     </div>
                   </div>
                 )
@@ -202,15 +231,17 @@ export default function Resultados() {
             {Object.keys(fast).map((elem) => {
               if (elem.includes('cell_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
-                    <div className="col-span-3 text-left">
-                      {fast[elem].name} : 
+                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div className="col-span-3 text-left sm:text-sm">
+                      {fast[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium">
-                      {fast[elem].value.toPrecision(6)} {' '}
+                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                      {fast[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1"> 
-                     {"[" + (fast[elem].unit !=="[]"? fast[elem].unit : " ") + "]"}
+                    <div className="col-span-1 sm:text-sm">
+                      {'[' +
+                        (fast[elem].unit !== '[]' ? fast[elem].unit : ' ') +
+                        ']'}
                     </div>
                   </div>
                 )
@@ -219,6 +250,7 @@ export default function Resultados() {
         </div>
       </div>
 
+      <div className="flex items-baseline mt-4 mb-6 pb-1 border-slate-200"></div>
 
       <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-4 pt-3">
         Module
@@ -229,15 +261,17 @@ export default function Resultados() {
             {Object.keys(slow).map((elem) => {
               if (elem.includes('module_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
-                    <div className="col-span-3 text-left">
-                      {slow[elem].name} : 
+                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div className="col-span-3 text-left sm:text-sm">
+                      {slow[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium">
-                      {slow[elem].value.toPrecision(6)} {' '}
+                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                      {slow[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1"> 
-                    {"[" + (slow[elem].unit !=="[]"? slow[elem].unit : " ") + "]"}
+                    <div className="col-span-1 sm:text-sm">
+                      {'[' +
+                        (slow[elem].unit !== '[]' ? slow[elem].unit : ' ') +
+                        ']'}
                     </div>
                   </div>
                 )
@@ -250,15 +284,17 @@ export default function Resultados() {
             {Object.keys(fast).map((elem) => {
               if (elem.includes('module_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
-                    <div className="col-span-3 text-left">
-                      {fast[elem].name} : 
+                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div className="col-span-3 text-left sm:text-sm">
+                      {fast[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium">
-                      {fast[elem].value.toPrecision(6)} {' '}
+                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                      {fast[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1"> 
-                     {"[" + (fast[elem].unit !=="[]"? fast[elem].unit : " ") + "]"}
+                    <div className="col-span-1 sm:text-sm">
+                      {'[' +
+                        (fast[elem].unit !== '[]' ? fast[elem].unit : ' ') +
+                        ']'}
                     </div>
                   </div>
                 )
@@ -267,81 +303,79 @@ export default function Resultados() {
         </div>
       </div>
 
-
       <div className="flex items-baseline mt-4 mb-6 pb-1 border-slate-200"></div>
 
-      <h2 className="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
-        Pre Calculations:
-      </h2>
+      <div className="items-center">
+        <h2 className="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-3">
+          Pre Calculations:
+          <label className="float-right text-xl ">
+            <input
+              id="visib_pre_base_unit"
+              type="checkbox"
+              className="hidden appearance-none peer"
+              onChange={() => {
+                setShowPanel(!showPanel)
+              }}
+            />
+            <span className="w-8 h-4 flex items-center flex-shrink-0 ml-0 p-1 bg-gray-400 rounded-full duration-300 ease-in-out peer-checked:bg-indigo-600 after:w-3 after:h-3 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3 mt-1"></span>
+          </label>
+        </h2>
+      </div>
 
-      <div className="grid grid-cols-2 gap-4 px-2 text-center">
-        <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
-          <div className="grid grid-cols-5 p-2 text-center text-xs font-sm text-gray-700 sm:text-sm">
-            <label className="col-span-4 text-left text-l font-extrabold tracking-tight text-gray-900 sm:text-xl mx-4 pt-4">
-              Base Unit
-            </label>
-            <label className="col-span-1 flex justify-between text-xl ">
-              <input
-                id="visib_pre_base_unit"
-                type="checkbox"
-                className="hidden appearance-none peer"
-                onChange={() => {
-                  setShowPanel(!showPanel)
-                }}
-              />
-              <span className="w-11 h-6 flex items-center flex-shrink-0 ml-4 p-1 bg-gray-400 rounded-full duration-300 ease-in-out peer-checked:bg-indigo-600 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-4 mt-4"></span>
-            </label>
-          </div>
-          <div className={`group ${!showPanel && 'invisible'}`}>
-          {Object.keys(pre_base_unit).map((elem) => {
-            return (
-            <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
-                    <div className="col-span-3 text-left">
-                      {pre_base_unit[elem].name} : 
-                    </div>
-                    <div className="col-span-2 font-medium">
-                      {pre_base_unit[elem].value.toPrecision(6)} {' '}
-                    </div>
-                    <div className="col-span-1"> 
-                     {"[" + (pre_base_unit[elem].unit !=="[]"? pre_base_unit[elem].unit : " ") + "]"}
-                    </div>
+      <div className={`group ${!showPanel && 'invisible'}`}>
+        <div className="grid grid-cols-2 gap-4 px-2 text-center">
+          <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
+            <div className="grid grid-cols-5 p-2 text-center text-xs font-sm text-gray-700 sm:text-sm">
+              <label className="col-span-4 text-left text-l font-extrabold tracking-tight text-gray-900 sm:text-xl mx-4 pt-4">
+                Base Unit
+              </label>
             </div>
-          )})}
+            {Object.keys(pre_base_unit).map((elem) => {
+              return (
+                <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                  <div className="col-span-3 text-left sm:text-sm">
+                    {pre_base_unit[elem].name} :
+                  </div>
+                  <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                    {pre_base_unit[elem].value.toPrecision(6)}{' '}
+                  </div>
+                  <div className="col-span-1 sm:text-sm">
+                    {'[' +
+                      (pre_base_unit[elem].unit !== '[]'
+                        ? pre_base_unit[elem].unit
+                        : ' ') +
+                      ']'}
+                  </div>
+                </div>
+              )
+            })}
           </div>
-        </div>
 
-        <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
-          <div className="grid grid-cols-5 p-2 text-center text-xs font-sm text-gray-700 sm:text-sm">
-            <label className="col-span-4 text-left text-l font-extrabold tracking-tight text-gray-900 sm:text-xl mx-4 pt-4">
-              Cell
-            </label>
-            <label className="col-span-1 flex justify-between text-xl ">
-              <input
-                id="visib_pre_base_unit"
-                type="checkbox"
-                className="hidden appearance-none peer"
-                onChange={() => {
-                  setShowPanel2(!showPanel2)
-                }}
-              />
-              <span className="w-11 h-6 flex items-center flex-shrink-0 ml-4 p-1 bg-gray-400 rounded-full duration-300 ease-in-out peer-checked:bg-indigo-600 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-4 mt-4"></span>
-            </label>
-          </div>
-          <div className={`group ${!showPanel2 && 'invisible'}`}>
-          {Object.keys(pre_cell).map((elem) => {
-            return (
-            <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 sm:text-sm mx-4 pt-1.5">
-                    <div className="col-span-3 text-left">
-                      {pre_cell[elem].name} : 
-                    </div>
-                    <div className="col-span-2 font-medium">
-                      {pre_cell[elem].value.toPrecision(6)} {' '}
-                    </div>
-                    <div className="col-span-1"> 
-                     {"[" + (pre_cell[elem].unit !=="[]"? pre_cell[elem].unit : " ") + "]"}
-                    </div>
+          <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
+            <div className="grid grid-cols-5 p-2 text-center text-xs font-sm text-gray-700 sm:text-sm">
+              <label className="col-span-4 text-left text-l font-extrabold tracking-tight text-gray-900 sm:text-xl mx-4 pt-4">
+                Cell
+              </label>
             </div>
-          )})}
+            {Object.keys(pre_cell).map((elem) => {
+              return (
+                <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                  <div className="col-span-3 text-left sm:text-sm">
+                    {pre_cell[elem].name} :
+                  </div>
+                  <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                    {pre_cell[elem].value.toPrecision(6)}{' '}
+                  </div>
+                  <div className="col-span-1 sm:text-sm">
+                    {'[' +
+                      (pre_cell[elem].unit !== '[]'
+                        ? pre_cell[elem].unit
+                        : ' ') +
+                      ']'}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

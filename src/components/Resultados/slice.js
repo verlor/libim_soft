@@ -14,6 +14,9 @@ export const resultadosReducer = createSlice({
     setSuma: (state, action) => {
       state.suma = action.payload
     },
+    setIsComplete:(state,action) => {
+      state.isComplete = action.payload
+    },
     // setResults: (state, action) => {
     //   state.results = action.payload
     // },
@@ -21,5 +24,6 @@ export const resultadosReducer = createSlice({
 })
 
 export const { setSuma } = resultadosReducer.actions
+export const { setIsComplete } = resultadosReducer.actions
 
 export default resultadosReducer.reducer
