@@ -20,14 +20,36 @@ export const parameterFormularSlice = createSlice({
     fast_charge_rate_id: 0,
     n_series: 0,
     n_parallel: 0,
+    initialConditionsFormular: {
+      cathode_material_id: '-1',
+      anode_material_id: '-1',
+      electrolyte_id: '-1',
+      area: 50,
+      n_base_units: 20,
+      cathode_load: 5,
+      coating_thickness: 50,
+      cathode_add: 5,
+      anode_add: 5,
+      separator_thickness: 25,
+      curr_collect_thickness_cu: 9,
+      curr_collect_thickness_al: 15,
+      slow_charge_rate_id: '-1',
+      fast_charge_rate_id: '-1',
+      n_series: 3,
+      n_parallel: 3,
+    },
   },
   reducers: {
     handleFormSubmit: (state, action) => {
       state = { ...action.payload }
     },
+    updateFormState: (state, action) => {
+      state.initialConditionsFormular = { ...action.payload }
+    },
   },
 })
 
-export const { handleFormSubmit } = parameterFormularSlice.actions
+export const { handleFormSubmit, updateFormState } =
+  parameterFormularSlice.actions
 
 export default parameterFormularSlice.reducer

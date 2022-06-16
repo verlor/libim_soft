@@ -2,7 +2,7 @@ import React, { useReducer, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import '../../styles/global.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { handleFormSubmit } from '../ParameterFormular/slice'
+import { updateFormState } from '../ParameterFormular/slice'
 //import { derivar } from './utils'
 import { form_feed } from '../Calcs/test'
 import { calc } from '../Calcs/cuentas'
@@ -32,6 +32,9 @@ export default function ParameterFormular() {
 
   //const formulario = useSelector((state) => state.parameter)
   const dispatch = useDispatch()
+  const initFormState = useSelector(
+    (state) => state.parameter.initialConditionsFormular
+  )
 
   const {
     register,
@@ -41,24 +44,7 @@ export default function ParameterFormular() {
     watch,
   } = useForm({
     reValidateMode: 'onChange',
-    defaultValues: {
-      cathode_material_id: '-1',
-      anode_material_id: '-1',
-      electrolyte_id: '-1',
-      area: 50,
-      n_base_units: 20,
-      cathode_load: 5,
-      coating_thickness: 50,
-      cathode_add: 5,
-      anode_add: 5,
-      separator_thickness: 25,
-      curr_collect_thickness_cu: 9,
-      curr_collect_thickness_al: 15,
-      slow_charge_rate_id: '-1',
-      fast_charge_rate_id: '-1',
-      n_series: 3,
-      n_parallel: 3,
-    },
+    defaultValues: initFormState,
     reValidateMode: 'onChange',
   })
   //const [result, setResult] = useState('')
@@ -68,6 +54,8 @@ export default function ParameterFormular() {
     setCRates(resp_ca?.find((cat) => cat.id == cat_id)?.c_rates)
   }, [cat_id])
 
+  console.log({ cRates })
+
   return (
     <form
       onSubmit={handleSubmit(async (form_data) => {
@@ -75,6 +63,13 @@ export default function ParameterFormular() {
         const respAnode = await propsCall(form_data.anode_material_id)
         const respElectrolyte = await propsCall(form_data.electrolyte_id)
 
+        dispatch(
+          updateFormState({
+            ...form_data,
+            fast_charge_rate_id: parseFloat(form_data.fast_charge_rate_id),
+            slow_charge_rate_id: parseFloat(form_data.fast_charge_rate_id),
+          })
+        )
         const foData = {
           cathode_material_id: {
             id: form_data.cathode_material_id,
@@ -550,7 +545,7 @@ export default function ParameterFormular() {
             className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             <>
-              <option  value="-1">Select</option>
+              <option value="-1">Select</option>
               {cRates?.map((rate) => (
                 <option value={rate}>{rate}</option>
               ))}
