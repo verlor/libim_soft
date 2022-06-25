@@ -4,11 +4,11 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { postNewMaterial } from '../../api'
 
-let renderCount = 0
 
 export default function NewCathodeForm(matType) {
   const dispatch = useDispatch()
   const {
+    getValues,
     register,
     control,
     formState: { errors },
@@ -21,9 +21,9 @@ export default function NewCathodeForm(matType) {
       cathode_theor_capacity: 0,
       cathode_theor_voltage: 0,
       cathode_theor_density: 0,
-      // crate: [
-      //   { rate: 0, capacity: 0, charge_voltage: 0, discharge_voltage: 0 },
-      // ],
+       crate: [
+         { rate: 0, capacity: 0, charge_voltage: 0, discharge_voltage: 0 },
+       ],
     },
   })
 
@@ -42,19 +42,21 @@ export default function NewCathodeForm(matType) {
     let toAddObj,
       capacity,
       charge_voltage,
-      discharge_voltage = {}
-    let c_rates = []
-    for (let i = 0; i < crate.length; i++) {
-      let cky = () => {
-        'C' + crate[i].rate.replace('.', '')
-      }
-      //console.log('cky: ',cky)
+      discharge_voltage = {},
+      c_rates = [],
+      cky
+    
+      for (let i = 0; i < crate.length; i++) {
+        console.log(crate[i].rate, String(parseFloat(crate[i].rate)).replace('.', ''))
+      cky = 'C' + String(parseFloat(crate[i].rate)).replace('.', '')
+
+
       capacity = {
         ...capacity,
         [cky]: {
           name: 'Cathode capacity',
           s_name: 'ca_cap',
-          rate: crate[i].rate,
+          rate: parseFloat(crate[i].rate),
           value: parseFloat(crate[i].capacity),
           unit: 'mAhg-1',
         },
@@ -64,7 +66,7 @@ export default function NewCathodeForm(matType) {
         [cky]: {
           name: 'Cathode charge voltage',
           s_name: 'ca_ch_V',
-          rate: crate[i].rate,
+          rate: parseFloat(crate[i].rate),
           value: parseFloat(crate[i].charge_voltage),
           unit: 'V',
         },
@@ -74,7 +76,7 @@ export default function NewCathodeForm(matType) {
         [cky]: {
           name: 'Cathode discharge voltage',
           s_name: 'ca_dch_V',
-          rate: crate[i].rate,
+          rate: parseFloat(crate[i].rate),
           value: parseFloat(crate[i].discharge_voltage),
           unit: 'V',
         },
@@ -83,7 +85,6 @@ export default function NewCathodeForm(matType) {
       c_rates[i] = parseFloat(crate[i].rate)
       toAddObj = { capacity, charge_voltage, discharge_voltage }
     }
-    //console.log('toAddObj: ',toAddObj, 'c_rates: ',c_rates)
 
     const step = {
       name: newName,
@@ -113,8 +114,6 @@ export default function NewCathodeForm(matType) {
       },
       c_rates,
     }
-
-    //console.log('ver str: ', JSON.stringify(step))
     return JSON.stringify(step)
   }
 
@@ -122,7 +121,6 @@ export default function NewCathodeForm(matType) {
     <form
       onSubmit={handleSubmit(async (newCathodeData) => {
         const reqNewCathode = await postNewMaterial(
-          //console.log('uu: ',
           TextParams(
             newCathodeData?.newMatName,
             newCathodeData?.cathode_theor_capacity,
@@ -278,8 +276,8 @@ export default function NewCathodeForm(matType) {
 
       <div>
         {fields.map((item, index) => {
-          console.log('fields', fields)
-          console.log('errors', errors)
+          //console.log('fields', fields)
+          //console.log('errors', errors)
           return (
             <>
               <div className="shadow sm:rounded-md bg-gray-100">
@@ -291,10 +289,12 @@ export default function NewCathodeForm(matType) {
                     </label>
                   </div>
                   <div className="col-span-1">
+                    
                     <input
                       key={item.id}
                       {...register(`crate.${index}.rate`, {
-                        validate: { notEmpty: (v) => v.length > 0 },
+                        valueAsNumber: true,
+                        validate: { notEmpty: (v) => v.length > 0 , notLess:(v)=>{v>getValues(`crate.${index-1}.rate`) && (index>0)}},
                       })}
                       name={`crate.${index}.rate`}
                       type="number"
@@ -306,12 +306,20 @@ export default function NewCathodeForm(matType) {
                       }}
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
+                    {console.log('index', index, 'index.rate',getValues(`crate.${index-1}.rate`))}
                     {typeof errors?.crate !== 'undefined' &&
                       errors.crate?.[index]?.rate?.type === 'notEmpty' && (
                         <span className="italic text-xs font-medium text-red-400">
                           A numeric value is required
                         </span>
                       )}
+                        {typeof errors?.crate !== 'undefined' &&
+                      errors.crate?.[index]?.rate?.type === 'notLess' && (
+                        <span className="italic text-xs font-medium text-red-400">
+                          C Rate must be greater than the previous one
+                        </span>
+                      )}
+                      {console.log('errors',errors)}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">

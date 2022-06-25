@@ -6,28 +6,13 @@ import batt from '../../images/batt.svg'
 
 export default function Resultados() {
   const formular = useSelector((state) => state.resultados.suma?.formularData)
-  //const before = useSelector((state) => state.resultados.suma?.before_calc)
-  const pre_base_unit = useSelector(
-    (state) => state.resultados.suma?.pre_base_unit
-  )
+  const pre_base_unit = useSelector((state) => state.resultados.suma?.pre_base_unit)
   const pre_cell = useSelector((state) => state.resultados.suma?.pre_cell)
-  const module_total_mass = useSelector(
-    (state) => state.resultados.suma?.module_total_mass
-  )
   const fast = useSelector((state) => state.resultados.suma?.fast)
   const slow = useSelector((state) => state.resultados.suma?.slow)
 
-  const [showPanel, setShowPanel] = useState(true)
-  const [showPanel2, setShowPanel2] = useState(true)
-
-  //console.log('fast', fast)
-  //console.log('pre_base_unit', Object.keys(pre_base_unit))
-  //console.log("data",formular)
-  //console.log("pre_base_unit",pre_base_unit)
-  //console.log("pre_cell",pre_cell)
-  //console.log("module_total_mass",module_total_mass)
-  //console.log("slow",slow)
-  //console.log("fast",fast)
+  const [showPanel, setShowPanel] = useState(false)
+  console.log('uu',window.performance.getEntriesByType("navigation"))
 
   return (
     <>
@@ -152,6 +137,7 @@ export default function Resultados() {
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <div>
+            {console.log('slow',slow)}
             {Object.keys(slow).map((elem) => {
               if (elem.includes('base_unit_'))
                 return (
@@ -381,9 +367,13 @@ export default function Resultados() {
       </div>
 
       <div className="flex items-baseline mt-4 mb-6 pb-6 border-b border-slate-200"></div>
-
+{/* 
       <div className="flex items-baseline mt-4 mb-6 pb-6 "></div>
       <button onClick={() => csvDownload([formular])}>Download Data</button>
+
+      */}
+
+
     </>
   )
 }
