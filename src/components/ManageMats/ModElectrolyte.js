@@ -1,9 +1,8 @@
-import React, { useReducer, useState, useEffect } from 'react'
+import React from 'react'
 import '../../styles/global.css'
-import { useForm, useFieldArray, Controller } from 'react-hook-form'
-import { useSelector, useDispatch } from 'react-redux'
-import useSWR from 'swr'
-import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { modMaterial } from '../../api'
 
 export default function ModElectrolyteForm(props) {
   const dispatch = useDispatch()
@@ -24,6 +23,8 @@ export default function ModElectrolyteForm(props) {
     },
   })
 
+const matID=props.matToMod.id
+console.log('matID',matID)
 
   const TextParams = (newName, newValue) => {
     const step = {
@@ -43,7 +44,7 @@ export default function ModElectrolyteForm(props) {
   return (
     <form
       onSubmit={handleSubmit(async (newElectrolyteData) => {
-        const reqNewElectrolyte = await postNewMaterial(
+        const reqNewElectrolyte = await modMaterial(matID,
           TextParams(
             newElectrolyteData?.newMatName,
             newElectrolyteData?.density

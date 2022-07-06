@@ -7,6 +7,7 @@ import { getMaterialsFetcher, propsCall } from '../../api'
 import ModAnodeForm from './ModAnode'
 import ModCathodeForm from './ModCathode'
 import ModElectrolyteForm from './ModElectrolyte'
+import { delMaterial } from '../../api'
 
 export default function ModMatsForm({ setChoosedAction }) {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ export default function ModMatsForm({ setChoosedAction }) {
     formState: { errors },
     getValues,
     handleSubmit,
+    setValue,
     watch,
   } = useForm({
     defaultValues: {
@@ -40,7 +42,7 @@ export default function ModMatsForm({ setChoosedAction }) {
     //console.log('uu',{ myMaterial })
   }, [watchedMat])
 
-  console.log('fetchedMaterial.name', fetchedMaterial.name)
+  //console.log('fetchedMaterial.name', fetchedMaterial.name)
   const renderForm = (e) => {
     switch (e.type) {
       case 'anode':
@@ -149,8 +151,9 @@ export default function ModMatsForm({ setChoosedAction }) {
         </label>
         <button
           type="button"
-          onClick={() => {
-            'llamada api borrar id'
+          onClick={async () => {
+            await delMaterial(fetchedMaterial.id), setValue('selectedMat', '-1'),
+            setChoosedAction('reset')
           }}
         >
           <svg

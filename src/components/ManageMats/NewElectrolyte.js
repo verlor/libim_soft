@@ -1,9 +1,10 @@
-import React, { useReducer, useState, useEffect } from 'react'
+import React from 'react'
 import '../../styles/global.css'
-import { useForm, useFieldArray, Controller } from 'react-hook-form'
-import { useSelector, useDispatch } from 'react-redux'
-import useSWR from 'swr'
-import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { postNewMaterial } from '../../api'
+import { setIsCreated } from './slice'
+import {navigate} from 'gatsby'
 
 export default function NewElectrolyteForm(matType) {
   const dispatch = useDispatch()
@@ -34,7 +35,6 @@ export default function NewElectrolyteForm(matType) {
         },
       },
     }
-    //console.log('ver str: ', JSON.stringify(step))
     return JSON.stringify(step)
   }
 
@@ -47,7 +47,14 @@ export default function NewElectrolyteForm(matType) {
             newElectrolyteData?.density
           )
         )
-        //console.log('ver_resp_form: ' , TextParams(NewElectrolyteData?.newMatName, NewElectrolyteData?.density))
+        dispatch(
+          setIsCreated({ 
+            matCreated: true,
+            matType: 'Electrolyte',
+            matName: newElectrolyteData?.newMatName,
+          })
+        )
+        navigate('/')
       })}
       className=" shadow sm:rounded-md bg-gray-100 "
     >

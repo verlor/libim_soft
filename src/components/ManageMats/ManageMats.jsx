@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../../styles/global.css'
 import NewMat from './NewMat'
 import ModMat from './ModMat'
-import { useForm, useFieldArray, Controller, get } from 'react-hook-form'
+
 
 export default function ManageMats() {
   const [choosedAction, setChoosedAction] = useState('')
@@ -57,6 +57,7 @@ export default function ManageMats() {
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
 
       {renderPath(choosedAction)}
+
     </>
   )
 }

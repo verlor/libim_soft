@@ -12,7 +12,7 @@ export default function Resultados() {
   const slow = useSelector((state) => state.resultados.suma?.slow)
 
   const [showPanel, setShowPanel] = useState(false)
-  console.log('uu',window.performance.getEntriesByType("navigation"))
+  //console.log('uu',window.performance.getEntriesByType("navigation"))
 
   return (
     <>

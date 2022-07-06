@@ -16,3 +16,15 @@ export const postNewMaterial = (params) =>
     headers: {"Content-Type": "application/json; charset=utf-8"},
     body:params,
   }).then((res) => res.json())
+
+export const delMaterial = async (id) =>
+  fetch(`${API_URL}/${id}`, {
+    method: 'DELETE',
+  }).then((res) => res.json())  
+ 
+export const modMaterial = async (id,...params) =>
+  fetch(`${API_URL}/${id}`, {
+    method: 'PATCH',
+    headers: {"Content-Type": "application/json; charset=utf-8"},
+    body:params,
+  }).then((res) => res.json())

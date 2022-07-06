@@ -3,6 +3,8 @@ import '../../styles/global.css'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { postNewMaterial } from '../../api'
+import { setIsCreated } from './slice'
+import {navigate} from 'gatsby'
 
 
 export default function NewCathodeForm(matType) {
@@ -129,6 +131,14 @@ export default function NewCathodeForm(matType) {
             newCathodeData?.crate
           )
         )
+        dispatch(
+          setIsCreated({ 
+            matCreated: true,
+            matType: 'Cathode',
+            matName: newCathodeData?.newMatName,
+          })
+        )
+        navigate('/')
       })}
     >
       <div className="shadow sm:rounded-md bg-gray-100">
@@ -293,7 +303,6 @@ export default function NewCathodeForm(matType) {
                     <input
                       key={item.id}
                       {...register(`crate.${index}.rate`, {
-                        valueAsNumber: true,
                         validate: { notEmpty: (v) => v.length > 0 , notLess:(v)=>{v>getValues(`crate.${index-1}.rate`) && (index>0)}},
                       })}
                       name={`crate.${index}.rate`}
