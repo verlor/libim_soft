@@ -43,7 +43,6 @@ export default function ParameterFormular() {
   } = useForm({
     reValidateMode: 'onChange',
     defaultValues: initFormState,
-    reValidateMode: 'onChange',
   })
   //const [result, setResult] = useState('')
   const cat_id = watch('cathode_material_id')

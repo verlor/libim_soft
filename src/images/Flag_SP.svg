@@ -2019,7 +2019,7 @@
         <path
            id="path836"
            stroke-width=".31503"
-           fill-rule="evenodd"
+           fillRule="evenodd"
            fill="#a07e00"
            d="m212.664 252.158v-6.918l3.16-.018.939.612.04 3.351 2.665.008-.022-3.46.81-.536 2.728-.003.93.69-.007 3.319 2.758.01.04-3.286.705-.718 2.709-.002.823.67.108 3.217 2.515.013-.045-3.18.869-.73 3.476.01v6.9l-25.201.05z" />
         <g
@@ -2473,7 +2473,7 @@
              stroke-width=".751"
              ry=".713"
              rx=".958"
-             fill-rule="evenodd"
+             fillRule="evenodd"
              cy="-29.360001"
              cx="723.16699" />
           <path
@@ -2486,7 +2486,7 @@
              stroke-width=".751"
              ry=".713"
              rx=".958"
-             fill-rule="evenodd"
+             fillRule="evenodd"
              cy="-266.31699"
              cx="670.96997" />
           <g
@@ -2504,7 +2504,7 @@
             <circle
                id="circle1072"
                r="1.47"
-               fill-rule="evenodd"
+               fillRule="evenodd"
                cy="371.14401"
                cx="604.75201" />
             <path
@@ -2525,7 +2525,7 @@
             <circle
                id="circle1084"
                r="1.47"
-               fill-rule="evenodd"
+               fillRule="evenodd"
                cy="377.57401"
                cx="614.86798" />
             <path
@@ -2540,7 +2540,7 @@
             <circle
                id="circle1092"
                r="1.47"
-               fill-rule="evenodd"
+               fillRule="evenodd"
                cy="385.60699"
                cx="623.73297" />
             <path
@@ -2564,7 +2564,7 @@
          transform="matrix(.17813 .11125 -.12076 .17183 153.815 154.274)"
          stroke-width=".751"
          stroke="#000"
-         fill-rule="evenodd"
+         fillRule="evenodd"
          fill="#a07e00">
         <ellipse
            id="ellipse1108"

@@ -27,7 +27,7 @@ export default function ManageMats() {
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
 
       <div className="px-4 py-3 sm:px-6 mt-2 ">
-        <div className=" flex items:center gap-4 ">
+        <div className=" flex items:center gap-2 ">
           <h2 className="text-xl font-extrabold tracking-tight text-gray-900 mx-4 pt-2">
             Action:
           </h2>
@@ -49,9 +49,34 @@ export default function ManageMats() {
               document.getElementById('add').disabled = true
             }}
           >
-            To modify or delete
+            To modify <span className="hidden sm:inline"> or delete</span>
           </button>
+
+        <button
+            id="res"
+            className="float-right py-1 px-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-red-500 focus:outline-none disabled:bg-gray-300"
+            onClick={() => {
+              setChoosedAction('reset')
+            }}
+          >
+            <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-5 sm:mx-2 mx-4 inline "
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+          </button>
+
         </div>
+
       </div>
 
       <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>

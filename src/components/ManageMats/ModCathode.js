@@ -6,7 +6,8 @@ import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
 
 let renderCount = 0
 
-export default function ModCathodeForm(mat) {
+export default function ModCathodeForm(params) {
+  console.log('params',params)
   const dispatch = useDispatch()
   const {
     register,
@@ -19,26 +20,32 @@ export default function ModCathodeForm(mat) {
     trigger,
     setError,
   } = useForm({
-    reValidateMode:"onChange",
     defaultValues: {
-      newMatName: '',
-      cathode_theor_capacity: 0,
-      cathode_theor_voltage: 0,
-      cathode_theor_density: 0,
+      newMatName: `${params.matToMod.name}`,
+      cathode_theor_capacity: `${params.matToMod.properties.cathode_theor_capacity.value}`,
+      cathode_theor_voltage: `${params.matToMod.properties.cathode_theor_voltage.value}`,
+      cathode_theor_density: `${params.matToMod.properties.cathode_theor_density.value}`,
       crate: [
         { rate: 0, capacity: 0, charge_voltage: 0, discharge_voltage: 0 },
       ],
     },
   })
 
-  
-
-  let watchedMat = ''
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'crate',
   })
+
+  const validateCRates = (index) =>{
+    if (index==0) {return true}
+    if (index>0){
+  if(getValues(`crate.${index}.rate`)>getValues(`crate.${index-1}.rate`)){return true}
+  if(getValues(`crate.${index}.rate`)<=getValues(`crate.${index-1}.rate`)){return false}
+  } 
+  }
+
+
 
   const TextParams = (
     newName,
@@ -47,45 +54,55 @@ export default function ModCathodeForm(mat) {
     newTheorDensity,
     crate
   ) => {
+    let toAddObj,
+      capacity,
+      charge_voltage,
+      discharge_voltage = {},
+      c_rates = [],
+      cky
     
-      let toAddObj, capacity, charge_voltage,discharge_voltage={}
-      let c_rates=[]
-      for (let i = 0;i<crate.length;i++){
-        let cky=()=>{"C"+crate[i].rate.replace(".","")}
-        //console.log('cky: ',cky)
-            capacity={...capacity,
-            [cky]:{
-            name: "Cathode capacity",
-            s_name: "ca_cap",
-            rate: crate[i].rate,
-            value: parseFloat(crate[i].capacity),
-            unit: "mAhg-1"
-            }} 
-          charge_voltage={...charge_voltage,
-            [cky]:{
-            name: "Cathode charge voltage",
-            s_name: "ca_ch_V",
-            rate: crate[i].rate,
-            value: parseFloat(crate[i].charge_voltage),
-            unit: "V"
-            }}
-          discharge_voltage={...discharge_voltage,
-            [cky]:{
-            name: "Cathode discharge voltage",
-            s_name: "ca_dch_V",
-            rate: crate[i].rate,
-            value: parseFloat(crate[i].discharge_voltage),
-            unit: "V"
-            }}
-        
-        c_rates[i]=parseFloat(crate[i].rate)
-        toAddObj={capacity,charge_voltage,discharge_voltage}
+      for (let i = 0; i < crate.length; i++) {
+      cky = 'C' + String(parseFloat(crate[i].rate)).replace('.', '')
+
+
+      capacity = {
+        ...capacity,
+        [cky]: {
+          name: 'Cathode capacity',
+          s_name: 'ca_cap',
+          rate: parseFloat(crate[i].rate),
+          value: parseFloat(crate[i].capacity),
+          unit: 'mAhg-1',
+        },
       }
-      //console.log('toAddObj: ',toAddObj, 'c_rates: ',c_rates)
-        
+      charge_voltage = {
+        ...charge_voltage,
+        [cky]: {
+          name: 'Cathode charge voltage',
+          s_name: 'ca_ch_V',
+          rate: parseFloat(crate[i].rate),
+          value: parseFloat(crate[i].charge_voltage),
+          unit: 'V',
+        },
+      }
+      discharge_voltage = {
+        ...discharge_voltage,
+        [cky]: {
+          name: 'Cathode discharge voltage',
+          s_name: 'ca_dch_V',
+          rate: parseFloat(crate[i].rate),
+          value: parseFloat(crate[i].discharge_voltage),
+          unit: 'V',
+        },
+      }
+
+      c_rates[i] = parseFloat(crate[i].rate)
+      toAddObj = { capacity, charge_voltage, discharge_voltage }
+    }
+
     const step = {
       name: newName,
-      mat: 'cathode',
+      type: 'cathode',
       properties: {
         cathode_theor_capacity: {
           name: 'Cathode theoretical capacity',
@@ -107,22 +124,19 @@ export default function ModCathodeForm(mat) {
         },
         capacity: toAddObj.capacity,
         charge_voltage: toAddObj.charge_voltage,
-        discharge_voltage:toAddObj.discharge_voltage,    
+        discharge_voltage: toAddObj.discharge_voltage,
       },
       c_rates,
-      }
-
-      //console.log('ver str: ', JSON.stringify(step))
-    return JSON.stringify(step)
+    }
+    return step
   }
 
- 
+  {console.log('errors',errors)}
 
   return (
     <form
     onSubmit={handleSubmit(async (ModCathodeData) => {
-      const reqNewCathode = await postNewMaterial(
-      //console.log('uu: ',  
+      const reqNewCathode = await postNewMaterial(  
       TextParams(
             newCathodeData?.newMatName,
             newCathodeData?.cathode_theor_capacity,
@@ -130,8 +144,6 @@ export default function ModCathodeForm(mat) {
             newCathodeData?.cathode_theor_density,
             newCathodeData?.crate
           )
-
-
         )
       })}
     >

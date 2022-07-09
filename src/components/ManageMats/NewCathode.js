@@ -34,6 +34,35 @@ export default function NewCathodeForm(matType) {
     name: 'crate',
   })
 
+  const validateCRates = (index) =>{
+    console.log('index',index)
+    console.log('length_f',fields.item)
+
+    if (fields.length==1) {return true}
+    if (fields.length>1){
+      for (let i = 0; i < fields.length; i++) {
+      
+      
+        console.log ('i',i)
+      console.log ('fi_rate',fields[i].rate)
+      }
+  if(getValues(`crate.${index}.rate`)>getValues(`crate.${index-1}.rate`)){return true}
+  if(getValues(`crate.${index}.rate`)==getValues(`crate.${index-1}.rate`)){return false}
+  } 
+  }
+
+  /*
+  const validateCRates = (index) =>{
+    console.log('length',fields.length)
+    if (index==0) {return true}
+    if (index>0){
+  if(getValues(`crate.${index}.rate`)>getValues(`crate.${index-1}.rate`)){return true}
+  if(getValues(`crate.${index}.rate`)<=getValues(`crate.${index-1}.rate`)){return false}
+  } 
+  }
+  */ 
+
+
   const TextParams = (
     newName,
     newTheorCapacity,
@@ -49,7 +78,6 @@ export default function NewCathodeForm(matType) {
       cky
     
       for (let i = 0; i < crate.length; i++) {
-        console.log(crate[i].rate, String(parseFloat(crate[i].rate)).replace('.', ''))
       cky = 'C' + String(parseFloat(crate[i].rate)).replace('.', '')
 
 
@@ -116,8 +144,10 @@ export default function NewCathodeForm(matType) {
       },
       c_rates,
     }
-    return JSON.stringify(step)
+    return step
   }
+
+  {console.log('errors',errors)}
 
   return (
     <form
@@ -162,7 +192,7 @@ export default function NewCathodeForm(matType) {
             />
             {errors.newMatName?.type === 'required' && (
               <span className="col-span-1 italic text-xs font-medium text-red-400">
-                A name is required
+                (A name is required)
               </span>
             )}
           </div>
@@ -178,6 +208,7 @@ export default function NewCathodeForm(matType) {
             <input
               {...register('cathode_theor_capacity', {
                 required: true,
+                minLength:0,
               })}
               type="number"
               step="any"
@@ -187,11 +218,11 @@ export default function NewCathodeForm(matType) {
                 border: errors.cathode_theor_capacity ? '2px solid red' : '',
               }}
             />
-            {errors.cathode_theor_capacity?.type === 'required' && (
-              <span className="italic text-xs font-medium text-red-400">
-                A numeric value is required
-              </span>
-            )}
+          {(errors.cathode_theor_capacity?.type === 'required' || errors.cathode_theor_capacity?.type === 'minLength') && (
+            <span className="italic text-xs font-medium text-red-400">
+              (A numerical value is required)
+            </span>
+          )}
           </div>
 
           <div className="col-span-1">
@@ -214,6 +245,7 @@ export default function NewCathodeForm(matType) {
             <input
               {...register('cathode_theor_voltage', {
                 required: true,
+                minLength:0,
               })}
               type="number"
               step="any"
@@ -223,11 +255,11 @@ export default function NewCathodeForm(matType) {
                 border: errors.cathode_theor_voltage ? '2px solid red' : '',
               }}
             />
-            {errors.cathode_theor_voltage?.type === 'required' && (
-              <span className="italic text-xs font-medium text-red-400">
-                A numeric value is required
-              </span>
-            )}
+          {(errors.cathode_theor_voltage?.type === 'required' || errors.cathode_theor_voltage?.type === 'minLength') && (
+            <span className="italic text-xs font-medium text-red-400">
+              (A numerical value is required)
+            </span>
+          )}
           </div>
 
           <div className="col-span-1">
@@ -248,6 +280,7 @@ export default function NewCathodeForm(matType) {
             <input
               {...register('cathode_theor_density', {
                 required: true,
+                minLength:0,
               })}
               type="number"
               step="any"
@@ -257,11 +290,11 @@ export default function NewCathodeForm(matType) {
                 border: errors.cathode_theor_density ? '2px solid red' : '',
               }}
             />
-            {errors.cathode_theor_density?.type === 'required' && (
-              <span className="italic text-xs font-medium text-red-400">
-                A numeric value is required
-              </span>
-            )}
+          {(errors.cathode_theor_density?.type === 'required' || errors.cathode_theor_density?.type === 'minLength') && (
+            <span className="italic text-xs font-medium text-red-400">
+              (A numerical value is required)
+            </span>
+          )}
           </div>
 
           <div className="col-span-1">
@@ -286,11 +319,18 @@ export default function NewCathodeForm(matType) {
 
       <div>
         {fields.map((item, index) => {
-          //console.log('fields', fields)
-          //console.log('errors', errors)
+       /*   console.log('item',item)
+          console.log('index',index)
+          console.log('fields',fields)
+          console.log('2length_f',fields.length)
+          console.log('2length_fr',fields[1].rate)
+          console.log('item_rate',item.rate)
+          console.log('item_index',index)
+       */   
+
           return (
             <>
-              <div className="shadow sm:rounded-md bg-gray-100">
+              <div className="shadow sm:rounded-md bg-gray-100" >
                 <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
                 <div className="flex items-center grid grid-cols-3 gap-4 px-3 ">
                   <div className="col-span-1">
@@ -299,36 +339,40 @@ export default function NewCathodeForm(matType) {
                     </label>
                   </div>
                   <div className="col-span-1">
-                    
                     <input
                       key={item.id}
                       {...register(`crate.${index}.rate`, {
-                        validate: { notEmpty: (v) => v.length > 0 , notLess:(v)=>{v>getValues(`crate.${index-1}.rate`) && (index>0)}},
+                        required: true,
+                        min:0.000001,
+                        validate: {compare: (index)=>validateCRates(index)}
+
                       })}
                       name={`crate.${index}.rate`}
                       type="number"
                       step="any"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       style={{
                         border: errors.crate?.[index]?.rate
                           ? '2px solid red'
                           : '',
                       }}
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
-                    {console.log('index', index, 'index.rate',getValues(`crate.${index-1}.rate`))}
-                    {typeof errors?.crate !== 'undefined' &&
-                      errors.crate?.[index]?.rate?.type === 'notEmpty' && (
-                        <span className="italic text-xs font-medium text-red-400">
-                          A numeric value is required
-                        </span>
-                      )}
-                        {typeof errors?.crate !== 'undefined' &&
-                      errors.crate?.[index]?.rate?.type === 'notLess' && (
-                        <span className="italic text-xs font-medium text-red-400">
-                          C Rate must be greater than the previous one
-                        </span>
-                      )}
-                      {console.log('errors',errors)}
+          {errors.crate?.[index]?.rate?.type === 'required' && (
+            <span className="italic text-xs font-medium text-red-400">
+              (A numerical value is required)
+            </span>
+          )}
+                    {errors.crate?.[index]?.rate?.type === 'min' && (
+            <span className="italic text-xs font-medium text-red-400">
+              (A value &gt; 0 is required)
+            </span>
+          )}
+           {errors.crate?.[index]?.rate?.type === 'compare' && (
+            <span className="italic text-xs font-medium text-red-400">
+              (Add C Rates in ascending order)
+            </span>
+          )}
+
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -345,19 +389,24 @@ export default function NewCathodeForm(matType) {
                     <input
                       key={item.id}
                       {...register(`crate.${index}.capacity`, {
-                        validate: { notEmpty: (v) => v.length > 0 },
+                        required: true,
+                        minLength:0,
                       })}
                       name={`crate.${index}.capacity`}
                       type="number"
                       step="any"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       style={{
                         border: errors.crate?.[index]?.capacity
                           ? '2px solid red'
                           : '',
                       }}
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/* {errors.crate?.[index]?.capacity.type === 'notEmpty' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>} */}
+                     {(errors.crate?.[index]?.capacity?.type === 'required' || errors.crate?.[index]?.capacity?.type === 'minLength') && (
+            <span className="italic text-xs font-medium text-red-400">
+              (A numerical value is required)
+            </span>
+          )}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -374,19 +423,24 @@ export default function NewCathodeForm(matType) {
                     <input
                       key={item.id}
                       {...register(`crate.${index}.charge_voltage`, {
-                        validate: { notEmpty: (v) => v.length > 0 },
+                        required: true,
+                        minLength:0,
                       })}
                       name={`crate.${index}.charge_voltage`}
                       type="number"
                       step="any"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       style={{
                         border: errors.crate?.[index]?.charge_voltage
                           ? '2px solid red'
                           : '',
                       }}
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/* {errors.crate?.[index].charge_voltage.type === 'notEmpty' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>} */}
+                           {(errors.crate?.[index]?.charge_voltage?.type === 'required' || errors.crate?.[index]?.charge_voltage?.type === 'minLength') && (
+            <span className="italic text-xs font-medium text-red-400">
+              (A numerical value is required)
+            </span>
+          )}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -403,19 +457,24 @@ export default function NewCathodeForm(matType) {
                     <input
                       key={item.id}
                       {...register(`crate.${index}.discharge_voltage`, {
-                        validate: { notEmpty: (v) => v.length > 0 },
+                        required: true,
+                        minLength:0,
                       })}
                       name={`crate.${index}.discharge_voltage`}
                       type="number"
                       step="any"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                       style={{
                         border: errors.crate?.[index]?.discharge_voltage
                           ? '2px solid red'
                           : '',
                       }}
-                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/* {errors.crate?.[index].discharge_voltage.type === 'notEmpty' && <span className="italic text-xs font-medium text-red-400">A numeric value is required</span>} */}
+                       {(errors.crate?.[index]?.discharge_voltage?.type === 'required' || errors.crate?.[index]?.discharge_voltage?.type === 'minLength') && (
+            <span className="italic text-xs font-medium text-red-400">
+              (A numerical value is required)
+            </span>
+          )}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">

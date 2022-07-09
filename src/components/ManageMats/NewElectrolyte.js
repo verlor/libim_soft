@@ -10,13 +10,8 @@ export default function NewElectrolyteForm(matType) {
   const dispatch = useDispatch()
   const {
     register,
-    control,
     formState: { errors },
     handleSubmit,
-    watch,
-    reset,
-    trigger,
-    setError,
   } = useForm({
     defaultValues: {
       newMatName: '',
@@ -35,7 +30,7 @@ export default function NewElectrolyteForm(matType) {
         },
       },
     }
-    return JSON.stringify(step)
+    return step
   }
 
   return (
@@ -94,7 +89,7 @@ export default function NewElectrolyteForm(matType) {
           <input
             {...register('density', {
               required: true,
-              validate: { positive: (v) => parseFloat(v) != 0 },
+              validate: {positive: (v) => parseFloat(v) > 0 },
             })}
             type="number"
             step="any"
@@ -102,9 +97,14 @@ export default function NewElectrolyteForm(matType) {
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             style={{ border: errors.density ? '2px solid red' : '' }}
           />
-          {errors.density?.type === 'validate' && (
+          {errors.density?.type === 'positive' && (
             <span className="italic text-xs font-medium text-red-400">
-              A value &gt; 0 is required
+             (A value &gt; 0 is required)
+            </span>
+          )}
+                    {errors.density?.type === 'required' && (
+            <span className="col-span-1 italic text-xs font-medium text-red-400">
+              (Value &gt; 0 is required)
             </span>
           )}
         </div>

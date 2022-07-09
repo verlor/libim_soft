@@ -10,13 +10,8 @@ export default function NewAnodeForm(matType) {
   const dispatch = useDispatch()
   const {
     register,
-    control,
     formState: { errors },
     handleSubmit,
-    watch,
-    reset,
-    trigger,
-    setError,
   } = useForm({
     defaultValues: {
       newMatName: '',
@@ -56,8 +51,7 @@ export default function NewAnodeForm(matType) {
         },
       },
     }
-    //console.log('ver str: ', JSON.stringify(step))
-    return JSON.stringify(step)
+    return step
   }
 
   return (
@@ -79,7 +73,6 @@ export default function NewAnodeForm(matType) {
           })
         )
         navigate('/')
-        //console.log('ver_resp_form: ' , TextParams(NewElectrolyteData?.newMatName, NewElectrolyteData?.density))
       })}
       className=" shadow sm:rounded-md bg-gray-100 "
     >
@@ -119,7 +112,7 @@ export default function NewAnodeForm(matType) {
           <input
             {...register('anode_theor_capacity', {
               required: true,
-              validate: { positive: (v) => parseFloat(v) > 0 },
+              minLength:0,
             })}
             type="number"
             step="any"
@@ -129,9 +122,9 @@ export default function NewAnodeForm(matType) {
               border: errors.anode_theor_capacity ? '2px solid red' : '',
             }}
           />
-          {errors.anode_theor_capacity?.type === 'validate' && (
+          {(errors.anode_theor_capacity?.type === 'required' || errors.anode_theor_capacity?.type === 'minLength') && (
             <span className="italic text-xs font-medium text-red-400">
-              A value &gt; 0 is required
+              (A numerical value is required)
             </span>
           )}
         </div>
@@ -154,7 +147,7 @@ export default function NewAnodeForm(matType) {
           <input
             {...register('anode_real_capacity', {
               required: true,
-              validate: { positive: (v) => parseFloat(v) > 0 },
+              minLength:0,
             })}
             type="number"
             step="any"
@@ -164,9 +157,9 @@ export default function NewAnodeForm(matType) {
               border: errors.anode_real_capacity ? '2px solid red' : '',
             }}
           />
-          {errors.anode_real_capacity?.type === 'validate' && (
+          {(errors.anode_real_capacity?.type === 'required' || errors.anode_real_capacity?.type === 'minLength') && (
             <span className="italic text-xs font-medium text-red-400">
-              A value &gt; 0 is required
+              (A numerical value is required)
             </span>
           )}
         </div>
@@ -190,7 +183,7 @@ export default function NewAnodeForm(matType) {
           <input
             {...register('anode_voltage', {
               required: true,
-              validate: { positive: (v) => parseFloat(v) > 0 },
+              minLength:0,
             })}
             type="number"
             step="any"
@@ -198,9 +191,9 @@ export default function NewAnodeForm(matType) {
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             style={{ border: errors.anode_voltage ? '2px solid red' : '' }}
           />
-          {errors.anode_voltage?.type === 'validate' && (
+          {(errors.anode_voltage?.type === 'required' || errors.anode_voltage?.type === 'minLength') && (
             <span className="italic text-xs font-medium text-red-400">
-              A value &gt; 0 is required
+              (A numerical value is required)
             </span>
           )}
         </div>

@@ -1,24 +1,14 @@
-import React, { useReducer, useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import '../../styles/global.css'
 import { useForm } from 'react-hook-form'
-import { useSelector, useDispatch } from 'react-redux'
-import { getMaterialsFetcher, propsCall, postNewMaterial } from '../../api'
-
-let renderCount = 0
+import { postNewMaterial } from '../../api'
+import {navigate} from 'gatsby'
 
 export default function ModAnodeForm(params) {
-  console.log({ obj1: params })
-  const dispatch = useDispatch()
   const {
     register,
-    control,
     formState: { errors },
     handleSubmit,
-    watch,
-    reset,
-    resetField,
-    trigger,
-    setError,
     setValue,
   } = useForm({
     defaultValues: {
@@ -63,11 +53,8 @@ export default function ModAnodeForm(params) {
         },
       },
     }
-    //console.log('ver str: ', JSON.stringify(step))
-    return JSON.stringify(step)
+    return step
   }
-
-  console.log('matToMod', params.matToMod)
 
   return (
     <form
@@ -80,7 +67,7 @@ export default function ModAnodeForm(params) {
             newAnodeData?.anode_voltage
           )
         )
-        //console.log('ver_resp_form: ' , TextParams(NewElectrolyteData?.newMatName, NewElectrolyteData?.density))
+        navigate('/')
       })}
       className=" shadow sm:rounded-md bg-gray-100 "
     >
@@ -120,7 +107,7 @@ export default function ModAnodeForm(params) {
           <input
             {...register('anode_theor_capacity', {
               required: true,
-              validate: { positive: (v) => parseFloat(v) > 0 },
+              minLength:0,
             })}
             type="number"
             step="any"
@@ -130,9 +117,9 @@ export default function ModAnodeForm(params) {
               border: errors.anode_theor_capacity ? '2px solid red' : '',
             }}
           />
-          {errors.anode_theor_capacity?.type === 'validate' && (
+          {(errors.anode_theor_capacity?.type === 'required' || errors.anode_theor_capacity?.type === 'minLength') && (
             <span className="italic text-xs font-medium text-red-400">
-              A value &gt; 0 is required
+              (A numerical value is required)
             </span>
           )}
         </div>
@@ -155,7 +142,7 @@ export default function ModAnodeForm(params) {
           <input
             {...register('anode_real_capacity', {
               required: true,
-              validate: { positive: (v) => parseFloat(v) > 0 },
+              minLength:0,
             })}
             type="number"
             step="any"
@@ -165,9 +152,9 @@ export default function ModAnodeForm(params) {
               border: errors.anode_real_capacity ? '2px solid red' : '',
             }}
           />
-          {errors.anode_real_capacity?.type === 'validate' && (
+          {(errors.anode_real_capacity?.type === 'required' || errors.anode_real_capacity?.type === 'minLength') && (
             <span className="italic text-xs font-medium text-red-400">
-              A value &gt; 0 is required
+              (A numerical value is required)
             </span>
           )}
         </div>
@@ -191,7 +178,7 @@ export default function ModAnodeForm(params) {
           <input
             {...register('anode_voltage', {
               required: true,
-              validate: { positive: (v) => parseFloat(v) > 0 },
+              minLength:0,
             })}
             type="number"
             step="any"
@@ -199,9 +186,9 @@ export default function ModAnodeForm(params) {
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             style={{ border: errors.anode_voltage ? '2px solid red' : '' }}
           />
-          {errors.anode_voltage?.type === 'validate' && (
+          {(errors.anode_voltage?.type === 'required' || errors.anode_voltage?.type === 'minLength') && (
             <span className="italic text-xs font-medium text-red-400">
-              A value &gt; 0 is required
+              (A numerical value is required)
             </span>
           )}
         </div>
@@ -216,7 +203,7 @@ export default function ModAnodeForm(params) {
           type="submit"
           className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          Save new anode
+          Save changes
         </button>
       </div>
     </form>
