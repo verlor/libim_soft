@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../styles/global.css'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -16,7 +16,7 @@ export default function NewCathodeForm(matType) {
     formState: { errors },
     handleSubmit,
     reset,
-    watch
+    watch,
   } = useForm({
     defaultValues: {
       newMatName: '',
@@ -34,31 +34,37 @@ export default function NewCathodeForm(matType) {
     name: 'crate',
   })
 
+  const watchedFields = watch('crate')
+  const [msgFlag, setMsgFlag] = useState(false)
+  const [duplicatedRates, setDuplicatedRates] = useState([])
+  const trackRates = Array.from(
+    watchedFields.map((elem, idx) => (Array[idx] = parseFloat(elem.rate)))
+  )
+  const newTrack = watchedFields.map((elem) => parseFloat(elem.rate))
 
-
-
-
-//const watchedFields= watch("crate")
-const [msgFlag,setMsgFlag]=useState(false)
-const [duplicatedRates,setDuplicatedRates]=useState([])
-const trackRates=Array.from(fields.map((elem,idx) => Array[idx]=parseFloat(elem.rate)))
-
-//console.log('watchedFields.length',watchedFields.length)
-
-useEffect(()=>{
-if(fields.length>1){
-  
-  const anyDuplicates=trackRates.filter((val,idx)=>trackRates.indexOf(val)!==idx)
-  console.log('trackRates',trackRates)
-  console.log('anyDuplicates',anyDuplicates)
-
-
-  if (anyDuplicates.length>0){
-    //setDuplicatedRates([anyDuplicates])
-    //setMsgFlag(true)
+  const coolFunc = () => {
+    return true
   }
-  
-/*
+
+  const coolerFunc = () => true
+
+  console.log({ trackRates, newTrack })
+  //console.log('watchedFields.length',watchedFields.length)
+
+  useEffect(() => {
+    if (fields.length > 1) {
+      const anyDuplicates = trackRates.filter(
+        (val, idx) => trackRates.indexOf(val) !== idx
+      )
+      console.log('trackRates', trackRates)
+      console.log('anyDuplicates', anyDuplicates)
+
+      if (anyDuplicates.length > 0) {
+        setMsgFlag(true)
+        setDuplicatedRates([anyDuplicates])
+      }
+
+      /*
 
   if (anyDuplicates.length=0){
     setDuplicatedRates([])
@@ -68,9 +74,10 @@ if(fields.length>1){
   console.log('anyDuplicates',anyDuplicates)
   console.log('msgFlag',msgFlag)
   */
-}},[trackRates])
+    }
+  }, [watchedFields])
 
-/*
+  /*
 
   useEffect(()=>{
     
@@ -408,7 +415,7 @@ if(fields.length>1){
                       key={item.id}
                       {...register(`crate.${index}.rate`, {
                         required: true,
-                        min: 0.000001
+                        min: 0.000001,
                       })}
                       name={`crate.${index}.rate`}
                       type="number"
@@ -606,12 +613,13 @@ if(fields.length>1){
         </section>
       </div>
 
-      {msgFlag && 
-      <>
-      <span className="italic text-xs font-medium text-red-400">
-      (C Rates cannot be duplicated. Values to check: {duplicatedRates})
-      </span>
-      </>}
+      {msgFlag && (
+        <>
+          <span className="italic text-xs font-medium text-red-400">
+            (C Rates cannot be duplicated. Values to check: {duplicatedRates})
+          </span>
+        </>
+      )}
 
       <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 mt-2">
         <button
