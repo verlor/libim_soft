@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import '../../styles/global.css'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -9,14 +9,15 @@ import { navigate } from 'gatsby'
 export default function NewCathodeForm(matType) {
   const dispatch = useDispatch()
   const {
+    clearErrors,
     getValues,
     register,
     control,
     formState: { errors },
     handleSubmit,
     reset,
+    watch
   } = useForm({
-    reValidateMode: 'onChange',
     defaultValues: {
       newMatName: '',
       cathode_theor_capacity: 0,
@@ -33,41 +34,95 @@ export default function NewCathodeForm(matType) {
     name: 'crate',
   })
 
-  const validateCRates = (index) => {
-    console.log('index', index)
-    console.log('length_f', getValues(fields[2].rate))
 
-    if (fields.length == 1) {
+
+
+
+//const watchedFields= watch("crate")
+const [msgFlag,setMsgFlag]=useState(false)
+const [duplicatedRates,setDuplicatedRates]=useState([])
+const trackRates=Array.from(fields.map((elem,idx) => Array[idx]=parseFloat(elem.rate)))
+
+//console.log('watchedFields.length',watchedFields.length)
+
+useEffect(()=>{
+if(fields.length>1){
+  
+  const anyDuplicates=trackRates.filter((val,idx)=>trackRates.indexOf(val)!==idx)
+  console.log('trackRates',trackRates)
+  console.log('anyDuplicates',anyDuplicates)
+
+
+  if (anyDuplicates.length>0){
+    //setDuplicatedRates([anyDuplicates])
+    //setMsgFlag(true)
+  }
+  
+/*
+
+  if (anyDuplicates.length=0){
+    setDuplicatedRates([])
+    setMsgFlag(false)
+  }
+  console.log('trackRates',trackRates)
+  console.log('anyDuplicates',anyDuplicates)
+  console.log('msgFlag',msgFlag)
+  */
+}},[trackRates])
+
+/*
+
+  useEffect(()=>{
+    
+    let checkRatesArray=[]
+    let anyDuplicates=[]
+    if (watchedFields.length > 1) {
+        for (let i = 0; i < watchedFields.length; i++) {
+          if (watchedFields[i].rate>0) {
+        checkRatesArray.push(watchedFields[i].rate)
+       }}
+        anyDuplicates=checkRatesArray.filter((val,idx)=>checkRatesArray.indexOf(val)!==idx)
+        setDuplicatedRates([anyDuplicates])
+        setMsgFlag(false)
+      console.log('anyDuplicates',anyDuplicates)
+      console.log('anyDuplicates.length',anyDuplicates.length)
+      
+      if(anyDuplicates.length>0) {setMsgFlag(true)}
+    
+      console.log('anyDuplicates',anyDuplicates)
+      console.log('duplicatedRates',duplicatedRates)
+      console.log('msgFlag',msgFlag)
+      console.log('Object.values(watchedFields)',Object.values(watchedFields))
+      //if(anyDuplicates.length>0) {return(msg={resp:false, content:<></>})}
+      
+        , msg.content=
+      <>
+      <span className="italic text-xs font-medium text-red-400">
+      (C Rates cannot be duplicated. Values to check: {anyDuplicates})
+      </span>
+      </>} }
+
+     
+      //if(anyDuplicates.length>0) {return(msg={resp:false, content:<></>})}
+    }},[watchedFields.at(-1).rate]
+  )
+
+  const validateCRates = (val) => {
+    if (watchedFields.length == 1) {
       return true
     }
-    if (fields.length > 1) {
-      for (let i = 0; i < fields.length; i++) {
-        console.log('i', i)
-        console.log('fi_rate', fields[i].rate)
+    if (watchedFields.length > 1) {
+      let checkRatesArray=[]
+      let testResponse=true
+      for (let i = 0; i < watchedFields.length; i++) {
+        checkRatesArray.push(watchedFields[i].rate)
       }
-      if (
-        getValues(`crate.${index}.rate`) > getValues(`crate.${index - 1}.rate`)
-      ) {
-        return true
-      }
-      if (
-        getValues(`crate.${index}.rate`) == getValues(`crate.${index - 1}.rate`)
-      ) {
-        return false
-      }
+      if(checkRatesArray.indexOf(val)>1) {testResponse=false
+        return testResponse}
+        
+      }    
     }
-  }
-
-  /*
-  const validateCRates = (index) =>{
-    console.log('length',fields.length)
-    if (index==0) {return true}
-    if (index>0){
-  if(getValues(`crate.${index}.rate`)>getValues(`crate.${index-1}.rate`)){return true}
-  if(getValues(`crate.${index}.rate`)<=getValues(`crate.${index-1}.rate`)){return false}
-  } 
-  }
-  */
+*/
 
   const TextParams = (
     newName,
@@ -353,8 +408,7 @@ export default function NewCathodeForm(matType) {
                       key={item.id}
                       {...register(`crate.${index}.rate`, {
                         required: true,
-                        min: 0.000001,
-                        validate: { compare: (index) => validateCRates(index) },
+                        min: 0.000001
                       })}
                       name={`crate.${index}.rate`}
                       type="number"
@@ -376,11 +430,15 @@ export default function NewCathodeForm(matType) {
                         (A value &gt; 0 is required)
                       </span>
                     )}
-                    {errors.crate?.[index]?.rate?.type === 'compare' && (
+                    {/*  {errors.crate?.[index]?.rate?.type === 'compare' && (
                       <span className="italic text-xs font-medium text-red-400">
-                        (Add C Rates in ascending order)
+                        (C Rates cannot be duplicated)
                       </span>
                     )}
+                    
+                    validate: { compare: (val) => validateCRates(val) },
+                    
+                    */}
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -547,6 +605,13 @@ export default function NewCathodeForm(matType) {
           </button>
         </section>
       </div>
+
+      {msgFlag && 
+      <>
+      <span className="italic text-xs font-medium text-red-400">
+      (C Rates cannot be duplicated. Values to check: {duplicatedRates})
+      </span>
+      </>}
 
       <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 mt-2">
         <button
