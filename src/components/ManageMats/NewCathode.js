@@ -29,107 +29,10 @@ export default function NewCathodeForm(matType) {
     },
   })
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, swap } = useFieldArray({
     control,
     name: 'crate',
   })
-
-  const watchedFields = watch('crate')
-  const [msgFlag, setMsgFlag] = useState(false)
-  const [duplicatedRates, setDuplicatedRates] = useState([])
-  const trackRates = Array.from(
-    watchedFields.map((elem, idx) => (Array[idx] = parseFloat(elem.rate)))
-  )
-  const newTrack = watchedFields.map((elem) => parseFloat(elem.rate))
-
-  const coolFunc = () => {
-    return true
-  }
-
-  const coolerFunc = () => true
-
-  console.log({ trackRates, newTrack })
-  //console.log('watchedFields.length',watchedFields.length)
-
-  useEffect(() => {
-    if (fields.length > 1) {
-      const anyDuplicates = trackRates.filter(
-        (val, idx) => trackRates.indexOf(val) !== idx
-      )
-      console.log('trackRates', trackRates)
-      console.log('anyDuplicates', anyDuplicates)
-
-      if (anyDuplicates.length > 0) {
-        setMsgFlag(true)
-        setDuplicatedRates([anyDuplicates])
-      }
-
-      /*
-
-  if (anyDuplicates.length=0){
-    setDuplicatedRates([])
-    setMsgFlag(false)
-  }
-  console.log('trackRates',trackRates)
-  console.log('anyDuplicates',anyDuplicates)
-  console.log('msgFlag',msgFlag)
-  */
-    }
-  }, [watchedFields])
-
-  /*
-
-  useEffect(()=>{
-    
-    let checkRatesArray=[]
-    let anyDuplicates=[]
-    if (watchedFields.length > 1) {
-        for (let i = 0; i < watchedFields.length; i++) {
-          if (watchedFields[i].rate>0) {
-        checkRatesArray.push(watchedFields[i].rate)
-       }}
-        anyDuplicates=checkRatesArray.filter((val,idx)=>checkRatesArray.indexOf(val)!==idx)
-        setDuplicatedRates([anyDuplicates])
-        setMsgFlag(false)
-      console.log('anyDuplicates',anyDuplicates)
-      console.log('anyDuplicates.length',anyDuplicates.length)
-      
-      if(anyDuplicates.length>0) {setMsgFlag(true)}
-    
-      console.log('anyDuplicates',anyDuplicates)
-      console.log('duplicatedRates',duplicatedRates)
-      console.log('msgFlag',msgFlag)
-      console.log('Object.values(watchedFields)',Object.values(watchedFields))
-      //if(anyDuplicates.length>0) {return(msg={resp:false, content:<></>})}
-      
-        , msg.content=
-      <>
-      <span className="italic text-xs font-medium text-red-400">
-      (C Rates cannot be duplicated. Values to check: {anyDuplicates})
-      </span>
-      </>} }
-
-     
-      //if(anyDuplicates.length>0) {return(msg={resp:false, content:<></>})}
-    }},[watchedFields.at(-1).rate]
-  )
-
-  const validateCRates = (val) => {
-    if (watchedFields.length == 1) {
-      return true
-    }
-    if (watchedFields.length > 1) {
-      let checkRatesArray=[]
-      let testResponse=true
-      for (let i = 0; i < watchedFields.length; i++) {
-        checkRatesArray.push(watchedFields[i].rate)
-      }
-      if(checkRatesArray.indexOf(val)>1) {testResponse=false
-        return testResponse}
-        
-      }    
-    }
-*/
 
   const TextParams = (
     newName,
@@ -376,7 +279,7 @@ export default function NewCathodeForm(matType) {
           </div>
         </div>
 
-        {/*crates con field array */}
+        {/*crates using field array */}
 
         <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
       </div>
@@ -391,14 +294,6 @@ export default function NewCathodeForm(matType) {
 
       <div>
         {fields.map((item, index) => {
-          /*   console.log('item',item)
-          console.log('index',index)
-          console.log('fields',fields)
-          console.log('2length_f',fields.length)
-          console.log('2length_fr',fields[1].rate)
-          console.log('item_rate',item.rate)
-          console.log('item_index',index)
-       */
 
           return (
             <>
@@ -437,15 +332,7 @@ export default function NewCathodeForm(matType) {
                         (A value &gt; 0 is required)
                       </span>
                     )}
-                    {/*  {errors.crate?.[index]?.rate?.type === 'compare' && (
-                      <span className="italic text-xs font-medium text-red-400">
-                        (C Rates cannot be duplicated)
-                      </span>
-                    )}
-                    
-                    validate: { compare: (val) => validateCRates(val) },
-                    
-                    */}
+
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -563,18 +450,67 @@ export default function NewCathodeForm(matType) {
                     </label>
                   </div>
 
-                  <div className=" col-span-3 px-4  bg-gray-50 text-right ">
+
+                  
+
+                  <div className=" col-span-3 px-4  bg-gray-50 text-right space-x-2 inline-flex place-content-end ">
+
+                  {index>0&&
                     <button
                       type="button"
-                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="  py-2 px-1 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={() => swap(index,index-1)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
+</svg>
+                    </button>
+        }
+
+
+                    <button
+                      type="button"
+                      className="  py-2 px-1 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={() => swap(index,index+1,)}
+                    >
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
+</svg> 
+                    </button>
+
+                    <button
+                      type="button"
+                      className="  py-2 px-4 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       onClick={() => remove(index)}
                     >
                       Del C rate
                     </button>
+
+                    
+         
                   </div>
                   <br />
                 </div>
               </div>
+
+              {watch(`crate.${index}.rate`) != 0 &&
+              watch(`crate.${index}.rate`) ===
+                watch(`crate.${index - 1}.rate`) &&
+              getValues(`crate.${index}.rate`) ? (
+                <span className="italic text-xs font-medium text-red-400" p>
+                  C Rates cannot be repeated
+                </span>
+              ) : null}
+
+              {watch(`crate.${index}.rate`) != 0 &&
+              watch(`crate.${index}.rate`) <
+                watch(`crate.${index - 1}.rate`) &&
+              getValues(`crate.${index}.rate`) ? (
+                <span className="italic text-xs font-medium text-red-400" p>
+                  C Rates must be added in ascending order
+                </span>
+              ) : null}
+
             </>
           )
         })}
@@ -612,14 +548,6 @@ export default function NewCathodeForm(matType) {
           </button>
         </section>
       </div>
-
-      {msgFlag && (
-        <>
-          <span className="italic text-xs font-medium text-red-400">
-            (C Rates cannot be duplicated. Values to check: {duplicatedRates})
-          </span>
-        </>
-      )}
 
       <div className="px-4 py-3 bg-gray-50 text-right sm:px-6 mt-2">
         <button
