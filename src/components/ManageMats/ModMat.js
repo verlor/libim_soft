@@ -35,11 +35,9 @@ export default function ModMatsForm({ setChoosedAction }) {
   useEffect(async () => {
     const myMaterial = await propsCall(watchedMat)
     setFetchedMat(myMaterial)
-    //console.log('uu',{ myMaterial })
   }, [watchedMat])
 
-  console.log('uu',{ myMaterial })
-  //console.log('fetchedMaterial.name', fetchedMaterial.name)
+
   const renderForm = (e) => {
     switch (e.type) {
       case 'anode':

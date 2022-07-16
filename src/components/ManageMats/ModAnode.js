@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react'
 import '../../styles/global.css'
 import { useForm } from 'react-hook-form'
-import { postNewMaterial } from '../../api'
+import { modMaterial } from '../../api'
 import {navigate} from 'gatsby'
 
 export default function ModAnodeForm(params) {
+  const matID=params.matToMod.id
+  //console.log('matID',matID)
+
   const {
     register,
     formState: { errors },
@@ -59,7 +62,7 @@ export default function ModAnodeForm(params) {
   return (
     <form
       onSubmit={handleSubmit(async (newAnodeData) => {
-        const reqNewElectrolyte = await postNewMaterial(
+        const reqNewElectrolyte = await modMaterial(matID,
           TextParams(
             newAnodeData?.newMatName,
             newAnodeData?.anode_theor_capacity,

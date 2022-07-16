@@ -75,22 +75,22 @@
        d="M 0,0 60,30 M 60,0 0,30"
        id="path10"
        inkscape:connector-curvature="0"
-       style="stroke:#ffffff;stroke-width:6" />
+       style="stroke:#ffffff;strokeWidth:6" />
     <path
        d="M 0,0 60,30 M 60,0 0,30"
        clip-path="url(#t)"
        id="path12"
        inkscape:connector-curvature="0"
-       style="stroke:#c8102e;stroke-width:4" />
+       style="stroke:#c8102e;strokeWidth:4" />
     <path
        d="M 30,0 V 30 M 0,15 h 60"
        id="path14"
        inkscape:connector-curvature="0"
-       style="stroke:#ffffff;stroke-width:10" />
+       style="stroke:#ffffff;strokeWidth:10" />
     <path
        d="M 30,0 V 30 M 0,15 h 60"
        id="path16"
        inkscape:connector-curvature="0"
-       style="stroke:#c8102e;stroke-width:6" />
+       style="stroke:#c8102e;strokeWidth:6" />
   </g>
 </svg>

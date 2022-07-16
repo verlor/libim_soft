@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const resultadosReducer = createSlice({
-  name: 'resultados',
+export const resultsReducer = createSlice({
+  name: 'results',
   initialState: {
-    suma: {},
+    sum: {},
     isComplete: false,
     // results: {
     //   calc_high_curr,
@@ -11,8 +11,8 @@ export const resultadosReducer = createSlice({
     // },
   },
   reducers: {
-    setSuma: (state, action) => {
-      state.suma = action.payload
+    setSum: (state, action) => {
+      state.sum = action.payload
     },
     setIsComplete:(state,action) => {
       state.isComplete = action.payload
@@ -23,7 +23,7 @@ export const resultadosReducer = createSlice({
   },
 })
 
-export const { setSuma } = resultadosReducer.actions
-export const { setIsComplete } = resultadosReducer.actions
+export const { setSum } = resultsReducer.actions
+export const { setIsComplete } = resultsReducer.actions
 
-export default resultadosReducer.reducer
+export default resultsReducer.reducer

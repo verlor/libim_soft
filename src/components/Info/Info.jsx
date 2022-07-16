@@ -45,7 +45,7 @@ export default function infoDefs() {
             type="radio"
             name="test"
             value="eng"
-            checked
+            defaultChecked
             className="hidden"
           />
           <img

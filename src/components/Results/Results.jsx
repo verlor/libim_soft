@@ -1,18 +1,18 @@
+import { stringify } from 'postcss'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import '../../styles/global.css'
-import batt from '../../images/batt.svg'
 // import csvDownload from 'json-to-csv-export'
 
-export default function Resultados() {
-  const formular = useSelector((state) => state.resultados.suma?.formularData)
-  const pre_base_unit = useSelector((state) => state.resultados.suma?.pre_base_unit)
-  const pre_cell = useSelector((state) => state.resultados.suma?.pre_cell)
-  const fast = useSelector((state) => state.resultados.suma?.fast)
-  const slow = useSelector((state) => state.resultados.suma?.slow)
+export default function Results() {
+  const formular = useSelector((state) => state.results.sum?.formularData)
+  const pre_base_unit = useSelector((state) => state.results.sum?.pre_base_unit)
+  const pre_cell = useSelector((state) => state.results.sum?.pre_cell)
+  const fast = useSelector((state) => state.results.sum?.fast)
+  const slow = useSelector((state) => state.results.sum?.slow)
 
   const [showPanel, setShowPanel] = useState(false)
-  //console.log('uu',window.performance.getEntriesByType("navigation"))
+
 
   return (
     <>
@@ -137,18 +137,17 @@ export default function Resultados() {
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <div>
-            {console.log('slow',slow)}
-            {Object.keys(slow).map((elem) => {
+            {Object.keys(slow).map((elem,idx) => {
               if (elem.includes('base_unit_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
-                    <div className="col-span-3 text-left sm:text-sm">
+                  <div key={"s_bu_"+idx} className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div key={"s_bu_n_"+idx} className="col-span-3 text-left sm:text-sm">
                       {slow[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                    <div key={"s_bu_v_"+idx}  className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
                       {slow[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1 sm:text-sm">
+                    <div key={"s_bu_u_"+idx}  className="col-span-1 sm:text-sm">
                       {'[' +
                         (slow[elem].unit !== '[]' ? slow[elem].unit : ' ') +
                         ']'}
@@ -158,20 +157,20 @@ export default function Resultados() {
             })}
           </div>
         </div>
-
+ 
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <div>
-            {Object.keys(fast).map((elem) => {
+            {Object.keys(fast).map((elem,idx) => {
               if (elem.includes('base_unit_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
-                    <div className="col-span-3 text-left sm:text-sm">
+                  <div key={"f_bu_"+idx} className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div key={"f_bu_n_"+idx} className="col-span-3 text-left sm:text-sm">
                       {fast[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                    <div key={"f_bu_v_"+idx} className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
                       {fast[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1 sm:text-sm">
+                    <div key={"f_bu_u_"+idx} className="col-span-1 sm:text-sm">
                       {'[' +
                         (fast[elem].unit !== '[]' ? fast[elem].unit : ' ') +
                         ']'}
@@ -181,8 +180,11 @@ export default function Resultados() {
             })}
           </div>
         </div>
-      </div>
 
+
+
+      </div>
+ 
       <div className="flex items-baseline mt-4 mb-6 pb-1 border-slate-200"></div>
 
       <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-2xl mx-4 pt-3">
@@ -191,17 +193,17 @@ export default function Resultados() {
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <div>
-            {Object.keys(slow).map((elem) => {
+            {Object.keys(slow).map((elem,idx) => {
               if (elem.includes('cell_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
-                    <div className="col-span-3 text-left sm:text-sm">
+                  <div key={"s_c_"+idx} className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div key={"s_c_n_"+idx} className="col-span-3 text-left sm:text-sm">
                       {slow[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                    <div key={"s_c_v_"+idx} className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
                       {slow[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1 sm:text-sm">
+                    <div key={"s_c_u_"+idx} className="col-span-1 sm:text-sm">
                       {'[' +
                         (slow[elem].unit !== '[]' ? slow[elem].unit : ' ') +
                         ']'}
@@ -214,17 +216,17 @@ export default function Resultados() {
 
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <div>
-            {Object.keys(fast).map((elem) => {
+            {Object.keys(fast).map((elem,idx) => {
               if (elem.includes('cell_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
-                    <div className="col-span-3 text-left sm:text-sm">
+                  <div key={"f_c_"+idx} className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div key={"f_c_n_"+idx} className="col-span-3 text-left sm:text-sm">
                       {fast[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                    <div key={"f_c_v_"+idx} className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
                       {fast[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1 sm:text-sm">
+                    <div key={"f_c_u_"+idx} className="col-span-1 sm:text-sm">
                       {'[' +
                         (fast[elem].unit !== '[]' ? fast[elem].unit : ' ') +
                         ']'}
@@ -244,17 +246,17 @@ export default function Resultados() {
       <div className="grid grid-cols-2 gap-4 px-2 text-center">
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <div>
-            {Object.keys(slow).map((elem) => {
+            {Object.keys(slow).map((elem,idx) => {
               if (elem.includes('module_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
-                    <div className="col-span-3 text-left sm:text-sm">
+                  <div key={"s_m_"+idx} className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div key={"s_m_n_"+idx} className="col-span-3 text-left sm:text-sm">
                       {slow[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                    <div key={"s_m_v_"+idx} className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
                       {slow[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1 sm:text-sm">
+                    <div key={"s_m_u_"+idx} className="col-span-1 sm:text-sm">
                       {'[' +
                         (slow[elem].unit !== '[]' ? slow[elem].unit : ' ') +
                         ']'}
@@ -267,17 +269,17 @@ export default function Resultados() {
 
         <div className="col-span-1 shadow sm:rounded-md bg-gray-100 ">
           <div>
-            {Object.keys(fast).map((elem) => {
+            {Object.keys(fast).map((elem,idx) => {
               if (elem.includes('module_'))
                 return (
-                  <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
-                    <div className="col-span-3 text-left sm:text-sm">
+                  <div key={"f_m_"+idx} className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                    <div key={"f_m_n_"+idx} className="col-span-3 text-left sm:text-sm">
                       {fast[elem].name} :
                     </div>
-                    <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                    <div key={"f_m_v_"+idx} className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
                       {fast[elem].value.toPrecision(6)}{' '}
                     </div>
-                    <div className="col-span-1 sm:text-sm">
+                    <div key={"f_m_u_"+idx} className="col-span-1 sm:text-sm">
                       {'[' +
                         (fast[elem].unit !== '[]' ? fast[elem].unit : ' ') +
                         ']'}
@@ -316,16 +318,16 @@ export default function Resultados() {
                 Base Unit
               </label>
             </div>
-            {Object.keys(pre_base_unit).map((elem) => {
+            {Object.keys(pre_base_unit).map((elem,idx) => {
               return (
-                <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
-                  <div className="col-span-3 text-left sm:text-sm">
+                <div key={"pre_bu_"+idx} className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                  <div key={"pre_bu_n_"+idx} className="col-span-3 text-left sm:text-sm">
                     {pre_base_unit[elem].name} :
                   </div>
-                  <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                  <div key={"pre_bu_v_"+idx} className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
                     {pre_base_unit[elem].value.toPrecision(6)}{' '}
                   </div>
-                  <div className="col-span-1 sm:text-sm">
+                  <div key={"pre_bu_u_"+idx} className="col-span-1 sm:text-sm">
                     {'[' +
                       (pre_base_unit[elem].unit !== '[]'
                         ? pre_base_unit[elem].unit
@@ -343,16 +345,16 @@ export default function Resultados() {
                 Cell
               </label>
             </div>
-            {Object.keys(pre_cell).map((elem) => {
+            {Object.keys(pre_cell).map((elem,idx) => {
               return (
-                <div className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
-                  <div className="col-span-3 text-left sm:text-sm">
+                <div key={"pre_c_"+idx} className="grid grid-cols-6 p-0 text-center text-xs font-sm text-gray-700 md:text-[10px] mx-4 pt-1.5">
+                  <div key={"pre_c_n_"+idx} className="col-span-3 text-left sm:text-sm">
                     {pre_cell[elem].name} :
                   </div>
-                  <div className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
+                  <div key={"pre_c_v_"+idx} className="col-span-2 font-medium truncate hover:text-clip sm:text-sm">
                     {pre_cell[elem].value.toPrecision(6)}{' '}
                   </div>
-                  <div className="col-span-1 sm:text-sm">
+                  <div key={"pre_c_u_"+idx} className="col-span-1 sm:text-sm">
                     {'[' +
                       (pre_cell[elem].unit !== '[]'
                         ? pre_cell[elem].unit

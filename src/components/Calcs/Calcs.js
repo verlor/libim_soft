@@ -1,7 +1,6 @@
 //import { form_feed } from './test'
-import { setSuma } from '../Resultados/slice'
+import { setSum } from '../Results/slice'
 import * as fixed from '../../utils/constants'
-import { current } from '@reduxjs/toolkit'
 
 //calculos preliminares
 
@@ -462,7 +461,7 @@ function step_2(data, pre_base_unit, pre_cell, module_total_mass, c_rate) {
         ? data.sr_cathode_discharge_voltage.unit : data.fr_cathode_discharge_voltage.unit) + ' - ' + data.anode_theor_voltage.unit,
   }
 
-  console.log("current",current,"charge_rate",charge_rate,"cathode_capacity",cathode_capacity,"charge_voltage",charge_voltage,"discharge_voltage",discharge_voltage)
+ // console.log("current",current,"charge_rate",charge_rate,"cathode_capacity",cathode_capacity,"charge_voltage",charge_voltage,"discharge_voltage",discharge_voltage)
   
   //Calculando
   //Base unit
@@ -873,7 +872,7 @@ export function calc(data, dispatch) {
   )
 
   dispatch(
-    setSuma({
+    setSum({
       formularData: data,
       pre_base_unit,
       pre_cell,

@@ -88,7 +88,7 @@
      id="layer1"
      transform="translate(-47.758836,-140.50974)">
     <path
-       style="fill:url(#pattern30);stroke:none;stroke-width:0.26458332"
+       style="fill:url(#pattern30);stroke:none;strokeWidth:0.26458332"
        d="M 165.86576,146.91946 H 52.483539 v 52.74355 H 165.86576 Z"
        id="path28"
        inkscape:connector-curvature="0" />

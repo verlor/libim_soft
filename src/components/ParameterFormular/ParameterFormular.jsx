@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form'
 import '../../styles/global.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateFormState } from '../ParameterFormular/slice'
-import { calc } from '../Calcs/cuentas'
+import { calc } from '../Calcs/Calcs'
 import { propsCall } from '../../api'
 import { navigate } from 'gatsby'
 import useSWR from 'swr'
 import { getMaterialsFetcher } from '../../api'
-import { setIsComplete } from '../Resultados/slice'
+import { setIsComplete } from '../Results/slice'
 import { setIsCreated } from '../ManageMats/slice'
 import NewMaterialAlert from '../../utils/alert'
 
@@ -208,16 +208,11 @@ export default function ParameterFormular() {
                 `${('C' + form_data.fast_charge_rate_id).replace('.', '')}`
               ],
           }
-          console.log('form_data', form_data)
-          console.log('foData', foData)
-          //form_feed(form_data, dispatch)
-          //calc(form_data, dispatch)
           calc(foData, dispatch)
           dispatch(setIsComplete(true))
           navigate('/results/')
-          //setResult(JSON.stringify(form_data))
-          console.log('iscomplete', setIsComplete.value)
         })}
+
         className="shadow sm:rounded-md bg-gray-100"
       >
         <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl mx-4 pt-4">
@@ -245,7 +240,7 @@ export default function ParameterFormular() {
                 <>
                   <option value="-1">Select</option>
                   {resp_ca.map((elem) => (
-                    <option value={elem.id}>{elem.name}</option>
+                    <option key={elem.id} value={elem.id}>{elem.name}</option>
                   ))}
                 </>
               )}
@@ -284,7 +279,7 @@ export default function ParameterFormular() {
                 <>
                   <option value="-1">Select</option>
                   {resp_an.map((elem) => (
-                    <option value={elem.id}>{elem.name}</option>
+                    <option key={elem.id} value={elem.id}>{elem.name}</option>
                   ))}
                 </>
               )}
@@ -323,7 +318,7 @@ export default function ParameterFormular() {
                 <>
                   <option value="-1">Select</option>
                   {resp_el.map((elem) => (
-                    <option value={elem.id}>{elem.name}</option>
+                    <option key={elem.id} value={elem.id}>{elem.name}</option>
                   ))}
                 </>
               )}
@@ -538,7 +533,7 @@ export default function ParameterFormular() {
               <>
                 <option value="-1">Select</option>
                 {cRates?.map((rate) => (
-                  <option value={rate}>{rate}</option>
+                  <option key={rate} value={rate}>{rate}</option>
                 ))}
               </>
             </select>
@@ -577,7 +572,7 @@ export default function ParameterFormular() {
               <>
                 <option value="-1">Select</option>
                 {cRates?.map((rate) => (
-                  <option value={rate}>{rate}</option>
+                  <option key={rate} value={rate}>{rate}</option>
                 ))}
               </>
             </select>

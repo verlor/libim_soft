@@ -1,25 +1,25 @@
 import React from 'react'
 import '../../styles/global.css'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
 import { modMaterial } from '../../api'
 import {navigate} from 'gatsby'
 
-export default function ModElectrolyteForm(props) {
-  const dispatch = useDispatch()
+export default function ModElectrolyteForm(params) {
+const matID=params.matToMod.id
+//console.log('matID',matID)
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm({
     defaultValues: {
-      newMatName: `${props.matToMod.name}`,
-      density: `${props.matToMod.properties.density.value}`,
+      newMatName: `${params.matToMod.name}`,
+      density: `${params.matToMod.properties.density.value}`,
     },
   })
 
-const matID=props.matToMod.id
-console.log('matID',matID)
+
 
   const TextParams = (newName, newValue) => {
     const step = {

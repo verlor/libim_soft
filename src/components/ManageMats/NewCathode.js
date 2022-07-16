@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect} from 'react'
 import '../../styles/global.css'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -9,12 +9,11 @@ import { navigate } from 'gatsby'
 export default function NewCathodeForm(matType) {
   const dispatch = useDispatch()
   const {
-    clearErrors,
-    getValues,
-    register,
     control,
     formState: { errors },
+    getValues,
     handleSubmit,
+    register,
     reset,
     watch,
   } = useForm({
@@ -24,6 +23,7 @@ export default function NewCathodeForm(matType) {
       cathode_theor_voltage: 0,
       cathode_theor_density: 0,
       crate: [
+        { rate: 0, capacity: 0, charge_voltage: 0, discharge_voltage: 0 },
         { rate: 0, capacity: 0, charge_voltage: 0, discharge_voltage: 0 },
       ],
     },
@@ -117,9 +117,6 @@ export default function NewCathodeForm(matType) {
     return step
   }
 
-  {
-    console.log('errors', errors)
-  }
 
   return (
     <form
@@ -294,7 +291,6 @@ export default function NewCathodeForm(matType) {
 
       <div>
         {fields.map((item, index) => {
-
           return (
             <>
               <div className="shadow sm:rounded-md bg-gray-100">
@@ -332,7 +328,6 @@ export default function NewCathodeForm(matType) {
                         (A value &gt; 0 is required)
                       </span>
                     )}
-
                   </div>
                   <div className="col-span-1">
                     <label className="block text-sm font-medium text-gray-700">
@@ -450,32 +445,45 @@ export default function NewCathodeForm(matType) {
                     </label>
                   </div>
 
-
-                  
-
                   <div className=" col-span-3 px-4  bg-gray-50 text-right space-x-2 inline-flex place-content-end ">
+                    {index > 0 && (
+                      <button
+                        type="button"
+                        className="  py-2 px-1 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={() => swap(index, index - 1)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    )}
 
-                  {index>0&&
                     <button
                       type="button"
                       className="  py-2 px-1 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      onClick={() => swap(index,index-1)}
+                      onClick={() => swap(index, index + 1)}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" />
-</svg>
-                    </button>
-        }
-
-
-                    <button
-                      type="button"
-                      className="  py-2 px-1 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      onClick={() => swap(index,index+1,)}
-                    >
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clip-rule="evenodd" />
-</svg> 
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
                     </button>
 
                     <button
@@ -485,9 +493,6 @@ export default function NewCathodeForm(matType) {
                     >
                       Del C rate
                     </button>
-
-                    
-         
                   </div>
                   <br />
                 </div>
@@ -497,17 +502,16 @@ export default function NewCathodeForm(matType) {
               watch(`crate.${index}.rate`) ===
                 watch(`crate.${index - 1}.rate`) &&
               getValues(`crate.${index}.rate`) ? (
-                <span className="italic text-xs font-medium text-red-400" p>
-                  C Rates cannot be repeated
+                <span className="italic text-xs font-medium text-red-400" >
+                  C Rates cannot be repeated <br/>
                 </span>
               ) : null}
 
               {watch(`crate.${index}.rate`) != 0 &&
-              watch(`crate.${index}.rate`) <
-                watch(`crate.${index - 1}.rate`) &&
+              watch(`crate.${index}.rate`) < watch(`crate.${index - 1}.rate`) &&
               getValues(`crate.${index}.rate`) ? (
-                <span className="italic text-xs font-medium text-red-400" p>
-                  C Rates must be added in ascending order
+                <span className="italic text-xs font-medium text-red-400" >
+                  C Rates must be added in ascending order <br/>
                 </span>
               ) : null}
 
@@ -516,6 +520,15 @@ export default function NewCathodeForm(matType) {
         })}
 
         <div className="flex items-baseline mt-2 mb-2 pb-1 border-slate-200"></div>
+
+        {fields.length < 2 ? (append({
+                rate: 0,
+                capacity: 0,
+                charge_voltage: 0,
+                discharge_voltage: 0,
+              })) : null}
+        
+  
 
         <section className=" flex items-center justify-center gap-4 ">
           <button
